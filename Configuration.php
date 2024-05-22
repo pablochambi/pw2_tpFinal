@@ -1,10 +1,11 @@
 <?php
-include_once ("controller/SongsController.php");
-include_once ("controller/ToursController.php");
-include_once ("controller/LaBandaController.php");
 
-include_once ("model/SongsModel.php");
-include_once ("model/ToursModel.php");
+use controller\RegistroController;
+use model\RegistroModel;
+
+include_once ("controller/RegistroController.php");
+
+include_once ("model/RegistroModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -18,36 +19,18 @@ class Configuration
 {
 
     // CONTROLLERS
-    public static function getLaBandaController()
+    public static function getRegistroController()
     {
-        return new LaBandaController(self::getPresenter());
-    }
-
-
-    public static function getToursController()
-    {
-        //Le pasamos la Logica y la Presentacion
-        return new ToursController(self::getToursModel(), self::getPresenter());
-    }
-
-    public static function getSongsController()
-    {
-        return new SongsController(self::getSongsModel(), self::getPresenter());
+        return new RegistroController(self::getPresenter());
     }
 
     // MODELS
-    private static function getToursModel()
+    private static function getRegistroModel()
     {
-        return new ToursModel(self::getDatabase());
+        return new RegistroModel(self::getDatabase());
     }
 
-    private static function getSongsModel()
-    {
-        return new SongsModel(self::getDatabase());
-    }
-
-
-    // HELPERS//Ayundantes
+    // HELPERS
     public static function getDatabase()
     {
         $config = self::getConfig();
@@ -59,10 +42,10 @@ class Configuration
         return parse_ini_file("config/config.ini");
     }
 
-//Controlador  por DEfecto
+//Controlador  por Defecto
     public static function getRouter()
     {
-        return new Router("getLaBandaController", "get");
+        return new Router("getRegistroController", "get");
     }
 
 //Este son las plantillas
