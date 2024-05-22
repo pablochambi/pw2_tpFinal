@@ -1,8 +1,5 @@
 <?php
 
-use controller\RegistroController;
-use model\RegistroModel;
-
 include_once ("controller/RegistroController.php");
 
 include_once ("model/RegistroModel.php");

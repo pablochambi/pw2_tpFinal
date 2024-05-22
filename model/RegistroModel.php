@@ -1,7 +1,5 @@
 <?php
 
-namespace model;
-
 class RegistroModel
 {
     private $database;
