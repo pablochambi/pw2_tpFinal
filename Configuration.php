@@ -18,7 +18,7 @@ class Configuration
     // CONTROLLERS
     public static function getRegistroController()
     {
-        return new RegistroController(self::getPresenter());
+        return new RegistroController(self::getRegistroModel(),self::getPresenter());
     }
 
     // MODELS

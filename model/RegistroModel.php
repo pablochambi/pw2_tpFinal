@@ -7,9 +7,11 @@ class RegistroModel
     {
         $this->database = $database;
     }
-    public function getPokemones()
+    public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email, $password,$username,$foto)
     {
-        return $this->database->query("SELECT * FROM pokemon");
+       return  $this->database->executeAndReturn("INSERT INTO usuarios (nombre_completo, anio_nacimiento, sexo, pais, ciudad, email,password, username, foto)
+VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$password', '$username', '$foto')");
+
     }
 
 }
