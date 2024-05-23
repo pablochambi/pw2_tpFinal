@@ -11,7 +11,9 @@ CREATE TABLE usuarios (
       email VARCHAR(50) NOT NULL,
       password VARCHAR(50) NOT NULL,
       username VARCHAR(50) NOT NULL,
-      foto VARCHAR(100) NOT NULL,
+      foto VARCHAR(100),
+      token VARCHAR(100) NOT NULL,
+      habilitado INT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

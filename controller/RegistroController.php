@@ -35,21 +35,35 @@ class RegistroController
 
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
+            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino);
 
-            $result = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino);
+            $mensaje = $this->model->enviarCorreoValidacion($email, $token);
 
+            $this->presenter->render("view/validacion.mustache", ["mensaje" => $mensaje]);
 
-            if ($result) {
-                echo "Registro exitoso.";
-            } else {
-                echo "Error al registrar el usuario.";
-            }
 
         } else {
             echo "No se recibieron datos del formulario.";
         }
 
-       /* $this->presenter->render("view/verificar.mustache");*/
+
     }
+
+
+    public function validar()
+    {
+        if (isset($_GET['token'])) {
+            $token = $_GET['token'];
+
+           $mensaje = $this->model->habilitarCuentaConToken($token);
+
+        } else {
+            $mensaje  = "No se recibió el token.";
+        }
+
+        $this->presenter->render("view/mensajeValidacion.mustache", ["mensaje" => $mensaje]);
+    }
+
+
 
 }
