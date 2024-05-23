@@ -18,9 +18,9 @@ class RegistroController
 
     public function procesarRegistro()
     {
-        if (isset($_POST['nombre']) && isset($_POST['sexo'])&& isset($_POST['anio_nacimiento'])&& isset($_POST['pais'])
-             && isset($_POST['ciudad'])&& isset($_POST['username']) && isset($_POST['email'])
-            && isset($_POST['password']) && isset($_POST['confirm_password']) ){
+        if (isset($_POST['nombre']) && isset($_POST['sexo'])&& isset($_POST['anio_nacimiento'])
+            && isset($_POST['pais']) && isset($_POST['ciudad'])&& isset($_POST['username'])
+            && isset($_POST['email']) && isset($_POST['password']) ){
 
             $nombre = $_POST['nombre'];
             $anio_nacimiento = $_POST['anio_nacimiento'];
@@ -29,35 +29,14 @@ class RegistroController
             $ciudad = $_POST['ciudad'];
             $email = $_POST['email'];
             $password = $_POST['password'];
-            $confirm_password = $_POST['confirm_password'];
             $username = $_POST['username'];
             $foto =  isset($_FILES['foto']) ? $_FILES['foto'] : null;
 
 
-
-            // Verificar si las contraseñas coinciden
-            if ($password != $confirm_password) {
-                echo "Las contraseñas no coinciden.";
-                return;
-            }
+            $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
 
-            // Verificar si se ha subido una imagen de perfil
-            if ($_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
-                echo "Error al cargar la imagen de perfil.";
-            }
-
-
-
-            // Procesar la imagen de perfil
-            $direccion = 'public/imagenes/';
-            $archivoSubido = $direccion . basename($_FILES['foto']['name']);
-
-            if (!move_uploaded_file($_FILES['foto']['tmp_name'], $archivoSubido)) {
-                echo "Error al subir la imagen de perfil.";
-            }
-
-            $result = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$archivoSubido);
+            $result = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino);
 
 
             if ($result) {
