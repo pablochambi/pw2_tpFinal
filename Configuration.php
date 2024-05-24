@@ -1,8 +1,10 @@
 <?php
 
 include_once ("controller/RegistroController.php");
+include_once ("controller/LoginController.php");
 
 include_once ("model/RegistroModel.php");
+include_once ("model/LoginModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -14,6 +16,16 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
 {
+    public static function getLoginController()
+    {
+        return new LoginController (self::getLoginModel(), self::getPresenter());
+    }
+
+    private static function getLoginModel()
+    {
+        return new LoginModel(self::getDatabase());
+
+    }
 
     // CONTROLLERS
     public static function getRegistroController()
