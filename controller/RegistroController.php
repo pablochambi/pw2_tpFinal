@@ -32,7 +32,6 @@ class RegistroController
             $username = $_POST['username'];
             $foto =  isset($_FILES['foto']) ? $_FILES['foto'] : null;
 
-
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
             $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino);
@@ -41,14 +40,11 @@ class RegistroController
 
             $this->presenter->render("view/validacion.mustache", ["mensaje" => $mensaje]);
 
-
         } else {
             echo "No se recibieron datos del formulario.";
         }
 
-
     }
-
 
     public function validar()
     {
@@ -63,7 +59,4 @@ class RegistroController
 
         $this->presenter->render("view/mensajeValidacion.mustache", ["mensaje" => $mensaje]);
     }
-
-
-
 }
