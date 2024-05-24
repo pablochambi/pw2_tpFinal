@@ -14,4 +14,17 @@ class LoginController
     {
         $this->presenter->render("view/login.mustache");
     }
+
+    public function procesarLogeo(){
+
+        if (isset($_POST["email"]) && isset($_POST["password"])){
+
+            $email = $_POST["email"];
+            $password= $_POST["password"];
+
+            $this->model->procesarInicioSesion($email, $password);
+
+        }
+
+    }
 }
