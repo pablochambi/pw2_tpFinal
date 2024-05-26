@@ -54,7 +54,7 @@ class Configuration
 //Controlador  por Defecto
     public static function getRouter()
     {
-        return new Router("getRegistroController", "get");
+        return new Router("getLoginController", "get");
     }
 
 //Este son las plantillas
