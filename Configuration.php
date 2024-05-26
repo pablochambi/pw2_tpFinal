@@ -2,6 +2,7 @@
 
 include_once ("controller/RegistroController.php");
 include_once ("controller/LoginController.php");
+include_once ("controller/PerfilController.php");
 
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
@@ -31,6 +32,11 @@ class Configuration
     public static function getRegistroController()
     {
         return new RegistroController(self::getRegistroModel(),self::getPresenter());
+    }
+
+    public static function getPerfilController()
+    {
+        return new PerfilController(self::getLoginModel(), self::getPresenter());
     }
 
     // MODELS
