@@ -47,4 +47,18 @@ class LoginModel
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+
+    public function agarrarUsuarioDeLaBaseDeDatosPorEmail($email){
+        $sql = "SELECT * FROM user";
+        $resultado = $this->database->query($sql);
+
+        foreach ($resultado as $email){
+            if($email['email'] == $email){
+                return $email;
+            }
+        }
+        return false;
+    }
+
+
 }

@@ -22,11 +22,18 @@ class LoginController
             $email = $_POST["email"];
             $password= $_POST["password"];
 
-            $result = $this->model->procesarInicioSesion($email, $password);
+            $this->model->procesarInicioSesion($email, $password);
 
-            if($result){//Poner el dato email y buscar los datos del usuario
-                $this->presenter->reder("view/perfilUsuario.mustache");
-            }
+            //Poner el dato email y buscar los datos del usuario
+                $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
+                $data = [
+                    'username' => $user['username'],
+                    'foto' => $user['foto']
+
+                ];
+
+                $this->presenter->render("view/perfilUsuario.mustache", $data);
+
 
         }
 
