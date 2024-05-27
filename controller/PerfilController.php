@@ -26,6 +26,7 @@ class PerfilController
             header("location: login");
             exit();
         }
+
     }
 }
 

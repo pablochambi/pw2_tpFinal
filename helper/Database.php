@@ -2,7 +2,7 @@
 
 class Database
 {
-    private $conn;
+    public $conn;
 
     public function __construct($servername, $username, $password, $dbname)
     {
