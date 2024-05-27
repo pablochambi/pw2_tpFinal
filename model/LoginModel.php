@@ -11,6 +11,7 @@ class LoginModel
 
     public function procesarInicioSesion($email, $password){
 
+        $seInicioSesion = false;
         $resultado = $this->database->conn->prepare("SELECT * FROM usuarios WHERE email = ?");
         $resultado->bind_param("s", $email);
 
@@ -24,7 +25,8 @@ class LoginModel
                 session_start();
                 $_SESSION["email"] = $email;
                 $_SESSION["user_id"] = $fila["id"];
-                header("location: /perfil ");//Va primero al controlador
+                $seInicioSesion =  true;
+
                 exit();
             }else{
                 echo "Contraseña incorrecta";
@@ -33,6 +35,8 @@ class LoginModel
         }else{
             echo "Usuario no encontrado";
         }
+
+        return $seInicioSesion;
 
     }
 
