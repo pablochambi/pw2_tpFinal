@@ -38,7 +38,7 @@ class LoginModel
 
     public function obtenerDatosUsuario($userId)
     {
-        $stmt = $this->database->prepare("SELECT * FROM usuario WHERE id = ?");
+        $stmt = $this->database->prepare("SELECT * FROM usuarios WHERE id = ?");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
