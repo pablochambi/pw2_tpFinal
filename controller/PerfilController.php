@@ -4,7 +4,7 @@ class PerfilController
     private $model;
     private $presenter;
 
-    public function get()
+    public function get() // esto se vuela????
     {
         $this->presenter->render("view/perfilUsuario.mustache");
     }
@@ -21,7 +21,7 @@ class PerfilController
         if (isset($_SESSION["user_id"])) {
             $userId = $_SESSION["user_id"];
             $usuario = $this->model->obtenerDatosUsuario($userId);
-            $this->presenter->render("view/perfil.mustache", $usuario);
+            $this->presenter->render("view/perfilUsuario.mustache", $usuario);
         } else {
             header("location: login");
             exit();

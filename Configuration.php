@@ -17,16 +17,7 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
 {
-    public static function getLoginController()
-    {
-        return new LoginController (self::getLoginModel(), self::getPresenter());
-    }
 
-    private static function getLoginModel()
-    {
-        return new LoginModel(self::getDatabase());
-
-    }
 
     // CONTROLLERS
     public static function getRegistroController()
@@ -37,6 +28,17 @@ class Configuration
     public static function getPerfilController()
     {
         return new PerfilController(self::getLoginModel(), self::getPresenter());
+    }
+
+    public static function getLoginController()
+    {
+        return new LoginController (self::getLoginModel(), self::getPresenter());
+    }
+
+    private static function getLoginModel()
+    {
+        return new LoginModel(self::getDatabase());
+
     }
 
     // MODELS

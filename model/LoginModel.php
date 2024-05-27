@@ -26,8 +26,7 @@ class LoginModel
                 $_SESSION["email"] = $email;
                 $_SESSION["user_id"] = $fila["id"];
                 $seInicioSesion =  true;
-
-                exit();
+                //exit();
             }else{
                 echo "Contraseña incorrecta";
             }
@@ -47,4 +46,20 @@ class LoginModel
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+
+    public function agarrarUsuarioDeLaBaseDeDatosPorEmail($email)
+    {
+        $stmt = $this->database->conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $resultado = $stmt->get_result(); // agarro el resultado de la consulta
+
+        if ($resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+            // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
+        }
+        return false;
+    }
+
+
 }
