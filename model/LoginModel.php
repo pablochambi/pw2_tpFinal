@@ -27,12 +27,8 @@ class LoginModel
                 $_SESSION["user_id"] = $fila["id"];
                 $seInicioSesion =  true;
                 //exit();
-            }else{
-                echo "Contraseña incorrecta";
             }
 
-        }else{
-            echo "Usuario no encontrado";
         }
 
         return $seInicioSesion;

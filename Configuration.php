@@ -3,6 +3,7 @@
 include_once ("controller/RegistroController.php");
 include_once ("controller/LoginController.php");
 include_once ("controller/PerfilController.php");
+include_once ("controller/HomeUsuarioController.php");
 
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
@@ -35,6 +36,11 @@ class Configuration
         return new LoginController (self::getLoginModel(), self::getPresenter());
     }
 
+    public static function getHomeUsuarioController()
+    {
+        return new HomeUsuarioController(self::getLoginModel(), self::getPresenter());
+    }
+
     private static function getLoginModel()
     {
         return new LoginModel(self::getDatabase());
@@ -51,7 +57,7 @@ class Configuration
     public static function getDatabase()
     {
         $config = self::getConfig();
-        return new Database($config["servername"], $config["username"], $config["password"], $config["dbname"]);
+        return new Database($config["servername"] . ":" . $config["port"], $config["username"], $config["password"], $config["dbname"]);
     }
 
     private static function getConfig()

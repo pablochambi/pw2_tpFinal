@@ -17,6 +17,7 @@ class LoginController
 
     public function procesarLogeo(){
 
+        session_start();
         if (isset($_POST["email"]) && isset($_POST["password"])){
 
             $email = $_POST["email"];
@@ -35,10 +36,18 @@ class LoginController
                     'ciudad' => $user['ciudad']
                 ];
 
-                // le pasamos la data a la vista
-                $this->presenter->render("view/perfilUsuario.mustache", $data);
+
+                $_SESSION[$data['username']] = $user['username'];
+
+
+                header("Location: /homeUsuario");
+
+            } else{
+                header("Location: /login");
             }
 
+        } else {
+            header("Location: /login");
         }
 
     }
