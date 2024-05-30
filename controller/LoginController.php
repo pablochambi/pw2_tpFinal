@@ -27,8 +27,9 @@ class LoginController
             $inicioSesionExitoso = $this->model->procesarInicioSesion($email, $password);
 
             if ($inicioSesionExitoso) {
+
                 $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
-                $data = [
+              /*  $data = [
                     'username' => $user['username'],
                     'foto' => $user['foto'],
                     'anio_nacimiento' => $user['anio_nacimiento'],
@@ -38,6 +39,8 @@ class LoginController
 
 
                 $_SESSION[$data['username']] = $user['username'];
+              */
+              $_SESSION['username'] = $user;
 
 
                 header("Location: /homeUsuario");
