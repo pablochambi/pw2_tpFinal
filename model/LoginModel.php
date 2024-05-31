@@ -23,7 +23,7 @@ class LoginModel
             $fila = $resultado -> fetch_assoc();
             if ($password == $fila["password"]){
                 session_start();
-                $_SESSION["email"] = $email;
+
                 $_SESSION["user_id"] = $fila["id"];
                 $seInicioSesion =  true;
                 //exit();
