@@ -39,14 +39,14 @@ class LoginController
                     'ciudad' => $user['ciudad']
                 ];
 
-                $_SESSION[$usuario['username']] = $user['username'];
-
-               /* $_SESSION['username'] = $user;*/
 
 
-              $this->presenter->render("view/homeUsuario.mustache",["usuario" => $usuario] );
+                $_SESSION['username'] = $user;
 
-              /*header("Location: /homeUsuario");*/
+
+
+
+              header("Location: /homeUsuario");
 
             } else{
                 header("Location: /login");
