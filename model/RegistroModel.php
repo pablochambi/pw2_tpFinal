@@ -15,7 +15,7 @@ class RegistroModel
         $habilitado = 0;
 
         $resultado = $this->database->executeAndReturn(
-            "INSERT INTO usuarios (nombre_completo, anio_nacimiento, sexo, pais, ciudad, email,password, username, foto,token,habilitado)
+            "INSERT INTO usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email,password, username, foto,token,habilitado)
 VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$password', '$username', '$foto', '$token', '$habilitado')");
 
         if(!$resultado)
@@ -65,5 +65,10 @@ VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$
         }
 
         return $mensaje;
+    }
+
+    public function obtenerPaises(){
+        $paises = $this->database->query("SELECT * FROM pais");
+        return $paises;
     }
 }

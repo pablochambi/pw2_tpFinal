@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS questionario;
 USE questionario;
-CREATE TABLE user(
+CREATE TABLE usuario(
                      username VARCHAR(255) PRIMARY KEY,
                      name VARCHAR(255),
                      anio_nacimiento INT NOT NULL,
@@ -58,15 +58,15 @@ ALTER TABLE partida
 ALTER TABLE partida
     ADD tiempo_pregunta INT;
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN latitud DECIMAL(10, 6),
     ADD COLUMN longitud DECIMAL(10, 6);
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN esEditor BOOLEAN,
     ADD COLUMN esAdmin BOOLEAN;
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN token_verificacion VARCHAR(100) NOT NULL,
     ADD COLUMN esta_verificado BOOLEAN DEFAULT 0;
 
@@ -83,7 +83,7 @@ ALTER TABLE pregunta
     ADD COLUMN veces_respondida INT DEFAULT 1,
     ADD COLUMN veces_respondida_bien INT DEFAULT 1;
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN veces_acertadas INT DEFAULT 0,
     ADD COLUMN veces_respondidas INT DEFAULT 0;
 
@@ -96,10 +96,10 @@ ALTER TABLE pregunta
 ALTER TABLE pregunta
     ADD COLUMN fecha_de_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN fecha_de_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
 
-ALTER TABLE user
+ALTER TABLE usuario
     ADD COLUMN trampitas INT DEFAULT 5;
 
     INSERT INTO categoria(id,nombre,agregada,color)values(1,'Espectaculo',false,'#F5D430');
