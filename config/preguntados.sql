@@ -93,10 +93,15 @@ CREATE TABLE PreguntaVistas (
 );
 
 -- Datos iniciales
-INSERT INTO Rol (nombre) VALUES ('Administrador'),('Editor'), ('Jugador');
-INSERT INTO Usuarios(nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
-VALUES ('ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+INSERT INTO Rol (id,nombre) VALUES (1,'Administrador'),(2,'Editor'), (3,'Jugador');
+INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
+VALUES (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+VALUES (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+VALUES (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3);
+INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (2,2);
+INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (3,1);
 
 INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paraguay'), ('Brasil'), ('Bolivia'), ('Peru'), ('Ecuador'), ('Colombia'), ('Venezuela'), ('Guyana'), ('Surinam'), ('Guyana Francesa');
 INSERT INTO categoria(id,nombre,color)values(1,'Espectaculo','#F5D430');
