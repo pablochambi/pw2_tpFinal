@@ -18,9 +18,27 @@ class MustachePresenter{
     }
 
     public function generateHtml($contentFile, $data = array()) {
+        // Comprobación de sesión para seleccionar el header correcto
+        if (isset($_SESSION) && !empty($_SESSION)) {
+            $headerFile = $this->partialsPathLoader . '/headerLoged.mustache';
+        } else {
+            $headerFile = $this->partialsPathLoader . '/header.mustache';
+        }
+
+        // Leer el contenido de los archivos
+        $contentAsString = file_get_contents($headerFile);
+        $contentAsString .= file_get_contents($contentFile);
+        $contentAsString .= file_get_contents($this->partialsPathLoader . '/footer.mustache');
+
+        // Renderizar el contenido usando Mustache
+        return $this->mustache->render($contentAsString, $data);
+    }
+
+    /*
+    public function generateHtml($contentFile, $data = array()) {
         $contentAsString = file_get_contents(  $this->partialsPathLoader .'/header.mustache');
         $contentAsString .= file_get_contents( $contentFile );
         $contentAsString .= file_get_contents($this->partialsPathLoader . '/footer.mustache');
         return $this->mustache->render($contentAsString, $data);
-    }
+    }*/
 }

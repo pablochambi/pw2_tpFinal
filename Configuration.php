@@ -21,8 +21,6 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 
 class Configuration
 {
-
-
     // CONTROLLERS
     public static function getPartidaController()
     {

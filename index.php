@@ -1,8 +1,6 @@
 <?php
 include_once ("Configuration.php");
 $router = Configuration::getRouter();
-
-
 //NO esta logueado agregar msj
 //Si la pagina es login no preguntar por la sesion
 

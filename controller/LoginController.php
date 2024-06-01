@@ -29,7 +29,9 @@ class LoginController
             if ($inicioSesionExitoso) {
 
                 $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
-              /*  $data = [
+
+               $usuario = [
+                   'nombre_completo' => $user['nombre_completo'],
                     'username' => $user['username'],
                     'foto' => $user['foto'],
                     'anio_nacimiento' => $user['anio_nacimiento'],
@@ -37,13 +39,14 @@ class LoginController
                     'ciudad' => $user['ciudad']
                 ];
 
+                $_SESSION[$usuario['username']] = $user['username'];
 
-                $_SESSION[$data['username']] = $user['username'];
-              */
-              $_SESSION['username'] = $user;
+               /* $_SESSION['username'] = $user;*/
 
 
-                header("Location: /homeUsuario");
+              $this->presenter->render("view/homeUsuario.mustache",["usuario" => $usuario] );
+
+              /*header("Location: /homeUsuario");*/
 
             } else{
                 header("Location: /login");

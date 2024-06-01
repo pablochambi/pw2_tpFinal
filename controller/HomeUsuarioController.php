@@ -14,16 +14,10 @@ class HomeUsuarioController{
 
     public function get()
     {
-
         session_start();
         if (isset($_SESSION['username'])) {
-
             $user = $_SESSION['username'];
         }
             $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user]);
-
-}
-
-
-
+    }
 }
