@@ -57,5 +57,27 @@ class LoginModel
         return false;
     }
 
+    public function obtenerUsuarioConNombrePaisPorId($idUsuario) {
+        $consulta = "SELECT u.*, p.nombre AS nombre_pais 
+                     FROM usuarios u 
+                     INNER JOIN pais p ON u.id_pais = p.id 
+                     WHERE u.id = ?";
+        $stmt = $this->database->prepare($consulta);
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        if ($resultado && $resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+
+
+
+
+
 
 }

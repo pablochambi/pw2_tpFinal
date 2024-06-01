@@ -17,8 +17,8 @@ class PerfilController
         session_start();
         if (isset($_SESSION["username"])) {
             $userId = $_SESSION["username"];
-            $userPais =
-            $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $userId]);
+            $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId);
+            $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
         } else {
             header("location: login");
             exit();

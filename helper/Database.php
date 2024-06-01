@@ -27,6 +27,10 @@ class Database
     {
         return mysqli_query($this->conn, $sql);
     }
+    public function prepare($sql)
+    {
+        return mysqli_prepare($this->conn, $sql);
+    }
 
     public function __destruct()
     {
