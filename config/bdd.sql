@@ -3,6 +3,9 @@ USE questionario;
 CREATE TABLE user(
                      username VARCHAR(255) PRIMARY KEY,
                      name VARCHAR(255),
+                     anio_nacimiento INT NOT NULL,
+                     pais VARCHAR(50) NOT NULL,
+                     ciudad VARCHAR(50) NOT NULL,
                      spawn VARCHAR(255),
                      sex VARCHAR(255),
                      mail VARCHAR(255),
@@ -10,7 +13,9 @@ CREATE TABLE user(
                      image VARCHAR(255),
                      puntaje INT,
                      partidasRealizadas INT,
-                     qr VARCHAR(255)
+                     qr VARCHAR(255),
+                     token VARCHAR(100) NOT NULL,
+                     habilitado INT NOT NULL
 );
 
 CREATE TABLE partida (
