@@ -9,7 +9,7 @@ include_once ("controller/PartidaController.php");
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
 include_once ("model/PartidaModel.php");
-
+include_once ("model/HomeUsuarioModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -43,7 +43,7 @@ class Configuration
 
     public static function getHomeUsuarioController()
     {
-        return new HomeUsuarioController(self::getLoginModel(), self::getPresenter());
+        return new HomeUsuarioController(self::getHomeUsuarioModel(), self::getPresenter());
     }
 
     private static function getLoginModel()
@@ -61,6 +61,10 @@ class Configuration
     private static function getRegistroModel()
     {
         return new RegistroModel(self::getDatabase());
+    }
+    private static function getHomeUsuarioModel()
+    {
+        return new HomeUsuarioModel(self::getDatabase());
     }
 
     // HELPERS
