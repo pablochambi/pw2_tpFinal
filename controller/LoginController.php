@@ -12,6 +12,7 @@ class LoginController
 
     public function get()
     {
+        session_destroy();
         $this->presenter->render("view/login.mustache");
     }
 
@@ -39,12 +40,7 @@ class LoginController
                     'ciudad' => $user['ciudad']
                 ];
 
-
-
                 $_SESSION['username'] = $user;
-
-
-
 
               header("Location: /homeUsuario");
 
