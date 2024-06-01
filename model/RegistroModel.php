@@ -9,6 +9,46 @@ class RegistroModel
         $this->database = $database;
     }
 
+    public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $foto)
+    {
+        $token = bin2hex(random_bytes(8)); // Generar un token aleatorio
+        $habilitado = 0;
+        $puntaje_acumulado = 0;
+        $partidas_realizadas = 0;
+        $nivel = 0.0;
+        $qr = NULL;
+
+        // Preparar la consulta SQL
+        $consulta = "
+        INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ";
+
+        $stmt = $this->database->prepare($consulta);
+        // Vincular los parámetros
+        $stmt->bind_param("sissssssssiidis", $nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $qr);
+
+        // Ejecutar la declaración
+        if ($stmt->execute()) {
+            // Obtener el ID del usuario recién insertado
+            $idUsuario = $stmt->insert_id;
+
+            // Asignar el rol de 'Jugador' al nuevo usuario
+            $rolJugador = 3; // Teniendo en cuenta que 3 es el ID para el rol 'Jugador'
+            $consultaRol = "INSERT INTO Usuario_Rol (id_usuario, id_rol) VALUES (?, ?)";
+            $stmtRol = $this->database->prepare($consultaRol);
+            $stmtRol->bind_param("ii", $idUsuario, $rolJugador);
+
+            if (!$stmtRol->execute()) {
+                echo "Error al asignar el rol al usuario: " . $stmtRol->error;
+            }
+            return $token;
+        } else {
+            echo "Error al registrar al usuario: " . $stmt->error;
+            return null;
+        }
+    }
+/*
     public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email, $password,$username,$foto)
     {
         $token = bin2hex(random_bytes(8)); // Generar un token aleatorio
@@ -22,7 +62,7 @@ VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$
             echo "Error al registrar al usuario: " . mysqli_error($this->database->conn);
 
         return $token;
-    }
+    }*/
 
     public function verificarYSubirLaFotoDePerfil($foto)
     {
