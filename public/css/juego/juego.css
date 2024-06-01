@@ -1,0 +1,30 @@
+
+.question-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.question {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.answers {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.answer {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.answer:hover {
+    background-color: #f0f0f0;
+}

@@ -98,3 +98,22 @@ INSERT INTO Usuarios(nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, em
 VALUES ('ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
 
 INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paraguay'), ('Brasil'), ('Bolivia'), ('Peru'), ('Ecuador'), ('Colombia'), ('Venezuela'), ('Guyana'), ('Surinam'), ('Guyana Francesa');
+
+INSERT INTO categoria(id,nombre,color)values(1,'Espectaculo','#F5D430');
+INSERT INTO categoria(id,nombre,color)values(2,'Deportes', '#da6e19');
+INSERT INTO categoria(id,nombre,color)values(3,'Arte','#1eb0a6');
+INSERT INTO categoria(id,nombre,color)values(4,'Ciencia','#abc52f');
+INSERT INTO categoria(id,nombre,color)values(5,'Programacion','#30A7F5');
+
+
+INSERT INTO pregunta(id_categoria, texto)values(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?' );
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Robert Downey Jr.', 1, true);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Chris Hemsworth', 1, false);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Mark Ruffalo', 1, false);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Chris Evans', 1, false);
+
+INSERT INTO pregunta(id_categoria, texto)values(1, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?');
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Scarlett Johansson', 2, false);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Gal Gadot', 2, true);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Angelina Jolie', 2, false);
+INSERT INTO respuesta(texto, id_pregunta, es_correcta)values('Margot Robbie', 2, false);
