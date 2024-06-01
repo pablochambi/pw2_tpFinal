@@ -96,9 +96,9 @@ CREATE TABLE PreguntaVistas (
 INSERT INTO Rol (nombre) VALUES ('Administrador'),('Editor'), ('Jugador');
 INSERT INTO Usuarios(nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
 VALUES ('ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3);
 
 INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paraguay'), ('Brasil'), ('Bolivia'), ('Peru'), ('Ecuador'), ('Colombia'), ('Venezuela'), ('Guyana'), ('Surinam'), ('Guyana Francesa');
-
 INSERT INTO categoria(id,nombre,color)values(1,'Espectaculo','#F5D430');
 INSERT INTO categoria(id,nombre,color)values(2,'Deportes', '#da6e19');
 INSERT INTO categoria(id,nombre,color)values(3,'Arte','#1eb0a6');
