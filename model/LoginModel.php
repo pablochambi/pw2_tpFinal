@@ -22,11 +22,9 @@ class LoginModel
         if ($resultado -> num_rows > 0) {
             $fila = $resultado -> fetch_assoc();
             if ($password == $fila["password"]){
-                session_start();
-
                 $_SESSION["user_id"] = $fila["id"];
                 $seInicioSesion =  true;
-                //exit();
+               //exit();
             }
 
         }
