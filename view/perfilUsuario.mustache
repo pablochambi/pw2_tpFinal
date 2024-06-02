@@ -3,6 +3,7 @@
         <div class="card-header bg-primary text-white">
             Perfil de Usuario
         </div>
+        {{#usuario}}
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3 text-center">
@@ -14,9 +15,10 @@
                 <div class="col-md-9">
                     <p class="card-text"><strong>Nombre de usuario:</strong> {{username}}</p>
                     <p class="card-text"><strong>Año de nacimiento:</strong> {{anio_nacimiento}}</p>
-                    <p class="card-text"><strong>País:</strong> {{pais}}</p>
+                    <p class="card-text"><strong>País:</strong> {{nombre_pais}}</p>
                     <p class="card-text"><strong>Ciudad:</strong> {{ciudad}}</p>
                 </div>
+                {{/usuario}}
             </div>
         </div>
     </div>

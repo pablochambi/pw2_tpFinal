@@ -1,0 +1,26 @@
+<div class="w3-container">
+    <div class="w3-card w3-margin">
+        <div class="w3-container w3-teal">
+            <h2>Juego de Preguntas</h2>
+        </div>
+<form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
+        <div class="question-container">
+            {{#pregunta}}
+                <input type="hidden" name="id" value="{{id}}">
+            <h3 class="question">{{texto}}</h3>
+            {{/pregunta}}
+                <ul class="answers">
+                    {{#respuestas}}
+                    <li class="w3-button w3-light-gray w3-margin-bottom answer">
+                        <button type="submit" name="respuesta" value="{{id}}" class="w3-button w3-light-gray">{{texto}}</button>
+                    </li>
+                    {{/respuestas}}
+
+            </ul>
+        </div>
+
+
+        </form>
+    </div>
+
+</div>

@@ -8,7 +8,7 @@ class Presenter
 
     public function render($view, $data = [])
     {
-        if (isset($_SESSION) && !empty($_SESSION)) {
+        if (isset($_SESSION)) {
             include_once("view/template/headerLoged.mustache");
         } else {
             include_once("view/template/header.mustache");

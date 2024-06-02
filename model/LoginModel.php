@@ -22,11 +22,9 @@ class LoginModel
         if ($resultado -> num_rows > 0) {
             $fila = $resultado -> fetch_assoc();
             if ($password == $fila["password"]){
-                session_start();
-
                 $_SESSION["user_id"] = $fila["id"];
                 $seInicioSesion =  true;
-                //exit();
+               //exit();
             }
 
         }
@@ -56,6 +54,28 @@ class LoginModel
         }
         return false;
     }
+
+    public function obtenerUsuarioConNombrePaisPorId($idUsuario) {
+        $consulta = "SELECT u.*, p.nombre AS nombre_pais 
+                     FROM usuarios u 
+                     INNER JOIN pais p ON u.id_pais = p.id 
+                     WHERE u.id = ?";
+        $stmt = $this->database->prepare($consulta);
+        $stmt->bind_param("i", $idUsuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        if ($resultado && $resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        } else {
+            return null;
+        }
+    }
+
+
+
+
+
 
 
 }
