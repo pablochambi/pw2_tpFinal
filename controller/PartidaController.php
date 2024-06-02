@@ -15,7 +15,7 @@ class PartidaController
     {
         session_start();
         $pregunta = $this->model->traerPreguntaAleatoria();
-        /*yo traia el ['id'] pero me tiraba error google y dice que tenes
+        /*yo traia el ['id'] pero me tiraba error mire google y dice que tenes
         que acceder al [0] para que te traiga el id de la primera consulta
         */
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
@@ -31,12 +31,14 @@ class PartidaController
             $respuesta = $_POST['respuesta'];
             $idPregunta = $_POST['pregunta'];
             $correcta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
+
             if($correcta){
                 header("Location: /perfil");
 
             }else{
                 header("Location: /homeUsuario");
             }
+
         }
     }
 

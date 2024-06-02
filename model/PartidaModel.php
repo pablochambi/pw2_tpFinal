@@ -26,10 +26,19 @@ class PartidaModel
         return $respuestas;
     }
 
-    public function esRespuestaCorrecta($respuesta, $idPregunta)
+    public function esRespuestaCorrecta($textoRespuesta, $idPregunta)
     {
-        $query = "Select es_correcta from respuesta where id = '$respuesta' and id_pregunta = $idPregunta";
-        return $this->database->query($query);
+        $query = "Select es_correcta from respuesta where texto = '$textoRespuesta' and id_pregunta = $idPregunta";
+
+       $result = $this->database->query($query);
+
+        if($result[0]['es_correcta'] == 1){
+            return true;
+        }else{
+            return false;
+        }
+
+
     }
 
 }
