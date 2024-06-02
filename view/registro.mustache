@@ -25,7 +25,13 @@
 
             <div class="form-group">
                 <label for="pais">País</label>
-                <input type="text" class="form-control" id="pais" name="pais" placeholder="Ingresa tu país" required>
+                    <select class="form-control" id="pais" name="pais" required>
+                        <option value="" disabled selected>Selecciona tu sexo</option>
+                        {{#paises}}
+                            <option value="{{id}}">{{nombre}}</option>
+                        {{/paises}}
+
+                    </select>
             </div>
 
             <div class="form-group">

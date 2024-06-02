@@ -1,5 +1,6 @@
 <?php
 
+include_once ("controller/BaseController.php");
 include_once ("controller/RegistroController.php");
 include_once ("controller/LoginController.php");
 include_once ("controller/PerfilController.php");
@@ -9,7 +10,7 @@ include_once ("controller/PartidaController.php");
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
 include_once ("model/PartidaModel.php");
-
+include_once ("model/HomeUsuarioModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -22,6 +23,8 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 class Configuration
 {
     // CONTROLLERS
+
+
     public static function getPartidaController()
     {
         return new PartidaController(self::getPartidaModel(), self::getPresenter());
@@ -43,7 +46,7 @@ class Configuration
 
     public static function getHomeUsuarioController()
     {
-        return new HomeUsuarioController(self::getLoginModel(), self::getPresenter());
+        return new HomeUsuarioController(self::getHomeUsuarioModel(), self::getPresenter());
     }
 
     private static function getLoginModel()
@@ -62,12 +65,16 @@ class Configuration
     {
         return new RegistroModel(self::getDatabase());
     }
+    private static function getHomeUsuarioModel()
+    {
+        return new HomeUsuarioModel(self::getDatabase());
+    }
 
     // HELPERS
     public static function getDatabase()
     {
         $config = self::getConfig();
-        return new Database($config["servername"], $config["username"], $config["password"], $config["dbname"]);
+        return new Database($config["servername"] . ":" . $config['port'], $config["username"], $config["password"], $config["dbname"]);
     }
 
     private static function getConfig()

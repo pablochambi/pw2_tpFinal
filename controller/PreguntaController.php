@@ -13,7 +13,7 @@ class PreguntaController {
 
     public function obtenerPregunta()
     {
-        session_start();
+
       $pregunta = $this->model->obtenerPregunta();
       $this->presenter->render("view/pregunta.mustache", ["pregunta" => $pregunta]);
     }

@@ -4,24 +4,19 @@ class PerfilController
     private $model;
     private $presenter;
 
-    public function get() // esto se vuela????
-    {
-        $this->presenter->render("view/perfilUsuario.mustache");
-    }
-
     public function __construct($model, $presenter)
     {
         $this->model = $model;
         $this->presenter = $presenter;
     }
 
-    public function mostrarPerfil()
+    public function get()
     {
         session_start();
-        if (isset($_SESSION["user_id"])) {
-            $userId = $_SESSION["user_id"];
-            $usuario = $this->model->obtenerDatosUsuario($userId);
-            $this->presenter->render("view/perfilUsuario.mustache", $usuario);
+        if (isset($_SESSION["username"])) {
+            $userId = $_SESSION["username"];
+            $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId);
+            $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
         } else {
             header("location: login");
             exit();

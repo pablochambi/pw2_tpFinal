@@ -13,7 +13,8 @@ class RegistroController
 
     public function get()
     {
-        $this->presenter->render("view/registro.mustache");
+        $paises = $this->model->obtenerPaises();
+        $this->presenter->render("view/registro.mustache", ["paises" => $paises]);
     }
 
     public function procesarRegistro()

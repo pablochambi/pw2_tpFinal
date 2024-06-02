@@ -1,17 +1,29 @@
+<style>
+    .welcome-container {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .welcome-message {
+        margin-bottom: 20px;
+    }
+
+    .play-button a {
+        color: white;
+        text-decoration: none;
+    }
+</style>
 <body>
 
 {{#usuario}}
-<div class="container">
+    <div class="container welcome-container">
         <h2>Hola</h2>
-        <h1>Bienvenido {{username}} a preguntados</h1>
-
-        <button class="btn btn-primary">
+        <h1 class="welcome-message">¡Bienvenido a Preguntados, {{username}}!</h1>
+        <button class="btn btn-primary play-button">
             <a href="/partida">Jugar</a>
         </button>
-
-</div>
-
+    </div>
 {{/usuario}}
 
-
 </body>
+</html>
