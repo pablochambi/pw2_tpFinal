@@ -10,7 +10,7 @@ class LoginModel
     }
 
     public function procesarInicioSesion($email, $password){
-
+        session_start();
         $seInicioSesion = false;
         $resultado = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
         $resultado->bind_param("s", $email);
