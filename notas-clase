@@ -15,28 +15,3 @@ Para verificar QUE TIPO DE USUARIO puede ejecutar TAL controlador, se ejecuta en
 phpmailer.php
 md5 -> hash -> time + user
 localhost/login/validar?hash
-
-TABLA PREGUNTA Y RESPUESTA(id, respuesta, correcta) N:N
-TABLA PARTIDA ?
-
-prwgunta
-  id 1
-  texto CUAL ES EL HUIESO MAS GRANDE
-  id categoria 1
-  FOREIGN KEY id_cat REFERECES Cateforia (id)
-
-pregunta_respuesta
-  id respuesta 1
-  id prefunta 1
-  id pregunta_respuesta 1
-FOREIGN KEY id_resp REFERECES Respuesta (id)
-FOREIGN KEY id_preg REFERECES Pregunta(id)
-
-respuesta
-  id 1 
-  texto FEMUR
-  correcta boolean TRUE
-
-categoria
-  id 1
-  texto BIOLOGIA

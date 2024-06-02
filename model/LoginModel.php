@@ -12,7 +12,7 @@ class LoginModel
     public function procesarInicioSesion($email, $password){
 
         $seInicioSesion = false;
-        $resultado = $this->database->conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+        $resultado = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
         $resultado->bind_param("s", $email);
 
         $resultado->execute();
@@ -35,7 +35,7 @@ class LoginModel
 
     public function obtenerDatosUsuario($userId)
     {
-        $stmt = $this->database->prepare("SELECT * FROM usuarios WHERE id = ?");
+        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE id = ?");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -43,7 +43,7 @@ class LoginModel
 
     public function agarrarUsuarioDeLaBaseDeDatosPorEmail($email)
     {
-        $stmt = $this->database->conn->prepare("SELECT * FROM usuarios WHERE email = ?");
+        $stmt = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $resultado = $stmt->get_result(); // agarro el resultado de la consulta
@@ -57,8 +57,8 @@ class LoginModel
 
     public function obtenerUsuarioConNombrePaisPorId($idUsuario) {
         $consulta = "SELECT u.*, p.nombre AS nombre_pais 
-                     FROM usuarios u 
-                     INNER JOIN pais p ON u.id_pais = p.id 
+                     FROM Usuarios u 
+                     INNER JOIN Pais p ON u.id_pais = p.id 
                      WHERE u.id = ?";
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("i", $idUsuario);

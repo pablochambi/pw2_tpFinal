@@ -18,9 +18,8 @@ class LoginController
         }*/
 
         // Destruir la sesión si está activa
-        if (session_status() == PHP_SESSION_ACTIVE) {
+        if (session_status() == PHP_SESSION_ACTIVE)
             session_destroy();
-        }
         $this->presenter->render("view/login.mustache");
 
     }

@@ -10,7 +10,7 @@ class RespuestaModel {
     }
 
     public function obtenerRespuesta(){
-        $respuesta = $this->database->query("SELECT * FROM respuesta where id_pregunta = 1");
+        $respuesta = $this->database->query("SELECT * FROM Respuesta where id_pregunta = 1");
         return $respuesta;
     }
 }

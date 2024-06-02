@@ -13,10 +13,7 @@ class PreguntaModel {
     }
 
     public function obtenerPregunta(){
-        $pregunta = $this->database->query("SELECT * FROM pregunta");
+        $pregunta = $this->database->query("SELECT * FROM Pregunta");
         return $pregunta;
     }
-
-
-
 }

@@ -13,7 +13,6 @@ class PartidaController
 
     public function get()
     {
-
         $pregunta = $this->model->traerPreguntaAleatoria();
         /*yo traia el ['id'] pero me tiraba error mire google y dice que tenes
         que acceder al [0] para que te traiga el id de la primera consulta
@@ -25,20 +24,15 @@ class PartidaController
 
     public function procesarRespuesta(){
 
-
-
         if(isset($_POST['respuesta']) && isset($_POST['pregunta'])){
             $respuesta = $_POST['respuesta'];
             $idPregunta = $_POST['pregunta'];
             $correcta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
 
-            if($correcta){
+            if($correcta)
                 header("Location: /perfil");
-
-            }else{
+            else
                 header("Location: /homeUsuario");
-            }
-
         }
     }
 

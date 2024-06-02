@@ -10,17 +10,16 @@ class PartidaModel
     }
 
     public function traerPreguntaAleatoria() {
-        $query = "SELECT * FROM pregunta ORDER BY RAND() LIMIT 1";
+        $query = "SELECT * FROM Pregunta ORDER BY RAND() LIMIT 1";
         $pregunta = $this->database->query($query);
         return $pregunta;
     }
 
     public function traerRespuestasDesordenadas($idPregunta) {
         $query = "SELECT texto
-                  FROM respuesta
+                  FROM Respuesta
                   WHERE id_pregunta = $idPregunta";
         $respuestas = $this->database->query($query);
-
 
         shuffle($respuestas);
         return $respuestas;
@@ -28,7 +27,7 @@ class PartidaModel
 
     public function esRespuestaCorrecta($textoRespuesta, $idPregunta)
     {
-        $query = "Select es_correcta from respuesta where texto = '$textoRespuesta' and id_pregunta = $idPregunta";
+        $query = "Select es_correcta from Respuesta where texto = '$textoRespuesta' and id_pregunta = $idPregunta";
 
        $result = $this->database->query($query);
 
@@ -37,8 +36,5 @@ class PartidaModel
         }else{
             return false;
         }
-
-
     }
-
 }

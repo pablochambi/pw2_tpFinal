@@ -91,11 +91,11 @@ VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$
 
     public function habilitarCuentaConToken($token){
 
-        $sql = "SELECT * FROM usuarios WHERE token='$token' AND habilitado=0";
+        $sql = "SELECT * FROM Usuarios WHERE token='$token' AND habilitado=0";
         $result = $this->database->query($sql);
 
         if (count($result) == 1) {
-            $updateSql = "UPDATE usuarios SET habilitado=1 WHERE token='$token'";
+            $updateSql = "UPDATE Usuarios SET habilitado=1 WHERE token='$token'";
             if ($this->database->executeAndReturn($updateSql))
                 $mensaje =  "Cuenta validada correctamente.";
             else
@@ -108,7 +108,7 @@ VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$
     }
 
     public function obtenerPaises(){
-        $paises = $this->database->query("SELECT * FROM pais");
+        $paises = $this->database->query("SELECT * FROM Pais");
         return $paises;
     }
 }
