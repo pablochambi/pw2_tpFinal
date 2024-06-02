@@ -1,12 +1,17 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
+            <form id="continuar" action="/partida/continuar" method="post" enctype="multipart/form-data">
             <div class="alert alert-info" role="alert">
                 <h4 class="alert-heading">La categoria es: {{{categoria}}}</h4>
-                <h4 class="alert-heading">La respuesta es: {{{valor_respuesta}}}</h4>
+                <h4 class="alert-heading" >La respuesta es: {{{valor_respuesta}}}</h4>
+                <input type="hidden" name="valor_respuesta" value="{{{valor_respuesta}}}">
                 <h4 class="alert-heading">La pregunta es: {{{pregunta}}}</h4>
-                <a href="partida/siguientePregunta">Continuar</a>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Continuar</button>
+
             </div>
+            </form>
         </div>
     </div>
 </div>

@@ -19,10 +19,14 @@ class HomeUsuarioModel
     ";
 
         $stmt = $this->database->prepare($consulta);
-        if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
+        if (!$stmt) {
+            die("Error en la preparación de la consulta: " . $this->database->error);
+        }
 
         $stmt->bind_param("i", $idUsuario);
-        if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
+        if (!$stmt->execute()) {
+            die("Error al ejecutar la consulta: " . $stmt->error);
+        }
 
         // Obtener el resultado
         $resultado = $stmt->get_result();
@@ -32,5 +36,6 @@ class HomeUsuarioModel
             return null;
         }
     }
+
 
 }

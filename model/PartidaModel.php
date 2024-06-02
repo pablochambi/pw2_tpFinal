@@ -83,4 +83,15 @@ class PartidaModel
             return null;
 
     }
+
+    public function arrancarPartida($usuario)
+    {
+        $arrancarPartida = "Insert into partida (id_usuario, fecha) values ($usuario, now())";
+        $result  = $this->database->query($arrancarPartida);
+       
+
+        return $result;
+
+    }
+
 }
