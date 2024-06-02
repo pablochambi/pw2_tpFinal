@@ -14,7 +14,7 @@ class PerfilController
 
     public function get()
     {
-
+        session_start();
         if (isset($_SESSION["username"])) {
             $userId = $_SESSION["username"];
             $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId);

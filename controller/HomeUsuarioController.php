@@ -16,9 +16,10 @@ class HomeUsuarioController{
     {
         if (isset($_SESSION)) {
             $user = $_SESSION['username'];
-        }
-        $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
 
-        $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user,"rol" => $rol['rol']]);
+            $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
+
+            $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
+        }
     }
 }
