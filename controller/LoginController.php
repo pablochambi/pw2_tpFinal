@@ -12,8 +12,6 @@ class LoginController
 
     public function get()
     {
-
-
         // Destruir la sesión si está activa
         if (session_status() == PHP_SESSION_ACTIVE) {
             session_destroy();

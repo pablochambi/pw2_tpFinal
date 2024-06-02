@@ -4,8 +4,6 @@ class PerfilController
     private $model;
     private $presenter;
 
-
-
     public function __construct($model, $presenter)
     {
         $this->model = $model;

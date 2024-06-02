@@ -1,5 +1,6 @@
 <?php
 
+include_once ("controller/BaseController.php");
 include_once ("controller/RegistroController.php");
 include_once ("controller/LoginController.php");
 include_once ("controller/PerfilController.php");
@@ -22,6 +23,8 @@ include_once('vendor/mustache/src/Mustache/Autoloader.php');
 class Configuration
 {
     // CONTROLLERS
+
+
     public static function getPartidaController()
     {
         return new PartidaController(self::getPartidaModel(), self::getPresenter());
