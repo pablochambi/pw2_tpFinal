@@ -43,7 +43,7 @@ class PartidaModel
         $consulta = "
         SELECT c.nombre
         FROM Pregunta p
-        INNER JOIN categoria c ON p.id_categoria = c.id
+        INNER JOIN Categoria c ON p.id_categoria = c.id
         WHERE p.id = ?;
     ";
 
@@ -77,11 +77,10 @@ class PartidaModel
 
         // Obtener el resultado
         $resultado = $stmt->get_result();
-        if ($resultado && $resultado->num_rows > 0) {
+        if ($resultado && $resultado->num_rows > 0)
             return $resultado->fetch_assoc();
-        } else {
+        else
             return null;
-        }
 
     }
 }

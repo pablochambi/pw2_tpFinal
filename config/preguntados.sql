@@ -111,11 +111,20 @@ INSERT INTO Categoria(id,nombre,color) VALUES
                                            (2,'Deportes', '#da6e19'),
                                            (3,'Arte','#1eb0a6'),
                                            (4,'Ciencia','#abc52f'),
-                                           (5,'Programacion','#30A7F5');
+                                           (5,'Programacion','#30A7F5'),
+                                           (6, 'Historia', '#6e45e0'),
+                                           (7, 'Geografía', '#e04b45'),
+                                           (8, 'Literatura', '#45e07d'),
+                                           (9, 'Cine', '#e0a24b'),
+                                           (10, 'Música', '#4b61e0');
 
 INSERT INTO Pregunta(id_categoria, texto) VALUES
                                               (1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?'),
-                                              (1, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?');
+                                              (2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?'),
+                                              (3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?'),
+                                              (4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?'),
+                                              (5, '¿En qué año se fundó la empresa Apple?'),
+                                              (6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?');
 
 INSERT INTO Respuesta(texto, id_pregunta, es_correcta) VALUES
                                                            ('Robert Downey Jr.', 1, true),
@@ -125,4 +134,20 @@ INSERT INTO Respuesta(texto, id_pregunta, es_correcta) VALUES
                                                            ('Scarlett Johansson', 2, false),
                                                            ('Gal Gadot', 2, true),
                                                            ('Angelina Jolie', 2, false),
-                                                           ('Margot Robbie', 2, false);
+                                                           ('Margot Robbie', 2, false),
+                                                           ('Leonardo da Vinci', 3, true),
+                                                           ('Pablo Picasso', 3, false),
+                                                           ('Vincent van Gogh', 3, false),
+                                                           ('Claude Monet', 3, false),
+                                                           ('Protón', 4, true),
+                                                           ('Electrón', 4, false),
+                                                           ('Neutrón', 4, false),
+                                                           ('Fotón', 4, false),
+                                                           ('1976', 5, false),
+                                                           ('1984', 5, false),
+                                                           ('1977', 5, false),
+                                                           ('1975', 5, true),
+                                                           ('Violín', 6, false),
+                                                           ('Piano', 6, true),
+                                                           ('Flauta', 6, false),
+                                                           ('Trompeta', 6, false);
