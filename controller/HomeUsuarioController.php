@@ -14,12 +14,15 @@ class HomeUsuarioController{
 
     public function get()
     {
+        session_start();
         if (isset($_SESSION)) {
             $user = $_SESSION['username'];
 
             $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
 
             $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
+        }else{
+            header("location:/login");
         }
     }
 }
