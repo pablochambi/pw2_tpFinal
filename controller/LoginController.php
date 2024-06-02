@@ -12,20 +12,15 @@ class LoginController
 
     public function get()
     {
-        /* // Verificar si hay una sesión activa antes de iniciar o destruir
+       /* // Verificar si hay una sesión activa antes de iniciar o destruir
         if (session_status() == PHP_SESSION_NONE) {
-        session_start();
+            session_start();
         }*/
+        // Destruir la sesión si está activa
+        if (session_status() == PHP_SESSION_ACTIVE)
+            session_destroy();
+        $this->presenter->render("view/login.mustache");
 
-        if (isset($_SESSION['username'])) {
-            $user = $_SESSION['username'];
-            $this->presenter->render("view/perfilUsuario.mustache", ['usuario' => $user]);
-        } else {
-            header("Location: /login");
-        }
-
-        //if (session_status() == PHP_SESSION_ACTIVE)
-           // session_destroy();
     }
 
     public function procesarLogeo(){
