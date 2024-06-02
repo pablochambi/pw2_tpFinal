@@ -11,7 +11,7 @@ class RespuestaController {
         $this->model = $model;
     }
 
-    public function obtenerRespuesta()
+    public function obtenerRespuesta() // DONDE ESTA LA VISTA RESPUESTA WACHO
     {
       $respuesta = $this->model->obtenerRespuesta();
       $this->presenter->render("view/respuesta.mustache", ["respuesta" => $respuesta]);
