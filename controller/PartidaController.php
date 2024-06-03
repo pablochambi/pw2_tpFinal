@@ -60,7 +60,7 @@ class PartidaController
         session_start();
         $pregunta = $this->model->traerPreguntaAleatoria();
         /*yo traia el ['id'] pero me tiraba error mire google y dice que tenes
-        que acceder al [0] para que te traiga el id de la primera consulta
+        que acceder al [0] ya que es una matriz asociativa para que te traiga el id de la primera consulta
         */
 
         if (isset($pregunta[0]['id'])) {
