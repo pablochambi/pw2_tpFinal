@@ -6,12 +6,32 @@
 
 2da dificultad
 	-> control de tiempo -> front y back con javascript :3
-	-> 
-
-no se necesit validar el login/sesion en todos los controladores, se puede hacer en el index porque siempre volves al index
 
 Para verificar QUE TIPO DE USUARIO puede ejecutar TAL controlador, se ejecuta en el ROUTER
 
 phpmailer.php
 md5 -> hash -> time + user
 localhost/login/validar?hash
+
+TIEMPO 30 SEG POR PREGUNTA, LOGICA EN FRONT Y BACK -> 
+SUMO LOS PUNTOS 
+MANTENER PAGINA CON TIEMPO, PREGUNTA Y RESPUESTA
+
+MAPA DE GOOGLE
+	-> 2 inputs latitud y longitud
+
+TABLA USUARIO CON ID DE TABLA TIPO DE USUARIO (admin, lector, editor)
+
+TABLA USUARIO CON ID PREGUNTA
+-> TABLA RANKING id, jugador, maxpuntaje
+
+camt_entregadas  /  hit
+100                 10    -> 10/100 > complejidad de la pregunta = <33facil / 66medio / >66dificil
+lo mismo con usuario
+
+DATA DRIVEN
+id de pregunta y datos de esa pregunta (fecha, cuantos respondieron, pregtnas viejas, etc)
+
+EDITOR CONTROLLER
+EDITOR MODEL
+VISTA DE SUGERIR PREGUNTA CON UN FORM. SE MANDA POR POST A UNA VISTA ADMIN QUIEN LO INSERTA O NO EN LA BASE DE DATOS
