@@ -57,6 +57,7 @@ class PartidaController
 
     public function siguientePregunta()
     {
+        session_start();
         $pregunta = $this->model->traerPreguntaAleatoria();
         /*yo traia el ['id'] pero me tiraba error mire google y dice que tenes
         que acceder al [0] para que te traiga el id de la primera consulta
@@ -72,7 +73,7 @@ class PartidaController
 
     public function continuar()
     {
-
+        session_start();
         if (isset($_POST['valor_respuesta'])) {
 
             $continuar = $_POST['valor_respuesta'];
@@ -80,8 +81,12 @@ class PartidaController
                 header("Location: /homeUsuario");
 
             } else {
-
-                header("Location: /partida");
+                if(isset($_SESSION['username'])){
+                $user = $_SESSION['username'];
+                $partida = $this->model->obtenerUltimaPartida($user['id']);
+                $this->model->sumarPuntos($user['id'], $partida);
+                }
+                header("Location: /partida/siguientePregunta");
             }
 
         }
