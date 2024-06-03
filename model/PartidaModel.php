@@ -64,7 +64,7 @@ class PartidaModel
 
     public function getDescripcionDeLaPreguntaPorId($idPregunta) {
         $consulta = "
-        SELECT texto
+        SELECT *
         FROM Pregunta p
         WHERE p.id = ?;
     ";
@@ -81,6 +81,19 @@ class PartidaModel
             return $resultado->fetch_assoc();
         else
             return null;
+
+    }
+
+    public function registrarPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
+        $consulta = " 
+        INSERT INTO PreguntaVistas (id_usuario, id_pregunta) VALUES (?, ?);
+         ";
+
+        $stmt = $this->database->prepare($consulta);
+        if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
+
+        $stmt->bind_param("ii", $idPregunta,$idUsuario);
+        if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
 
     }
 

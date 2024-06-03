@@ -45,7 +45,8 @@ class PartidaController
             $datos = [
                 "categoria" => $categoria_nombre['nombre'],
                 "valor_respuesta" => $valor_respuesta == 1 ? "Correcta" : "Incorrecta",
-                "pregunta" => $pregunta_texto['texto']
+                "pregunta" => $pregunta_texto['texto'],
+                "id_pregunta" => $pregunta_texto['id']
             ];
 
             $this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);
@@ -74,9 +75,10 @@ class PartidaController
     public function continuar()
     {
         session_start();
-        if (isset($_POST['valor_respuesta'])) {
+        if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
 
             $continuar = $_POST['valor_respuesta'];
+            $id_pregunta = $_POST['id_pregunta'];
             if ($continuar == "Incorrecta") {
                 $user = $_SESSION['username'];
                 $puntaje = $this->model->obtenerCantidadDePuntos($user['id']);
@@ -86,6 +88,9 @@ class PartidaController
                 if(isset($_SESSION['username'])){
                 $user = $_SESSION['username'];
                 $partida = $this->model->obtenerUltimaPartida($user['id']);
+
+                $this->model->registrarPreguntaVistaPorElUsuario($id_pregunta,$user['id']);
+
                 $this->model->sumarPuntos($user['id'], $partida);
                 }
                 header("Location: /partida/siguientePregunta");
