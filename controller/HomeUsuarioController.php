@@ -25,4 +25,16 @@ class HomeUsuarioController{
             header("location:/login");
         }
     }
+
+    public function obtenerPuntosTotales()
+    {
+        session_start();
+        if (isset($_SESSION)) {
+            $user = $_SESSION['username'];
+            $puntaje = $this->model->sumarPuntajeAcumulado($user['id']);
+            $this->presenter->render("view/puntaje.mustache", ["usuario" => $user, "puntaje" => $puntaje]);
+        }else{
+            header("location:/login");
+        }
+    }
 }
