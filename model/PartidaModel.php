@@ -88,7 +88,6 @@ class PartidaModel
     {
         $fecha = date('Y-m-d H:i:s');
         $arrancarPartida = "Insert into partida (id_usuario, fecha) values ($usuario, '$fecha')";
-        echo "Consulta SQL: $arrancarPartida";
         $result  = $this->database->executeAndReturn($arrancarPartida);
        
 
@@ -111,6 +110,18 @@ class PartidaModel
     {
         $query = "UPDATE Partida set puntaje = puntaje + 1 where id_usuario = $id_usuario and id = $idPartida";
         return $this->database->executeAndReturn($query);
+    }
+
+    public function obtenerCantidadDePuntos($id_usuario)
+    {
+        $query = "SELECT puntaje FROM Partida WHERE id_usuario = $id_usuario ORDER BY fecha DESC LIMIT 1";
+        $result = $this->database->executeAndReturn($query);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['puntaje'];
+        } else {
+            return 0;
+        }
     }
 
 
