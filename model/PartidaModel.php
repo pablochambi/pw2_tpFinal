@@ -88,7 +88,6 @@ class PartidaModel
     {
         $fecha = date('Y-m-d H:i:s');
         $arrancarPartida = "Insert into partida (id_usuario, fecha) values ($usuario, '$fecha')";
-        echo "Consulta SQL: $arrancarPartida";
         $result  = $this->database->executeAndReturn($arrancarPartida);
        
 
