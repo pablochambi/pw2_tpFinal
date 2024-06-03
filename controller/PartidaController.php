@@ -78,7 +78,9 @@ class PartidaController
 
             $continuar = $_POST['valor_respuesta'];
             if ($continuar == "Incorrecta") {
-                header("Location: /homeUsuario");
+                $user = $_SESSION['username'];
+                $puntaje = $this->model->obtenerCantidadDePuntos($user['id']);
+                $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
 
             } else {
                 if(isset($_SESSION['username'])){
@@ -91,6 +93,8 @@ class PartidaController
 
         }
     }
+
+
 }
 
 

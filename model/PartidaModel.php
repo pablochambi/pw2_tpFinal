@@ -113,6 +113,18 @@ class PartidaModel
         return $this->database->executeAndReturn($query);
     }
 
+    public function obtenerCantidadDePuntos($id_usuario)
+    {
+        $query = "SELECT puntaje FROM Partida WHERE id_usuario = $id_usuario ORDER BY fecha DESC LIMIT 1";
+        $result = $this->database->executeAndReturn($query);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['puntaje'];
+        } else {
+            return 0;
+        }
+    }
+
 
 
 }
