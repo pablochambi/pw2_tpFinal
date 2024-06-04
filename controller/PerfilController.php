@@ -9,15 +9,13 @@ class PerfilController extends BaseController
 
     public function get()
     {
-        if (isset($_SESSION["username"])) {
-            $userId = $_SESSION["username"];
-            $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
+        $this->checkSession();
 
-            $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
-        } else {
-            header("location: login");
-            exit();
-        }
+        $userId = $_SESSION["username"];
+        $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
+
+        $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
+
 
     }
 }
