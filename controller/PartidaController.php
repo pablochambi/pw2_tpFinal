@@ -29,7 +29,7 @@ class PartidaController extends BaseController
 
     public function procesarRespuesta()
     {
-        /*session_start();*/
+        $this->checkSession();
 
         if (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
             $respuesta = $_POST['respuesta'];
@@ -55,7 +55,8 @@ class PartidaController extends BaseController
 
     public function siguientePregunta()
     {
-        /*session_start();*/
+        $this->checkSession();
+
         $pregunta = $this->model->traerPreguntaAleatoria();
         /*yo traia el ['id'] pero me tiraba error mire google y dice que tenes
         que acceder al [0] ya que es una matriz asociativa para que te traiga el id de la primera consulta
@@ -71,7 +72,7 @@ class PartidaController extends BaseController
 
     public function continuar()
     {
-        /*session_start();*/
+        $this->checkSession();
 
         if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
 

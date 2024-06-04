@@ -1,12 +1,10 @@
 <?php
 
-class PartidaModel
+class PartidaModel extends BaseModel
 {
-    private $database;
-
     public function __construct($database)
     {
-        $this->database = $database;
+        parent:: __construct($database);
     }
 
     public function traerPreguntaAleatoria() {
@@ -47,18 +45,11 @@ class PartidaModel
         WHERE p.id = ?;
     ";
 
-        $stmt = $this->database->prepare($consulta);
-        if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
+        $stmt = $this->prepararConsulta($consulta);
 
-        $stmt->bind_param("i", $idPregunta);
-        if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
+        $this->unirParametros($stmt,"i", $idPregunta);
 
-        // Obtener el resultado
-        $resultado = $stmt->get_result();
-        if ($resultado && $resultado->num_rows > 0)
-            return $resultado->fetch_assoc();
-        else
-            return null;
+        return $this->obtenerResultados($stmt);
 
     }
 

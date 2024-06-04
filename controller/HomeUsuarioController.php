@@ -23,7 +23,7 @@ class HomeUsuarioController extends BaseController
 
     public function obtenerPuntosTotales()
     {
-        /*session_start();*/
+        $this->checkSession();
 
         if (isset($_SESSION) && !empty($_SESSION)) {
             $user = $_SESSION['username'];
