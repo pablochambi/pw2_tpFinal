@@ -1,35 +1,31 @@
 <?php
 
 
-class HomeUsuarioController{
-
-    private $presenter;
-    private $model;
-
+class HomeUsuarioController extends BaseController
+{
     public function __construct($model, $presenter)
     {
-        $this->presenter = $presenter;
-        $this->model = $model;
+        session_start();
+        parent::__construct($model, $presenter);
     }
 
     public function get()
     {
-        session_start();
-        if (isset($_SESSION)) {
-            $user = $_SESSION['username'];
+        $this->checkSession(); //verifica si hay una sesion activa sino me manda al login
 
-            $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
+        $user = $_SESSION['username'];
 
-            $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
-        }else{
-            header("location:/login");
-        }
+        $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
+
+        $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
+
     }
 
     public function obtenerPuntosTotales()
     {
-        session_start();
-        if (isset($_SESSION)) {
+        /*session_start();*/
+
+        if (isset($_SESSION) && !empty($_SESSION)) {
             $user = $_SESSION['username'];
             $puntaje = $this->model->sumarPuntajeAcumulado($user['id']);
             $this->presenter->render("view/puntaje.mustache", ["usuario" => $user, "puntaje" => $puntaje]);

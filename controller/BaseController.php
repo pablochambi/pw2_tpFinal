@@ -17,8 +17,8 @@ class BaseController
 
     protected function checkSession()
     {
-        if (!isset($_SESSION["username"])) {
-            header("location: login");
+        if (!isset($_SESSION) || empty($_SESSION)) {
+            header("location: /login");
             exit();
         }
     }
