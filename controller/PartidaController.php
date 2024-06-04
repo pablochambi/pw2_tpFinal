@@ -35,13 +35,13 @@ class PartidaController extends BaseController
 
             $categoria_nombre = $this->model->getCategoriaPorIdDePregunta($idPregunta);
             $valor_respuesta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
-            $pregunta_texto = $this->model->getDescripcionDeLaPreguntaPorId($idPregunta);
+            $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($idPregunta);
 
             $datos = [
                 "categoria" => $categoria_nombre['nombre'],
                 "valor_respuesta" => $valor_respuesta == 1 ? "Correcta" : "Incorrecta",
-                "pregunta" => $pregunta_texto['texto'],
-                "id_pregunta" => $pregunta_texto['id']
+                "pregunta" => $pregunta['texto'],
+                "id_pregunta" => $pregunta['id']
             ];
 
             $this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);

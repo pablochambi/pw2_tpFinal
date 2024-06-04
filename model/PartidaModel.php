@@ -46,9 +46,7 @@ class PartidaModel extends BaseModel
     ";
 
         $stmt = $this->prepararConsulta($consulta);
-
         $this->unirParametros($stmt,"i", $idPregunta);
-
         return $this->obtenerResultados($stmt);
 
     }
@@ -60,18 +58,9 @@ class PartidaModel extends BaseModel
         WHERE p.id = ?;
     ";
 
-        $stmt = $this->database->prepare($consulta);
-        if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
-
-        $stmt->bind_param("i", $idPregunta);
-        if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
-
-        // Obtener el resultado
-        $resultado = $stmt->get_result();
-        if ($resultado && $resultado->num_rows > 0)
-            return $resultado->fetch_assoc();
-        else
-            return null;
+        $stmt = $this->prepararConsulta($consulta);
+        $this->unirParametros($stmt,"i", $idPregunta);
+        return $this->obtenerResultados($stmt);
 
     }
 
