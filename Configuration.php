@@ -6,12 +6,14 @@ include_once ("controller/LoginController.php");
 include_once ("controller/PerfilController.php");
 include_once ("controller/HomeUsuarioController.php");
 include_once ("controller/PartidaController.php");
+include_once ("controller/PreguntaController.php");
 
 include_once ("model/BaseModel.php");
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
 include_once ("model/PartidaModel.php");
 include_once ("model/HomeUsuarioModel.php");
+include_once ("model/PreguntaModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -29,6 +31,11 @@ class Configuration
     {
         return new BaseController(self::getBaseModel(), self::getPresenter());
     }
+    public static function getPreguntaController()
+    {
+        return new PreguntaController(self::getPreguntaModel(), self::getPresenter());
+    }
+
     public static function getPartidaController()
     {
         return new PartidaController(self::getPartidaModel(), self::getPresenter());
@@ -70,6 +77,10 @@ class Configuration
     {
         return new PartidaModel(self::getDatabase());
     }
+    private static function getPreguntaModel()
+    {
+        return new PreguntaModel(self::getDatabase());
+    }
     private static function getRegistroModel()
     {
         return new RegistroModel(self::getDatabase());
@@ -83,7 +94,7 @@ class Configuration
     public static function getDatabase()
     {
         $config = self::getConfig();
-        return new Database($config["servername"] . ":" . $config['port'], $config["username"], $config["password"], $config["dbname"]);
+        return new Database($config["servername"], $config["username"], $config["password"], $config["dbname"]);
     }
 
     private static function getConfig()
