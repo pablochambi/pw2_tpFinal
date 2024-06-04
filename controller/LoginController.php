@@ -19,6 +19,7 @@ class LoginController extends BaseController
 
         if (isset($_POST["email"]) && isset($_POST["password"])){
 
+            session_start();
             $email = $_POST["email"];
             $password= $_POST["password"];
 
