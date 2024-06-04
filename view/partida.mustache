@@ -2,24 +2,50 @@
     <div class="w3-card w3-margin">
         <div class="w3-container w3-teal">
             <h2>Juego de Preguntas</h2>
+            <div>
+                <h3>Tiempo restante:</h3>
+                <div id="timer" class="w3-right w3-large"> 10</div>
+            </div>
         </div>
-<form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
-        <div class="question-container">
-            {{#pregunta}}
-                <input type="hidden" name="pregunta" value="{{id}}">
-            <h3 class="question">{{texto}}</h3>
-            {{/pregunta}}
+
+        <form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
+            <div class="question-container">
+                {{#pregunta}}
+                    <input type="hidden" name="pregunta" value="{{id}}">
+                    <h3 class="question">{{texto}}</h3>
+                {{/pregunta}}
                 <ul class="answers">
                     {{#respuestas}}
-                    <li class="w3-button w3-light-gray w3-margin-bottom answer">
-                        <button type="submit" name="respuesta" value="{{texto}}" class="w3-button w3-light-gray">{{texto}}</button>
-                    </li>
+                        <li class="w3-button w3-light-gray w3-margin-bottom answer">
+                            <button type="submit" name="respuesta" value="{{texto}}"
+                                    class="w3-button w3-light-gray">
+                                {{texto}}
+                            </button>
+                        </li>
                     {{/respuestas}}
-            </ul>
-        </div>
+                </ul>
+            </div>
 
-
+            <input type="hidden" name="time_expired" id="time_expired" value="0">
         </form>
-    </div>
 
+    </div>
 </div>
+
+<script>
+    let timeLeft = 10;
+    let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
+    let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
+    let form = document.getElementById('respPregunta');
+
+    let countdown = setInterval(function () { // se utiliza para ejecutar una funcion cada segundo
+        if (timeLeft <= 0) { // si timeLeft es 0 o menos entonces se detiene el temporizador y establace el valor del campo ocuilto
+            clearInterval(countdown);
+            timeExpiredInput.value = "1";
+            form.submit(); // lo mando al back
+        } else { // si es mayor a cero actualiza el contenido del elemento timer para mostrar el tiempo restante (CREO)
+            timer.innerHTML = timeLeft;
+        }
+        timeLeft -= 1;
+    }, 1000);
+</script>
