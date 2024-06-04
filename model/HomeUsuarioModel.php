@@ -41,7 +41,7 @@ class HomeUsuarioModel
     public function sumarPuntajeAcumulado($idUsuario)
     {
 
-        $consulta = "SELECT SUM(puntaje) AS puntaje_acumulado FROM partida WHERE id_usuario = ?";
+        $consulta = "SELECT SUM(puntaje) AS puntaje_acumulado FROM Partida WHERE id_usuario = ?";
 
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("i", $idUsuario);
