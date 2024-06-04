@@ -14,15 +14,21 @@ class PartidaController extends BaseController
 
         if (isset($_POST['id_usuario'])) {
             $id_usuario = $_POST['id_usuario'];
+
             $this->model->arrancarPartida($id_usuario);
+
+            $rol = $this->verificarDeQueRolEsElUsuario($_POST['id_usuario']);
+
+            $pregunta = $this->model->traerPreguntaAleatoria();
+
+            $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
+
+            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
+        }else{
+            echo "No recibio ningun dato a partidaController";
         }
 
-        $pregunta = $this->model->traerPreguntaAleatoria();
-        $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
-        $rol = $this->verificarDeQueRolEsElUsuario($_POST['id_usuario']);
-
-        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
     }
 
     public function procesarRespuesta()
