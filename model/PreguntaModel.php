@@ -16,4 +16,6 @@ class PreguntaModel {
         $pregunta = $this->database->query("SELECT * FROM Pregunta");
         return $pregunta;
     }
+
+
 }
