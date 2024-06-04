@@ -6,7 +6,7 @@ class HomeUsuarioModel extends BaseModel
        parent::__construct($database);
     }
 
-    public function verificarDeQueRolEsElUsuario($idUsuario)
+   /* public function verificarDeQueRolEsElUsuario($idUsuario)
     {
         $consulta = "
         SELECT r.nombre AS rol
@@ -17,11 +17,9 @@ class HomeUsuarioModel extends BaseModel
     ";
 
         $stmt = $this->prepararConsulta($consulta);
-
         $this->unirParametros($stmt,"i", $idUsuario);
-
         return $this->obtenerResultados($stmt);
-    }
+    }*/
 
 
     public function sumarPuntajeAcumulado($idUsuario)

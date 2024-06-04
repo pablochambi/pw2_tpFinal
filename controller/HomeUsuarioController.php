@@ -15,7 +15,7 @@ class HomeUsuarioController extends BaseController
 
         $user = $_SESSION['username'];
 
-        $rol = $this->model->verificarDeQueRolEsElUsuario($user['id']);
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
 
         $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
 

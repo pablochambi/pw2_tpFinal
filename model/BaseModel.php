@@ -8,7 +8,7 @@ class BaseModel
         $this->database = $database;
     }
 
-    protected function prepararConsulta($consulta)
+    public function prepararConsulta($consulta)
     {
         $stmt = $this->database->prepare($consulta);
         if (!$stmt) {
@@ -17,7 +17,7 @@ class BaseModel
         return $stmt;
     }
 
-    protected function unirParametros($stmt,$tipoDeDato,$parametro)
+    public function unirParametros($stmt,$tipoDeDato,$parametro)
     {
         $stmt->bind_param($tipoDeDato, $parametro);
 
@@ -26,7 +26,7 @@ class BaseModel
         }
     }
 
-    protected function obtenerResultados($stmt)
+    public function obtenerResultados($stmt)
     {
         $resultado = $stmt->get_result();
         if ($resultado && $resultado->num_rows > 0) {
@@ -35,6 +35,8 @@ class BaseModel
             return null;
         }
     }
+
+
 
 
 }

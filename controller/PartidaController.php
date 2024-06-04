@@ -20,7 +20,9 @@ class PartidaController extends BaseController
         $pregunta = $this->model->traerPreguntaAleatoria();
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
-        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'respuestas' => $respuestas]);
+        $rol = $this->verificarDeQueRolEsElUsuario($_POST['id_usuario']);
+
+        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
     }
 
     public function procesarRespuesta()
