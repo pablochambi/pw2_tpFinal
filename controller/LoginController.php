@@ -1,28 +1,19 @@
 <?php
-class LoginController
+class LoginController extends BaseController
 {
-    private $presenter;
-    private $model;
-
     public function __construct($model, $presenter)
     {
-        $this->presenter = $presenter;
-        $this->model = $model;
+        parent::__construct($model, $presenter);
     }
 
     public function get()
     {
-        /* // Verificar si hay una sesión activa antes de iniciar o destruir
-         if (session_status() == PHP_SESSION_NONE) {
-             session_start();
-         }*/
         // Destruir la sesión si está activa
         if (session_status() == PHP_SESSION_ACTIVE)
             session_destroy();
 
-
-$this->presenter->render("view/login.mustache");
-}
+        $this->presenter->render("view/login.mustache");
+    }
 
     public function procesarLogeo(){
 

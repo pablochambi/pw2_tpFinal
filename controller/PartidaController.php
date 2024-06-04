@@ -89,7 +89,7 @@ class PartidaController
                 $user = $_SESSION['username'];
                 $partida = $this->model->obtenerUltimaPartida($user['id']);
 
-                $this->model->registrarPreguntaVistaPorElUsuario($id_pregunta,$user['id']);
+                /*$this->model->registrarPreguntaVistaPorElUsuario($id_pregunta,$user['id']);*/
 
                 $this->model->sumarPuntos($user['id'], $partida);
                 }

@@ -1,5 +1,5 @@
 <?php
-abstract class BaseController
+class BaseController
 {
     protected $model;
     protected $presenter;

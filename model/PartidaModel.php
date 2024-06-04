@@ -84,7 +84,7 @@ class PartidaModel
 
     }
 
-    public function registrarPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
+   /* public function registrarPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
         $consulta = " 
         INSERT INTO PreguntaVistas (id_usuario, id_pregunta) VALUES (?, ?);
          ";
@@ -95,7 +95,7 @@ class PartidaModel
         $stmt->bind_param("ii", $idPregunta,$idUsuario);
         if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
 
-    }
+    }*/
 
     public function arrancarPartida($usuario)
     {

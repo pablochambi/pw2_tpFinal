@@ -7,6 +7,7 @@ include_once ("controller/PerfilController.php");
 include_once ("controller/HomeUsuarioController.php");
 include_once ("controller/PartidaController.php");
 
+include_once ("model/BaseModel.php");
 include_once ("model/RegistroModel.php");
 include_once ("model/LoginModel.php");
 include_once ("model/PartidaModel.php");
@@ -24,7 +25,10 @@ class Configuration
 {
     // CONTROLLERS
 
-
+    public static function getBaseController()
+    {
+        return new BaseController(self::getBaseModel(), self::getPresenter());
+    }
     public static function getPartidaController()
     {
         return new PartidaController(self::getPartidaModel(), self::getPresenter());
@@ -56,6 +60,11 @@ class Configuration
     }
 
     // MODELS
+
+    private static function getBaseModel()
+    {
+        return new BaseModel(self::getDatabase());
+    }
 
     private static function getPartidaModel()
     {
@@ -93,4 +102,5 @@ class Configuration
     {
         return new MustachePresenter("view/template");
     }
+
 }
