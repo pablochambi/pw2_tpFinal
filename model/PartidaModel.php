@@ -100,7 +100,7 @@ class PartidaModel
     public function arrancarPartida($usuario)
     {
         $fecha = date('Y-m-d H:i:s');
-        $arrancarPartida = "Insert into partida (id_usuario, fecha) values ($usuario, '$fecha')";
+        $arrancarPartida = "Insert into Partida (id_usuario, fecha) values ($usuario, '$fecha')";
         $result  = $this->database->executeAndReturn($arrancarPartida);
 
         return $result;
