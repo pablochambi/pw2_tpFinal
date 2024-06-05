@@ -125,6 +125,20 @@ class PartidaModel extends BaseModel
         }
     }
 
+    public function updateDatosPregunta($idPregunta)
+    {
+        $query = "UPDATE pregunta set vecesEntregadas = vecesEntregadas + 1 where id = $idPregunta";
+        $result = $this->database->executeAndReturn($query);
+        return $result;
+    }
+
+    public function updatePregBienRespondidas($idPregunta)
+    {
+        $query = "UPDATE pregunta set vecesCorrectas = vecesCorrectas + 1 where id = $idPregunta";
+        $result = $this->database->executeAndReturn($query);
+        return $result;
+    }
+
 
 
 }
