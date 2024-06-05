@@ -10,7 +10,7 @@ class LoginModel
     }
 
     public function procesarInicioSesion($email, $password){
-        session_start();
+
         $seInicioSesion = false;
         $resultado = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
         $resultado->bind_param("s", $email);
@@ -18,13 +18,13 @@ class LoginModel
         $resultado->execute();
         $resultado = $resultado->get_result();
 
-        //$resultado = $this->database->prepare("SELECT * FROM usuario WHERE email = ?");
+
         if ($resultado -> num_rows > 0) {
             $fila = $resultado -> fetch_assoc();
-            if ($password == $fila["password"]){
-                $_SESSION["user_id"] = $fila["id"];
+
+            if ($password == $fila["password"]  ) {
+                $_SESSION = $fila;
                 $seInicioSesion =  true;
-               //exit();
             }
 
         }
@@ -49,6 +49,7 @@ class LoginModel
         $resultado = $stmt->get_result(); // agarro el resultado de la consulta
 
         if ($resultado->num_rows > 0) {
+
             return $resultado->fetch_assoc();
             // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
         }

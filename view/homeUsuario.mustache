@@ -19,9 +19,13 @@
     <div class="container welcome-container">
         <h2>Hola</h2>
         <h1 class="welcome-message">¡Bienvenido a Preguntados, {{username}}!</h1>
-        <button class="btn btn-primary play-button">
-            <a href="partida">Jugar</a>
-        </button>
+
+            <form id="registroForm" action="/partida" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id_usuario" value="{{id}}">
+                <button type="submit" class="btn btn-primary">Jugar</button>
+            </form>
+
+
     </div>
 {{/usuario}}
 

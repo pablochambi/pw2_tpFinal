@@ -11,11 +11,17 @@ class PreguntaController {
         $this->model = $model;
     }
 
-    public function obtenerPregunta()
+    public function get()
     {
+        session_start();
+        if (isset($_SESSION)){
+            $this->presenter->render("view/crearPregunta.mustache");
+        }else{
+            header("location: login");
+            exit();
+        }
 
-      $pregunta = $this->model->obtenerPregunta();
-      $this->presenter->render("view/pregunta.mustache", ["pregunta" => $pregunta]);
     }
+
 
 }
