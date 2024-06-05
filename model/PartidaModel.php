@@ -7,9 +7,18 @@ class PartidaModel extends BaseModel
         parent:: __construct($database);
     }
 
-    public function traerPreguntaAleatoria() {
-        $query = "SELECT * FROM Pregunta ORDER BY RAND() LIMIT 1";
-        $pregunta = $this->database->query($query);
+    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
+        $consulta= "SELECT P.*
+                    FROM Pregunta P
+                    LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
+                    WHERE PV.id_usuario IS NULL
+                    ORDER BY RAND()
+                    LIMIT 1;
+        ";
+
+        $pregunta = $this->database->query($consulta);
+
+
         return $pregunta;
     }
 
@@ -64,7 +73,7 @@ class PartidaModel extends BaseModel
 
     }
 
-   /* public function registrarPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
+   public function registrarEnPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
         $consulta = " 
         INSERT INTO PreguntaVistas (id_usuario, id_pregunta) VALUES (?, ?);
          ";
@@ -72,10 +81,10 @@ class PartidaModel extends BaseModel
         $stmt = $this->database->prepare($consulta);
         if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
 
-        $stmt->bind_param("ii", $idPregunta,$idUsuario);
+        $stmt->bind_param("ii", $idUsuario,$idPregunta);
         if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
 
-    }*/
+    }
 
     public function arrancarPartida($usuario)
     {

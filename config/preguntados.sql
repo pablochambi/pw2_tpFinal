@@ -85,12 +85,12 @@ CREATE TABLE Respuesta (
 
 -- Tabla para rastrear preguntas vistas
 CREATE TABLE PreguntaVistas (
-                                id_usuario INT,
-                                id_pregunta INT,
-                                fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                PRIMARY KEY (id_usuario, id_pregunta),
-                                FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
-                                FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
+        id_usuario INT,
+        id_pregunta INT,
+        fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (id_usuario, id_pregunta),
+        FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
+        FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
 );
 
 -- Datos iniciales

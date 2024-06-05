@@ -17,9 +17,11 @@ class PartidaController extends BaseController
 
             $this->model->arrancarPartida($id_usuario);
 
-            $rol = $this->verificarDeQueRolEsElUsuario($_POST['id_usuario']);
+            $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
-            $pregunta = $this->model->traerPreguntaAleatoria();
+            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
+
+            $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
@@ -66,8 +68,11 @@ class PartidaController extends BaseController
     public function siguientePregunta()
     {
         $this->checkSession();
+        $id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : die("No se paso un id usuario");
 
-        $pregunta = $this->model->traerPreguntaAleatoria();
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
+
+        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
         if (isset($pregunta[0]['id'])) {
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
@@ -84,17 +89,19 @@ class PartidaController extends BaseController
         if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
             $continuar = $_POST['valor_respuesta'];
             $id_pregunta = $_POST['id_pregunta'];
+
+            $user = $_SESSION['username'];
+            $user_id = $user['id'];
+
             if ($continuar == "Incorrecta") {
-                $user = $_SESSION['username'];
-                $puntaje = $this->model->obtenerCantidadDePuntos($user['id']);
+                $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
                 $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
             } else {
                 if (isset($_SESSION['username'])) {
-                    $user = $_SESSION['username'];
                     $partida = $this->model->obtenerUltimaPartida($user['id']);
                     $this->model->sumarPuntos($user['id'], $partida);
                 }
-                header("Location: /partida/siguientePregunta");
+                header("Location: /partida/siguientePregunta?id_usuario=$user_id");
             }
         }
     }

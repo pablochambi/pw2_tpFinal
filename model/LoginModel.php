@@ -19,7 +19,7 @@ class LoginModel
         $resultado = $resultado->get_result();
 
 
-        if ($resultado -> num_rows > 0) {
+        if ($resultado -> num_rows == 1) {
             $fila = $resultado -> fetch_assoc();
 
             if ($password == $fila["password"]  ) {
@@ -27,6 +27,12 @@ class LoginModel
                 $seInicioSesion =  true;
             }
 
+        }elseif ($resultado -> num_rows == 0){
+            die("No se encuentra el mail ingresado en la base de datos");
+        }
+        else
+        {
+            die("Hay mails repetidos en la base de datos");
         }
 
         return $seInicioSesion;

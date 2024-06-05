@@ -42,7 +42,7 @@ class RegistroController
             $this->presenter->render("view/validacion.mustache", ["mensaje" => $mensaje]);
 
         } else {
-            echo "No se recibieron datos del formulario.";
+            die("No se recibieron datos del formulario de registro");
         }
 
     }
