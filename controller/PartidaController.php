@@ -20,6 +20,7 @@ class PartidaController extends BaseController
             $rol = $this->verificarDeQueRolEsElUsuario($_POST['id_usuario']);
 
             $pregunta = $this->model->traerPreguntaAleatoria();
+            $this->model->updateDatosPregunta($pregunta[0]['id']);
 
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
@@ -68,7 +69,7 @@ class PartidaController extends BaseController
         $this->checkSession();
 
         $pregunta = $this->model->traerPreguntaAleatoria();
-
+        $this->model->updateDatosPregunta($pregunta[0]['id']);
         if (isset($pregunta[0]['id'])) {
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
             $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta[0], 'respuestas' => $respuestas]);
@@ -91,6 +92,7 @@ class PartidaController extends BaseController
             } else {
                 if (isset($_SESSION['username'])) {
                     $user = $_SESSION['username'];
+                    $this->model->updatePregBienRespondidas($id_pregunta);
                     $partida = $this->model->obtenerUltimaPartida($user['id']);
                     $this->model->sumarPuntos($user['id'], $partida);
                 }
