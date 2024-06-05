@@ -11,6 +11,17 @@ class RespuestaController {
         $this->model = $model;
     }
 
+    public function get(){
+        session_start();
+        if (isset($_SESSION)){
+            $this->presenter->render("view/crearRespuesta.mustache");
+        }else{
+            header("location: login");
+            exit();
+        }
+
+    }
+
     public function obtenerRespuesta() // DONDE ESTA LA VISTA RESPUESTA WACHO
     {
       $respuesta = $this->model->obtenerRespuesta();
