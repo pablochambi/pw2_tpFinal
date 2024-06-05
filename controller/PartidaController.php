@@ -56,13 +56,6 @@ class PartidaController extends BaseController
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
-        if (isset($pregunta[0]['id'])) {
-            $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta[0], 'respuestas' => $respuestas]);
-        } else {
-            echo "No se encontró ninguna pregunta.";
-        }
-
         $this->model->updateDatosPregunta($pregunta[0]['id']);
         $this->traerRespuestasDespuesSiguiente($pregunta);
 
@@ -93,13 +86,15 @@ class PartidaController extends BaseController
 
     private function manejoDeRespuesta($continuar, $id_pregunta)
     {
+        $user = $_SESSION['username'];
+        $user_id = $user['id'];
+
         if ($continuar == "Incorrecta") {
-            $user = $_SESSION['username'];
-            $puntaje = $this->model->obtenerCantidadDePuntos($user['id']);
+            $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
             $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
         } else {
             $this->respuestaCorrectaPath($id_pregunta);
-            header("Location: /partida/siguientePregunta");
+            header("Location: /partida/siguientePregunta?id_usuario=$user_id");
         }
     }
 
@@ -127,7 +122,7 @@ class PartidaController extends BaseController
             $valor_respuesta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
             $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($idPregunta);
 
-            $datos = $this->getArr($categoria_nombre['nombre'], $valor_respuesta, $pregunta);
+            $datos = $this->getDatos($categoria_nombre['nombre'], $valor_respuesta, $pregunta);
 
             $this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);
         } else {
