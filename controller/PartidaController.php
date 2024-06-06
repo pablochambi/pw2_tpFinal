@@ -20,7 +20,9 @@ class PartidaController extends BaseController
             $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
             $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
+
             $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
+
             $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
             $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
