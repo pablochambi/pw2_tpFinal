@@ -1,12 +1,25 @@
-<div class="registration-form ">
+<div class="registration-form">
     <div class="form-log">
+
         <h2 class="log">Crear Pregunta</h2>
-        <form id="logForm" action="respuesta" method="post" enctype="multipart/form-data">
+
+        <form id="logForm" action="pregunta/crearPreguntaSugerida" method="post" enctype="multipart/form-data">
             <div class="form_parte">
+
                 <div class="form-group">
-                    <label for="pregunta">Pregunta</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="ingrese su pregunta" required>
+                    <label for="texto">Pregunta</label>
+                    <input type="text" class="form-control" id="texto" name="texto" placeholder="Ingrese su pregunta" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="id_categoria">Categoría</label>
+                    <select class="form-control" id="id_categoria" name="id_categoria" required>
+                        {{#categorias}}
+                            <option value="{{id}}">{{nombre}}</option>
+                        {{/categorias}}
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Continuar</button>
             </div>
         </form>

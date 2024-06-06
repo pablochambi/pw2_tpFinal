@@ -65,6 +65,18 @@ CREATE TABLE Pregunta (
                           FOREIGN KEY (usuario_creador) REFERENCES Usuarios(id)
 );
 
+CREATE TABLE Pregunta_Sugerida (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          texto VARCHAR(255) NOT NULL,
+                          id_categoria INT,
+                          nivel DECIMAL(5,2) DEFAULT 0.0,
+                          usuario_creador INT DEFAULT NULL,
+                          revisada BOOLEAN DEFAULT FALSE,
+                          valida BOOLEAN DEFAULT TRUE,
+                          FOREIGN KEY (id_categoria) REFERENCES Categoria(id),
+                          FOREIGN KEY (usuario_creador) REFERENCES Usuarios(id)
+);
+
 CREATE TABLE Reporte_Pregunta (
                                   id_pregunta INT,
                                   id_usuario INT,
@@ -76,6 +88,14 @@ CREATE TABLE Reporte_Pregunta (
 );
 
 CREATE TABLE Respuesta (
+                           id INT AUTO_INCREMENT PRIMARY KEY,
+                           texto VARCHAR(255) NOT NULL,
+                           es_correcta BOOLEAN DEFAULT FALSE,
+                           id_pregunta INT,
+                           FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
+);
+
+CREATE TABLE Respuesta_Sugerida (
                            id INT AUTO_INCREMENT PRIMARY KEY,
                            texto VARCHAR(255) NOT NULL,
                            es_correcta BOOLEAN DEFAULT FALSE,

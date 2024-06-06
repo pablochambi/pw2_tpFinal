@@ -17,5 +17,26 @@ class PreguntaModel {
         return $pregunta;
     }
 
+    public function crearPreguntaSugerida($texto, $id_categoria, $usuario_creador)
+    {
+        $query = "INSERT INTO Pregunta_Sugerida (texto, id_categoria, nivel, usuario_creador, revisada, valida) 
+              VALUES (?, ?, 0.0, ?, false, true)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('sii', $texto, $id_categoria, $usuario_creador);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getCategorias()
+    {
+        $categorias = $this->database->query("SELECT id, nombre FROM Categoria");
+
+        return $categorias;
+    }
 
 }
