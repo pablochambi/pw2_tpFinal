@@ -7,71 +7,23 @@ class PartidaModel extends BaseModel
         parent:: __construct($database);
     }
 
-    /*public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
-        $consulta= "SELECT P.*
-                    FROM Pregunta P
-                    LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
-                    WHERE PV.id_usuario IS NULL
-                    ORDER BY RAND()
-                    LIMIT 1;";
-        return $this->database->query($consulta);
-    }*/
-
-    /*public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
-
-        $totalPreguntasDisponibles = $this->contarCantidadDePreguntasNoVistasPorUnUsuario($idUsuario);
-
-        if ($totalPreguntasDisponibles > 0) {
-
-            return $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario);
-
-        } else {
-            $cant_veces_vistas = 1;
-            $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas,$idUsuario);
-            if($cant > 0){
-                return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas,$idUsuario);
-            }else{
-                $cant_veces_vistas = 2;
-                $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas,$idUsuario);
-                if($cant > 0) {
-                    return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario);
-                }else{
-                    $cant_veces_vistas = 3;
-                    $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas,$idUsuario);
-                    if($cant > 0) {
-                        return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario);
-                    }else{
-
-                    }
-                }
-            }
-
-            // Si no hay preguntas disponibles, devolver un mensaje indicando que no hay más preguntas
-            die ("No hay mas preguntas disponibles");
-        }
-    }*/
-
     public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
-        // Contamos la cantidad de preguntas no vistas por el usuario
+
         $totalPreguntasDisponibles = $this->contarCantidadDePreguntasNoVistasPorUnUsuario($idUsuario);
 
         if ($totalPreguntasDisponibles > 0) {
-            // Si hay preguntas no vistas, devolvemos una pregunta aleatoria sin repetición
             return $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario);
         }
 
         // Si no hay preguntas no vistas, intentamos obtener una pregunta aleatoria que se haya visto
         // Iteramos desde 1 hasta 3 para buscar preguntas vistas
-        for ($cant_veces_vistas = 1; $cant_veces_vistas <= 3; $cant_veces_vistas++) {
+        for ($cant_veces_vistas = 1; $cant_veces_vistas <= 10; $cant_veces_vistas++) {
             $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario);
             // Si encontramos una pregunta vista para la cantidad de veces indicada, la devolvemos
             if ($cant > 0) {
                 return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario);
             }
         }
-
-        // Si no encontramos ninguna pregunta disponible, mostramos un mensaje de error
-        die("No hay más preguntas disponibles");
     }
 
     private function traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario)
@@ -97,14 +49,15 @@ class PartidaModel extends BaseModel
         $resultado = $this->database->query($consultaVerificar);
         //$fila = $resultado->fetch_assoc();No sirve
 
-        // Verificamos que haya resultados
+        return $this->retornarCantidadTotalDePreguntas($resultado);
+
+    }
+
+    private function retornarCantidadTotalDePreguntas($resultado)
+    {
         if (!empty($resultado)) {
-            // Accedemos al primer elemento del array
             $primerResultado = $resultado[0];
-
-            // Accedemos al valor de la clave "total"
             $totalPreguntasDisponibles = $primerResultado["total"];
-
         } else {
             die ("No se conto la cantidad de preguntas que faltan verse");
         }
@@ -133,18 +86,7 @@ class PartidaModel extends BaseModel
         $resultado = $this->database->query($consultaVerificar);
         //$fila = $resultado->fetch_assoc();No sirve
 
-        // Verificamos que haya resultados
-        if (!empty($resultado)) {
-            // Accedemos al primer elemento del array
-            $primerResultado = $resultado[0];
-
-            // Accedemos al valor de la clave "total"
-            $totalPreguntasDisponibles = $primerResultado["total"];
-
-        } else {
-            die ("No se conto la cantidad de preguntas que faltan verse");
-        }
-        return $totalPreguntasDisponibles;
+        return $this->retornarCantidadTotalDePreguntas($resultado);
     }
 
     public function traerRespuestasDesordenadas($idPregunta) {
