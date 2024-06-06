@@ -7,6 +7,7 @@ class PartidaModel extends BaseModel
         parent:: __construct($database);
     }
 
+<<<<<<< HEAD
     /*public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
         $consulta= "SELECT P.*
                     FROM Pregunta P
@@ -19,6 +20,79 @@ class PartidaModel extends BaseModel
 
     public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario, $idPartida) {
         // Verificar si hay preguntas disponibles sin repetición para el usuario
+=======
+    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
+
+        $totalPreguntasDisponibles = $this->contarCantidadDePreguntasNoVistasPorUnUsuario($idUsuario);
+
+        if ($totalPreguntasDisponibles > 0) {
+            return $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario);
+        }
+
+        // Si no hay preguntas no vistas, intentamos obtener una pregunta aleatoria que se haya visto
+        // Iteramos desde 1 hasta 3 para buscar preguntas vistas
+        for ($cant_veces_vistas = 1; $cant_veces_vistas <= 10; $cant_veces_vistas++) {
+            $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario);
+            // Si encontramos una pregunta vista para la cantidad de veces indicada, la devolvemos
+            if ($cant > 0) {
+                return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario);
+            }
+        }
+    }
+
+    private function traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario)
+    {
+        $consulta = "SELECT P.*
+                     FROM Pregunta P
+                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
+                     WHERE PV.veces_entregadas = $cant_veces_vistas
+                     ORDER BY RAND()
+                     LIMIT 1";
+
+        return $this->database->query($consulta);
+    }
+
+
+    private function contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario)
+    {
+        $consultaVerificar = "SELECT COUNT(*) AS total
+                          FROM Pregunta P
+                          LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
+                          WHERE PV.veces_entregadas =  $cant_veces_vistas ";
+
+        $resultado = $this->database->query($consultaVerificar);
+        //$fila = $resultado->fetch_assoc();No sirve
+
+        return $this->retornarCantidadTotalDePreguntas($resultado);
+
+    }
+
+    private function retornarCantidadTotalDePreguntas($resultado)
+    {
+        if (!empty($resultado)) {
+            $primerResultado = $resultado[0];
+            $totalPreguntasDisponibles = $primerResultado["total"];
+        } else {
+            die ("No se conto la cantidad de preguntas que faltan verse");
+        }
+        return $totalPreguntasDisponibles;
+    }
+
+    private function traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario)
+    {
+        $consulta = "SELECT P.*
+                     FROM Pregunta P
+                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
+                     WHERE PV.id_usuario IS NULL
+                     ORDER BY RAND()
+                     LIMIT 1";
+
+        return $this->database->query($consulta);
+    }
+
+    private function contarCantidadDePreguntasNoVistasPorUnUsuario($idUsuario)
+    {
+>>>>>>> 386a7ec84f2e29df0cb01122f67edee0f66baade
         $consultaVerificar = "SELECT COUNT(*) AS total
                           FROM Pregunta P
                           LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
@@ -26,6 +100,7 @@ class PartidaModel extends BaseModel
 
         $resultado = $this->database->query($consultaVerificar);
 
+<<<<<<< HEAD
         if (!empty($resultado)) {
             // Accedemos al primer elemento del array
             $primerResultado = $resultado[0];
@@ -58,6 +133,9 @@ class PartidaModel extends BaseModel
 
             die ("No hay mas preguntas disponibles");
         }
+=======
+        return $this->retornarCantidadTotalDePreguntas($resultado);
+>>>>>>> 386a7ec84f2e29df0cb01122f67edee0f66baade
     }
 
     public function traerRespuestasDesordenadas($idPregunta) {
@@ -112,16 +190,44 @@ class PartidaModel extends BaseModel
     }
 
    public function registrarEnPreguntaVistaPorElUsuario($idPregunta,$idUsuario) {
-        $consulta = " 
-        INSERT INTO PreguntaVistas (id_usuario, id_pregunta) VALUES (?, ?);
-         ";
 
+        if(!$this->estaRegistrado($idPregunta,$idUsuario)){
+
+            $consulta = " 
+            INSERT INTO PreguntaVistas (id_usuario, id_pregunta) VALUES (?, ?);
+            ";
+
+            $stmt = $this->database->prepare($consulta);
+            if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
+
+            $stmt->bind_param("ii", $idUsuario,$idPregunta);
+            if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
+        }
+
+    }
+
+    private function estaRegistrado($idPregunta, $idUsuario)
+    {
+        // Consulta para verificar si ya existe un registro en la tabla PreguntaVistas para la pregunta y el usuario especificados
+        $consulta = "SELECT COUNT(*) AS total FROM PreguntaVistas 
+                    WHERE id_pregunta = ? AND id_usuario = ?";
+
+        // Preparar la consulta
         $stmt = $this->database->prepare($consulta);
         if (!$stmt) {die("Error en la preparación de la consulta: " . $this->database->error);}
 
-        $stmt->bind_param("ii", $idUsuario,$idPregunta);
+        // Asignar los parámetros y ejecutar la consulta
+        $stmt->bind_param("ii", $idPregunta, $idUsuario);
         if (!$stmt->execute()) {die("Error al ejecutar la consulta: " . $stmt->error);}
 
+        // Obtener el resultado
+        $result = $stmt->get_result();
+
+        // Obtener el valor del total de registros
+        $total_registros = $result->fetch_assoc()['total'];
+
+        // Devolver true si ya está registrado, false si no
+        return ($total_registros > 0);
     }
 
     public function arrancarPartida($usuario)
@@ -176,6 +282,28 @@ class PartidaModel extends BaseModel
         $result = $this->database->executeAndReturn($query);
         return $result;
     }
+    public function sumarVecesEntregadasUnaPreguntaAUnUsuario($id_pregunta, $user_id) {
+        $consulta = "UPDATE PreguntaVistas SET veces_entregadas = veces_entregadas + 1 
+                WHERE id_usuario = ? AND id_pregunta = ?";
+
+        // Ejecutar la consulta preparada
+        $stmt = $this->database->prepare($consulta);
+        $stmt->bind_param("ii", $user_id, $id_pregunta);
+        $stmt->execute();
+    }
+
+    public function sumarEnPreguntaVistaVecesAcertadasPorUnUsuario($id_pregunta, $user_id) {
+
+        $consulta = "UPDATE PreguntaVistas SET veces_acertadas = veces_acertadas + 1
+                      WHERE id_pregunta = ? AND id_usuario = ?";
+
+        // Ejecutar la consulta preparada
+        $stmt = $this->database->prepare($consulta);
+        $stmt->bind_param("ii", $id_pregunta, $user_id);
+        $stmt->execute();
+
+    }
+
 
     public function manejarNivelDePregunta($idPregunta)
     {
