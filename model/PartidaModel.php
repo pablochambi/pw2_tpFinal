@@ -17,7 +17,7 @@ class PartidaModel extends BaseModel
         return $this->database->query($consulta);
     }*/
 
-    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
+    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario, $idPartida) {
         // Verificar si hay preguntas disponibles sin repetición para el usuario
         $consultaVerificar = "SELECT COUNT(*) AS total
                           FROM Pregunta P
@@ -25,9 +25,7 @@ class PartidaModel extends BaseModel
                           WHERE PV.id_usuario IS NULL";
 
         $resultado = $this->database->query($consultaVerificar);
-        //$fila = $resultado->fetch_assoc();No sirve
 
-        // Verificamos que haya resultados
         if (!empty($resultado)) {
             // Accedemos al primer elemento del array
             $primerResultado = $resultado[0];
@@ -41,15 +39,23 @@ class PartidaModel extends BaseModel
 
         if ($totalPreguntasDisponibles > 0) {
             // Si hay preguntas disponibles, obtener una pregunta aleatoria sin repetición
+            $consultarPuntaje = "SELECT puntaje
+                                FROM Partida
+                                WHERE id = $idPartida";
+            $resultadoDePuntaje = $this->database->query($consultarPuntaje);
+
+            $nivel = $this->verificarCantidadPuntos($resultadoDePuntaje);
+
             $consulta = "SELECT P.*
                      FROM Pregunta P
                      LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
-                     WHERE PV.id_usuario IS NULL
+                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivel'
                      ORDER BY RAND()
                      LIMIT 1";
+
             return $this->database->query($consulta);
         } else {
-            // Si no hay preguntas disponibles, devolver un mensaje indicando que no hay más preguntas
+
             die ("No hay mas preguntas disponibles");
         }
     }
@@ -171,6 +177,62 @@ class PartidaModel extends BaseModel
         return $result;
     }
 
+    public function manejarNivelDePregunta($idPregunta)
+    {
+        $query = "SELECT vecesEntregadas, vecesCorrectas From pregunta where id = $idPregunta";
+
+        $result = $this->database->executeAndReturn($query);
+
+        if($result && $result->num_rows > 0)
+        {
+            $row = $result->fetch_assoc();
+            $vecesEntregadas = $row['vecesEntregadas'];
+            $vecesCorrectas = $row['vecesCorrectas'];
+
+            if($vecesEntregadas == 0)
+            {
+                return "FACIL";
+            }
+            else
+            {
+                $porcentaje = ($vecesCorrectas / $vecesEntregadas) * 100;
+                if($porcentaje >= 80)
+                {
+                    return "FACIL";
+                }
+                else if($porcentaje >= 50)
+                {
+                    return "MEDIO";
+                }
+                else
+                {
+                    return "DIFICIL";
+                }
+            }
+        }
+        else
+        {
+            return "FACIL";
+        }
+
+
+    }
+
+    private function verificarCantidadPuntos($resultadoDePuntaje): string
+    {
+        if (!empty($resultadoDePuntaje)) {
+            $puntaje = $resultadoDePuntaje[0]['puntaje'];
+        }
+
+        if ($puntaje < 1) {
+            $nivel = "FACIL";
+        } else if ($puntaje <= 2) {
+            $nivel = "MEDIO";
+        } else if ($puntaje <= 3) {
+            $nivel = "DIFICIL";
+        }
+        return $nivel;
+    }
 
 
 }

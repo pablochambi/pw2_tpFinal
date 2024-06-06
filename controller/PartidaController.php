@@ -19,8 +19,8 @@ class PartidaController extends BaseController
 
             $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
-            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
-
+            $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
+            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
             $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
             $this->model->updateDatosPregunta($pregunta[0]['id']);
@@ -52,7 +52,11 @@ class PartidaController extends BaseController
         $this->checkSession();
         $id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : die("No se paso un id usuario");
 
-        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
+        $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
+        var_dump($ultimaPartida);
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
+        var_dump($pregunta);
+        exit();
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 

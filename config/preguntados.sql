@@ -57,12 +57,13 @@ CREATE TABLE Pregunta (
                           id INT AUTO_INCREMENT PRIMARY KEY,
                           texto VARCHAR(255) NOT NULL,
                           id_categoria INT,
-                          nivel DECIMAL(5,2) DEFAULT 0.0,
+                          nivel VARCHAR(50),
                           usuario_creador INT DEFAULT NULL,  -- si no lo creo un usuario es null
                           revisada BOOLEAN DEFAULT FALSE,
                           valida BOOLEAN DEFAULT TRUE,
-                            vecesEntregadas INT,
-                            vecesCorrectas INT,
+                         vecesEntregadas INT,
+                        vecesCorrectas INT,
+
                           FOREIGN KEY (id_categoria) REFERENCES Categoria(id),
                           FOREIGN KEY (usuario_creador) REFERENCES Usuarios(id)
 );
@@ -123,12 +124,12 @@ INSERT INTO Categoria(id,nombre,color) VALUES
                                            (10, 'Música', '#4b61e0');
 
 INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valida, vecesEntregadas, vecesCorrectas) VALUES
-(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 0.0, NULL, FALSE, TRUE, 10, 5),
-(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 0.0, NULL, FALSE, TRUE, 10, 8),
-(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 0.0, NULL, FALSE, TRUE, 10, 2),
-(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 0.0, NULL, FALSE, TRUE, 10, 3),
-(5, '¿En qué año se fundó la empresa Apple?', 5, 0.0, NULL, FALSE, TRUE, 10, 2),
-(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 0.0, NULL, FALSE, TRUE, 10, 1);
+(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 'MEDIO', NULL, FALSE, TRUE, 10, 5),
+(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 'FACIL', NULL, FALSE, TRUE, 10, 8),
+(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 'DIFICIL', NULL, FALSE, TRUE, 10, 2),
+(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 'DIFICIL', NULL, FALSE, TRUE, 10, 3),
+(5, '¿En qué año se fundó la empresa Apple?', 5, 'DIFICIL', NULL, FALSE, TRUE, 10, 2),
+(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICL', NULL, FALSE, TRUE, 10, 1);
 
 
 
