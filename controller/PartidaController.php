@@ -55,10 +55,10 @@ class PartidaController extends BaseController
         $id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : die("No se paso un id usuario");
 
         $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
-        var_dump($ultimaPartida);
+        //var_dump($ultimaPartida);
         $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
-        var_dump($pregunta);
-        exit();
+        //var_dump($pregunta);
+        //exit();
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
