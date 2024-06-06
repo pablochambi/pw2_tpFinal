@@ -1,39 +1,46 @@
-<div class="registration-form ">
+<div class="registration-form">
     <div class="">
         <h2 class="log">Ahora, vamos con las respuestas</h2>
-        <form id="logForm" action="respuesta" method="post" enctype="multipart/form-data">
+
+        <form id="logForm" action="/crearRespuestasSugeridas" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="id_pregunta" value="{{id_pregunta}}">
+
             <div class="form-group">
                 <label for="respuesta0">Respuesta 1:</label>
-                <input type="text" class="form-control" id="respuesta0" name="respuesta0" required>
+                <input type="text" class="form-control" id="respuesta0" name="respuesta[]" required>
                 <div class="form-check">
                     <input type="radio" class="form-check-input" id="correcta0" name="correcta" value="0" required>
                     <label class="form-check-label" for="correcta0">Correcta</label>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="respuesta1">Respuesta 2:</label>
-                <input type="text" class="form-control" id="respuesta1" name="respuesta1" required>
+                <input type="text" class="form-control" id="respuesta1" name="respuesta[]" required>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="correcta1" name="correcta" value="0" required>
+                    <input type="radio" class="form-check-input" id="correcta1" name="correcta" value="1" required>
                     <label class="form-check-label" for="correcta1">Correcta</label>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="respuesta2">Respuesta 3:</label>
-                <input type="text" class="form-control" id="respuesta2" name="respuesta2" required>
+                <input type="text" class="form-control" id="respuesta2" name="respuesta[]" required>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="correcta2" name="correcta" value="0" required>
+                    <input type="radio" class="form-check-input" id="correcta2" name="correcta" value="2" required>
                     <label class="form-check-label" for="correcta2">Correcta</label>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="respuesta3">Respuesta 4:</label>
-                <input type="text" class="form-control" id="respuesta3" name="respuesta3" required>
+                <input type="text" class="form-control" id="respuesta3" name="respuesta[]" required>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="correcta3" name="correcta" value="0" required>
+                    <input type="radio" class="form-check-input" id="correcta3" name="correcta" value="3" required>
                     <label class="form-check-label" for="correcta3">Correcta</label>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary">Continuar</button>
         </form>
     </div>

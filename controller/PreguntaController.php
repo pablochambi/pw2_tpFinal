@@ -32,9 +32,11 @@ class PreguntaController extends BaseController {
             $resultado = $this->model->crearPreguntaSugerida($texto, $id_categoria, $usuario_creador);
 
             if ($resultado) {
-                header("Location: /pregunta/success");
+                $this->presenter->render("view/crearRespuesta.mustache");
+                exit();
             } else {
-                header("Location: /pregunta/error");
+                header("location: login");
+                exit();
             }
 
             $categorias = $this->model->obtenerCategorias();

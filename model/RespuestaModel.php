@@ -13,4 +13,19 @@ class RespuestaModel {
         $respuesta = $this->database->query("SELECT * FROM Respuesta where id_pregunta = 1");
         return $respuesta;
     }
+
+    public function crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta)
+    {
+        $query = "INSERT INTO Respuesta_Sugerida (texto, id_pregunta, es_correcta) 
+              VALUES (?, ?, ?)";
+
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('sii', $texto, $id_pregunta, $es_correcta);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
