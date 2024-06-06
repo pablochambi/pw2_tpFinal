@@ -23,7 +23,9 @@ class PartidaController extends BaseController
 
             $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
-            $this->model->updateDatosPregunta($pregunta[0]['id']);
+            $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
+
+            $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
 
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
@@ -56,7 +58,10 @@ class PartidaController extends BaseController
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
-        $this->model->updateDatosPregunta($pregunta[0]['id']);
+        $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
+
+        $this->model->updateDatosPregunta($pregunta[0]['id']);//suma veces entregadas
+
         $this->traerRespuestasDespuesSiguiente($pregunta);
 
     }
@@ -89,10 +94,15 @@ class PartidaController extends BaseController
         $user = $_SESSION['username'];
         $user_id = $user['id'];
 
+
+
         if ($continuar == "Incorrecta") {
+
+
             $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
             $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
         } else {
+            $this->model->sumarEnPreguntaVistaVecesAcertadasPorUnUsuario($id_pregunta,$user_id);
             $this->respuestaCorrectaPath($id_pregunta);
             header("Location: /partida/siguientePregunta?id_usuario=$user_id");
         }
