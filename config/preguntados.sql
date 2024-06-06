@@ -90,6 +90,8 @@ CREATE TABLE PreguntaVistas (
         id_usuario INT,
         id_pregunta INT,
         fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
+        veces_acertadas INT DEFAULT 0,
+        veces_entregadas INT DEFAULT 1,
         PRIMARY KEY (id_usuario, id_pregunta),
         FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
         FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)

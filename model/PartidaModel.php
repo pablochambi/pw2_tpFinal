@@ -7,19 +7,51 @@ class PartidaModel extends BaseModel
         parent:: __construct($database);
     }
 
-    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
+    /*public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
         $consulta= "SELECT P.*
                     FROM Pregunta P
                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
                     WHERE PV.id_usuario IS NULL
                     ORDER BY RAND()
-                    LIMIT 1;
-        ";
+                    LIMIT 1;";
+        return $this->database->query($consulta);
+    }*/
 
-        $pregunta = $this->database->query($consulta);
+    public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario) {
+        // Verificar si hay preguntas disponibles sin repetición para el usuario
+        $consultaVerificar = "SELECT COUNT(*) AS total
+                          FROM Pregunta P
+                          LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
+                          WHERE PV.id_usuario IS NULL";
 
+        $resultado = $this->database->query($consultaVerificar);
+        //$fila = $resultado->fetch_assoc();No sirve
 
-        return $pregunta;
+        // Verificamos que haya resultados
+        if (!empty($resultado)) {
+            // Accedemos al primer elemento del array
+            $primerResultado = $resultado[0];
+
+            // Accedemos al valor de la clave "total"
+            $totalPreguntasDisponibles = $primerResultado["total"];
+
+        } else {
+            die ("No se conto la cantidad de preguntas que faltan verse");
+        }
+
+        if ($totalPreguntasDisponibles > 0) {
+            // Si hay preguntas disponibles, obtener una pregunta aleatoria sin repetición
+            $consulta = "SELECT P.*
+                     FROM Pregunta P
+                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = '$idUsuario'
+                     WHERE PV.id_usuario IS NULL
+                     ORDER BY RAND()
+                     LIMIT 1";
+            return $this->database->query($consulta);
+        } else {
+            // Si no hay preguntas disponibles, devolver un mensaje indicando que no hay más preguntas
+            die ("No hay mas preguntas disponibles");
+        }
     }
 
     public function traerRespuestasDesordenadas($idPregunta) {
