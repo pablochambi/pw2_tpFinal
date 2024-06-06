@@ -108,7 +108,6 @@ class PartidaController extends BaseController
         }
     }
 
-
     private function traerRespuestasDespuesSiguiente($pregunta)
     {
         if (isset($pregunta[0]['id'])) {
@@ -118,7 +117,6 @@ class PartidaController extends BaseController
             echo "No se encontró ninguna pregunta.";
         }
     }
-
 
     private function manejoDeElProcesoDeRespuesta()
     {
