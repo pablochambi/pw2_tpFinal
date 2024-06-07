@@ -74,10 +74,10 @@ class LoginModel
             return null;
     }
 
-    public function obtenerUsuarioPorUsername($id)
+    public function obtenerUsuarioPorUsername($username)
     {
-        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE id = ?");
-        $stmt->bind_param("s", $id);
+        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE username = ?");
+        $stmt->bind_param("s", $username);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }

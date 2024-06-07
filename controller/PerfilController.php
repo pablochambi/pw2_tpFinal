@@ -19,11 +19,11 @@ class PerfilController extends BaseController
 
     public function mostrarPerfil()
     {
-        if (!isset($_GET['id']))
+        if (!isset($_GET['username']))
             die('Usuario no especificado.');
 
-        $id = $_GET['id'];
-        $usuario = $this->usuarioModel->obtenerUsuarioPorUsername($id);
+        $username = $_GET['username'];
+        $usuario = $this->usuarioModel->obtenerUsuarioPorUsername($username);
 
         if ($usuario === null)
             die('Usuario no encontrado.');
