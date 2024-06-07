@@ -19,7 +19,14 @@ class PartidaModel extends BaseModel
         $nivel = $this->verificarCantidadPuntos($resultadoDePuntaje);
 
         if ($totalPreguntasDisponibles > 0) {
-            return $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario, $nivel);
+
+            $pregunta = $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario, $nivel);
+
+            if(!isset($pregunta) || empty($pregunta) ){
+                die("No se pudo traer una pregunta aleatoria que no  haya sido vista y sea del nivel $nivel");
+            }else{
+                return $pregunta;
+            }
         }
         // Si no hay preguntas no vistas, intentamos obtener una pregunta aleatoria que se haya visto
         // Iteramos desde 1 hasta 3 para buscar preguntas vistas
@@ -28,6 +35,8 @@ class PartidaModel extends BaseModel
             // Si encontramos una pregunta vista para la cantidad de veces indicada, la devolvemos
             if ($cant > 0) {
                 return $this->traerUnaPreguntaAleatoriaQueSeHayaVisto($cant_veces_vistas, $idUsuario, $nivel);
+            }{
+                die("No hay preguntas que se hayan visto $cant_veces_vistas veces y que sea del nivel $nivel");
             }
         }
 
@@ -42,7 +51,14 @@ class PartidaModel extends BaseModel
                      ORDER BY RAND()
                      LIMIT 1";
 
-        return $this->database->query($consulta);
+        $resultado = $this->database->query($consulta);
+        if(!isset($resultado) || empty($resultado) ){
+            die("No se pudo traer una pregunta aleatoria que haya sido vista $cant_veces_vistas veces y sea del nivel $nivel");
+        }else{
+            return $resultado;
+        }
+
+
     }
 
     private function contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario)
@@ -61,7 +77,8 @@ class PartidaModel extends BaseModel
 
     private function retornarCantidadTotalDePreguntas($resultado)
     {
-        if (!empty($resultado)) {
+
+        if (isset($resultado) && !empty($resultado)) {
             $primerResultado = $resultado[0];
             $totalPreguntasDisponibles = $primerResultado["total"];
         } else {
