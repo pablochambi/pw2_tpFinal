@@ -7,6 +7,7 @@ include_once ("controller/PerfilController.php");
 include_once ("controller/HomeUsuarioController.php");
 include_once ("controller/PartidaController.php");
 include_once ("controller/PreguntaController.php");
+include_once ("controller/RankingController.php");
 
 include_once ("model/BaseModel.php");
 include_once ("model/RegistroModel.php");
@@ -14,6 +15,7 @@ include_once ("model/LoginModel.php");
 include_once ("model/PartidaModel.php");
 include_once ("model/HomeUsuarioModel.php");
 include_once ("model/PreguntaModel.php");
+include_once ("model/RankingModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -31,6 +33,12 @@ class Configuration
     {
         return new BaseController(self::getBaseModel(), self::getPresenter());
     }
+
+    public static function getRankingController()
+    {
+        return new RankingController(self::getRankingModel(), self::getPresenter());
+    }
+
     public static function getPreguntaController()
     {
         return new PreguntaController(self::getPreguntaModel(), self::getPresenter());
@@ -71,6 +79,11 @@ class Configuration
     private static function getBaseModel()
     {
         return new BaseModel(self::getDatabase());
+    }
+
+    private static function getRankingModel()
+    {
+        return new RankingModel(self::getDatabase());
     }
 
     private static function getPartidaModel()
