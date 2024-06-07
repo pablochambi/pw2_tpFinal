@@ -1,8 +1,10 @@
 <div class="container mt-4">
 <div class="card">
     <div class="card-header bg-danger text-white">
+
         <div class="container mt-5">
             <h1 class="text-center">Ranking del mundo mundialmente mundial</h1>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -13,12 +15,15 @@
                 <tbody>
                 {{#usuarios}}
                     <tr>
-                        <td>{{username}}</td>
+                        <td>
+                            <a href="/perfiles?id={{id}}"> {{username}}</a>
+                        </td>
                         <td>{{puntaje}}</td>
                     </tr>
                 {{/usuarios}}
                 </tbody>
             </table>
+
         </div>
 </div>
 </div>

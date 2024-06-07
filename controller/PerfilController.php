@@ -15,8 +15,20 @@ class PerfilController extends BaseController
         $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
 
         $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
+    }
 
+    public function mostrarPerfil()
+    {
+        if (!isset($_GET['id']))
+            die('Usuario no especificado.');
 
+        $id = $_GET['id'];
+        $usuario = $this->usuarioModel->obtenerUsuarioPorUsername($id);
+
+        if ($usuario === null)
+            die('Usuario no encontrado.');
+
+        $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }
 }
 
