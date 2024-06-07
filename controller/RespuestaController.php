@@ -34,7 +34,7 @@ class RespuestaController extends BaseController {
 
             foreach ($respuestas as $index => $texto) {
                 $es_correcta = ($index == $correcta) ? 1 : 0;
-                $resultado = $this->model->crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta);
+                $resultado = $this->model->crearRespuestaSugerida($texto, $id_pregunta, $es_correcta);
 
                 if (!$resultado) {
                     header("Location: /pregunta/error");
@@ -48,6 +48,5 @@ class RespuestaController extends BaseController {
             echo "error";
         }
     }
-
 
 }

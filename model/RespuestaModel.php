@@ -14,7 +14,7 @@ class RespuestaModel {
         return $respuesta;
     }
 
-    public function crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta)
+    public function crearRespuestaSugerida($texto, $id_pregunta, $es_correcta)
     {
         $query = "INSERT INTO Respuesta_Sugerida (texto, id_pregunta, es_correcta) 
               VALUES (?, ?, ?)";
@@ -28,4 +28,5 @@ class RespuestaModel {
             return false;
         }
     }
+
 }
