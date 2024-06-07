@@ -57,10 +57,13 @@ CREATE TABLE Pregunta (
                           id INT AUTO_INCREMENT PRIMARY KEY,
                           texto VARCHAR(255) NOT NULL,
                           id_categoria INT,
-                          nivel DECIMAL(5,2) DEFAULT 0.0,
+                          nivel VARCHAR(50),
                           usuario_creador INT DEFAULT NULL,  -- si no lo creo un usuario es null
                           revisada BOOLEAN DEFAULT FALSE,
                           valida BOOLEAN DEFAULT TRUE,
+                         vecesEntregadas INT,
+                        vecesCorrectas INT,
+
                           FOREIGN KEY (id_categoria) REFERENCES Categoria(id),
                           FOREIGN KEY (usuario_creador) REFERENCES Usuarios(id)
 );
@@ -105,12 +108,14 @@ CREATE TABLE Respuesta_Sugerida (
 
 -- Tabla para rastrear preguntas vistas
 CREATE TABLE PreguntaVistas (
-                                id_usuario INT,
-                                id_pregunta INT,
-                                fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
-                                PRIMARY KEY (id_usuario, id_pregunta),
-                                FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
-                                FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
+        id_usuario INT,
+        id_pregunta INT,
+        fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
+        veces_acertadas INT DEFAULT 0,
+        veces_entregadas INT DEFAULT 0,
+        PRIMARY KEY (id_usuario, id_pregunta),
+        FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
+        FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
 );
 
 -- Datos iniciales
@@ -138,38 +143,48 @@ INSERT INTO Categoria(id,nombre,color) VALUES
                                            (9, 'Cine', '#e0a24b'),
                                            (10, 'Música', '#4b61e0');
 
-INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valida) VALUES
-(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 0.0, NULL, FALSE, TRUE),
-(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 0.0, NULL, FALSE, TRUE),
-(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 0.0, NULL, FALSE, TRUE),
-(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 0.0, NULL, FALSE, TRUE),
-(5, '¿En qué año se fundó la empresa Apple?', 5, 0.0, NULL, FALSE, TRUE),
-(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 0.0, NULL, FALSE, TRUE);
+INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valida, vecesEntregadas, vecesCorrectas) VALUES
+(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 'MEDIO', NULL, FALSE, TRUE, 10, 5),
+(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 'FACIL', NULL, FALSE, TRUE, 10, 8),
+(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 'DIFICIL', NULL, FALSE, TRUE, 10, 2),
+(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 'DIFICIL', NULL, FALSE, TRUE, 10, 3),
+(5, '¿En qué año se fundó la empresa Apple?', 5, 'DIFICIL', NULL, FALSE, TRUE, 10, 2),
+(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICL', NULL, FALSE, TRUE, 10, 1),
+(7, '¿Cuál es la capital de Uruguay?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8),
+(8, '¿Cuántos lados tiene un triangulo?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8);
 
 
 
 INSERT INTO Respuesta(texto, id_pregunta, es_correcta) VALUES
-                                                           ('Robert Downey Jr.', 1, true),
-                                                           ('Chris Hemsworth', 1, false),
-                                                           ('Mark Ruffalo', 1, false),
-                                                           ('Chris Evans', 1, false),
-                                                           ('Scarlett Johansson', 2, false),
-                                                           ('Gal Gadot', 2, true),
-                                                           ('Angelina Jolie', 2, false),
-                                                           ('Margot Robbie', 2, false),
-                                                           ('Leonardo da Vinci', 3, true),
-                                                           ('Pablo Picasso', 3, false),
-                                                           ('Vincent van Gogh', 3, false),
-                                                           ('Claude Monet', 3, false),
-                                                           ('Protón', 4, true),
-                                                           ('Electrón', 4, false),
-                                                           ('Neutrón', 4, false),
-                                                           ('Fotón', 4, false),
-                                                           ('1976', 5, false),
-                                                           ('1984', 5, false),
-                                                           ('1977', 5, false),
-                                                           ('1975', 5, true),
-                                                           ('Violín', 6, false),
-                                                           ('Piano', 6, true),
-                                                           ('Flauta', 6, false),
-                                                           ('Trompeta', 6, false);
+('Robert Downey Jr.', 1, true),
+('Chris Hemsworth', 1, false),
+('Mark Ruffalo', 1, false),
+('Chris Evans', 1, false),
+('Scarlett Johansson', 2, false),
+('Gal Gadot', 2, true),
+('Angelina Jolie', 2, false),
+('Margot Robbie', 2, false),
+('Leonardo da Vinci', 3, true),
+('Pablo Picasso', 3, false),
+('Vincent van Gogh', 3, false),
+('Claude Monet', 3, false),
+('Protón', 4, true),
+('Electrón', 4, false),
+('Neutrón', 4, false),
+('Fotón', 4, false),
+('1976', 5, false),
+('1984', 5, false),
+('1977', 5, false),
+('1975', 5, true),
+('Violín', 6, false),
+('Piano', 6, true),
+('Flauta', 6, false),
+('Trompeta', 6, false),
+('París', 7, false),
+('Londres', 7, false),
+('Montevideo', 7, true),
+('Roma', 7, false),
+('Uno', 8, false),
+('Dos', 8, false),
+('Tres', 8, true),
+('Cuatro', 8, false);
