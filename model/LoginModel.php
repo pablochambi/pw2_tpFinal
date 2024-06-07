@@ -18,7 +18,6 @@ class LoginModel
         $resultado->execute();
         $resultado = $resultado->get_result();
 
-
         if ($resultado -> num_rows == 1) {
             $fila = $resultado -> fetch_assoc();
 
@@ -30,13 +29,11 @@ class LoginModel
         }elseif ($resultado -> num_rows == 0){
             die("No se encuentra el mail ingresado en la base de datos");
         }
-        else
-        {
+        else {
             die("Hay mails repetidos en la base de datos");
         }
 
         return $seInicioSesion;
-
     }
 
     public function obtenerDatosUsuario($userId)
@@ -54,11 +51,10 @@ class LoginModel
         $stmt->execute();
         $resultado = $stmt->get_result(); // agarro el resultado de la consulta
 
-        if ($resultado->num_rows > 0) {
-
+        if ($resultado->num_rows > 0)
             return $resultado->fetch_assoc();
             // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
-        }
+
         return false;
     }
 
@@ -72,17 +68,18 @@ class LoginModel
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        if ($resultado && $resultado->num_rows > 0) {
+        if ($resultado && $resultado->num_rows > 0)
             return $resultado->fetch_assoc();
-        } else {
+        else
             return null;
-        }
     }
 
-
-
-
-
-
+    public function obtenerUsuarioPorUsername($username)
+    {
+        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
 
 }

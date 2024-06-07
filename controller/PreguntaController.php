@@ -1,21 +1,19 @@
 <?php
 
-class PreguntaController {
-
-    private $presenter;
-    private $model;
+class PreguntaController extends BaseController {
 
     public function __construct($model, $presenter)
     {
-        $this->presenter = $presenter;
-        $this->model = $model;
+        session_start();
+        parent::__construct($model, $presenter);
     }
 
     public function get()
     {
         session_start();
         if (isset($_SESSION)){
-            $this->presenter->render("view/crearPregunta.mustache");
+            $categorias = $this->model->getCategorias();
+            $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias]);
         }else{
             header("location: login");
             exit();
@@ -23,5 +21,29 @@ class PreguntaController {
 
     }
 
+    public function crearPreguntaSugerida()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            $texto = $_POST['texto'];
+            $id_categoria = $_POST['id_categoria'];
+            $usuario_creador = 1;
+
+            $resultado = $this->model->crearPreguntaSugerida($texto, $id_categoria, $usuario_creador);
+
+            if ($resultado) {
+                $this->presenter->render("view/crearRespuesta.mustache");
+                exit();
+            } else {
+                header("location: login");
+                exit();
+            }
+
+            $categorias = $this->model->obtenerCategorias();
+            echo $this->mustache->render('crearPregunta', ['categorias' => $categorias]);
+        } else {
+            echo "error";
+        }
+    }
 
 }

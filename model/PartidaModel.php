@@ -111,15 +111,14 @@ class PartidaModel extends BaseModel
 
         return  $this->retornarCantidadTotalDePreguntas($resultado);
     }
-    public function traerRespuestasDesordenadas($idPregunta) {
+    public function traerRespuestasDesordenadas($idPregunta)
+    {
         $query = "SELECT R.*
                   FROM Respuesta R
                   WHERE id_pregunta = $idPregunta";
         $respuestas = $this->database->query($query);
 
-        shuffle($respuestas);//desordena el array
-        //var_dump($respuestas);
-        //exit();
+        shuffle($respuestas);
         return $respuestas;
     }
     public function esRespuestaCorrecta($textoRespuesta, $idPregunta)
