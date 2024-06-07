@@ -1,3 +1,5 @@
+
+
 <div class="w3-container">
     <div class="w3-card w3-margin">
         <div class="w3-container w3-teal">
@@ -7,20 +9,24 @@
 
         <form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
             <div class="question-container">
+                <h3 class="question">{{{categoria}}}</h3>
                 {{#pregunta}}
                     <input type="hidden" name="pregunta" value="{{id}}">
                     <h3 class="question">{{texto}}</h3>
                 {{/pregunta}}
+
                 <ul class="answers">
                     {{#respuestas}}
-                        <li class="w3-button w3-light-gray w3-margin-bottom answer">
-                            <button type="submit" name="respuesta" value="{{texto}}"
-                                    class="w3-button w3-light-gray">
-                                {{texto}}
+                        <li class="w3-button answer">
+                           <button type="submit" name="respuesta" value="{{texto}}"
+                                    class="w3-button"
+                                    data-correct="{{es_correcta}}" onclick="checkAnswer(this)">
+                               {{texto}}
                             </button>
                         </li>
                     {{/respuestas}}
                 </ul>
+
             </div>
 
             <input type="hidden" name="time_expired" id="time_expired" value="0">
@@ -30,7 +36,7 @@
 </div>
 
 <script>
-    let timeLeft = 10;
+    let timeLeft = 2000;
     let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
     let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
     let form = document.getElementById('respPregunta');
@@ -45,4 +51,43 @@
         }
         timeLeft -= 1;
     }, 1000);
+
+    function checkAnswer( button) {
+
+        //Obtener todos los botones de respuesta
+        const buttons = document.querySelectorAll('.answer button');
+
+        //console.log(buttons);
+
+        // Mark all answers and highlight the correct one
+        // Marque todas las respuestas y resalte la correcta.
+        buttons.forEach(btn => {
+            if (btn.dataset.correct === "1") {
+                //btn.classList.add('highlight-correct');
+                btn.style.border = '2px solid green';
+            }
+        });
+        //console.log(buttons);
+
+        // Mark the clicked button
+        // Marque el botón hecho clic
+        if (button.dataset.correct === "1") {
+            //button.classList.add('correct-answer');
+            button.style.backgroundColor = 'green';
+        } else {
+            //button.classList.add('incorrect-answer');
+            button.style.backgroundColor = 'red';
+        }
+
+        // Pausar durante 1,5 segundos antes de enviar el formulario
+        setTimeout(function() {
+            // Reanudar el envío del formulario después de 1,5 segundos
+            button.closest('form').submit();
+        }, 1500);
+
+    }
+
+
+
+
 </script>

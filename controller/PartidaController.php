@@ -23,6 +23,9 @@ class PartidaController extends BaseController
 
             $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
 
+            $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
+            $categoria = $categoria['nombre'];
+
             $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
             $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
@@ -31,7 +34,7 @@ class PartidaController extends BaseController
 
             $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
-            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
+            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
         }else{
             echo "No recibio ningun dato a partidaController";
         }
@@ -54,17 +57,20 @@ class PartidaController extends BaseController
     public function siguientePregunta()
     {
         $this->checkSession();
-        $id_usuario = isset($_GET['id_usuario']) ? $_GET['id_usuario'] : die("No se paso un id usuario");
 
-        $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
+        $user = $_SESSION['username'];
+        $user_id = $user['id'];
+        //$id_usuario = isset($_SESSION['id']) ? $_SESSION['id'] : die("No hay un usuario id en la session");
+
+        $ultimaPartida = $this->model->obtenerUltimaPartida($user_id);
         //var_dump($ultimaPartida);
-        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($user_id, $ultimaPartida);
         //var_dump($pregunta);
         //exit();
 
-        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
+        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$user_id);
 
-        $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
+        $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$user_id);
 
         $this->model->updateDatosPregunta($pregunta[0]['id']);//suma veces entregadas
 
@@ -72,8 +78,10 @@ class PartidaController extends BaseController
 
     }
 
+    /*
     public function continuar()
     {
+
         $this->checkSession();
 
         if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
@@ -81,8 +89,9 @@ class PartidaController extends BaseController
             $id_pregunta = $_POST['id_pregunta'];
             $this->manejoDeRespuesta($continuar, $id_pregunta);
         }
-    }
 
+    }
+    */
 
     private function respuestaCorrectaPath($id_pregunta)
     {
@@ -94,23 +103,26 @@ class PartidaController extends BaseController
         }
     }
 
-
     private function manejoDeRespuesta($continuar, $id_pregunta)
     {
         $user = $_SESSION['username'];
         $user_id = $user['id'];
+        $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($id_pregunta);
+        $categoria_nombre = $this->model->getCategoriaPorIdDePregunta($id_pregunta);
 
-
+        $categoria = $categoria_nombre["nombre"];
+        $rol = $this->verificarDeQueRolEsElUsuario($user_id);
 
         if ($continuar == "Incorrecta") {
-
 
             $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
             $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
         } else {
             $this->model->sumarEnPreguntaVistaVecesAcertadasPorUnUsuario($id_pregunta,$user_id);
+
             $this->respuestaCorrectaPath($id_pregunta);
-            header("Location: /partida/siguientePregunta?id_usuario=$user_id");
+
+            $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta['texto'], 'categoria' => $categoria, "rol" => $rol['rol']]);
         }
     }
 
@@ -128,6 +140,35 @@ class PartidaController extends BaseController
     {
         if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
             $this->handleTimeExpired(); // checkeo si se acabo el timepo
+        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+            $respuesta = $_POST['respuesta'];
+            $idPregunta = $_POST['pregunta'];
+
+            $valor_respuesta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
+            $continuar = $valor_respuesta ? "Correcto" : "Incorrecta";
+            $id_pregunta = $_POST['pregunta'];//En realidad solo te da el id de la pregunta
+            $this->manejoDeRespuesta($continuar, $id_pregunta);
+
+            //$datos = $this->getDatos($categoria_nombre['nombre'], $valor_respuesta, $pregunta);
+
+            //$this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);
+        } else {
+            echo "No se encontró la respuesta o la pregunta en el formulario.";
+        }
+
+        /*
+        elseif (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
+            $continuar = $_POST['valor_respuesta'];
+            $id_pregunta = $_POST['id_pregunta'];
+            $this->manejoDeRespuesta($continuar, $id_pregunta);
+        }else {
+            echo "No se envio la respuesta o la pregunta en el formulario.";
+        }
+*/
+
+        /*
+        if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
+            $this->handleTimeExpired(); // checkeo si se acabo el timepo
         } elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
             $respuesta = $_POST['respuesta'];
             $idPregunta = $_POST['pregunta'];
@@ -142,6 +183,8 @@ class PartidaController extends BaseController
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
         }
+        */
+
     }
 
     

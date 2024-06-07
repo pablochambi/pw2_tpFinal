@@ -28,3 +28,13 @@
 .answer:hover {
     background-color: #f0f0f0;
 }
+/*
+ .correct-answer {
+     background-color: green !important;
+ }
+.incorrect-answer {
+    background-color: red !important;
+}
+.highlight-correct {
+    border: 2px solid green !important;
+}*/
