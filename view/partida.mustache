@@ -17,10 +17,11 @@
 
                 <ul class="answers">
                     {{#respuestas}}
-                        <li class="w3-button answer">
+                        <li class="answer">
                            <button type="submit" name="respuesta" value="{{texto}}"
-                                    class="w3-button"
-                                    data-correct="{{es_correcta}}" onclick="checkAnswer(this)">
+                                    class="padding10_20"
+                                    data-correct="{{es_correcta}}" onclick="checkAnswer(this)"
+                                   >
                                {{texto}}
                             </button>
                         </li>
@@ -32,6 +33,10 @@
             <input type="hidden" name="time_expired" id="time_expired" value="0">
         </form>
 
+        <div>
+            <h1 class="mensaje displayNone" >Mensaje</h1>
+        </div>
+
     </div>
 </div>
 
@@ -40,6 +45,7 @@
     let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
     let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
     let form = document.getElementById('respPregunta');
+    const mensaje = document.querySelector('.mensaje');
 
     let countdown = setInterval(function () { // se utiliza para ejecutar una funcion cada segundo
         if (timeLeft <= 0) { // si timeLeft es 0 o menos entonces se detiene el temporizador y establace el valor del campo ocuilto
@@ -53,37 +59,36 @@
     }, 1000);
 
     function checkAnswer( button) {
-
         //Obtener todos los botones de respuesta
         const buttons = document.querySelectorAll('.answer button');
 
-        //console.log(buttons);
+        // Marque el botón hecho clic
+        if (button.dataset.correct === "0") {
+            button.classList.add('rojoImportant');
 
-        // Mark all answers and highlight the correct one
+            mensaje.classList.remove("displayNone");
+            mensaje.textContent = "Incorrecto";
+            mensaje.style.color = "red";
+
+            setTimeout(function() {
+                // Reanudar el envío del formulario después de 1,5 segundos
+                button.closest('form').submit();
+            }, 1500);
+        }else{
+            button.classList.add('verdeImportat');
+            mensaje.classList.remove("displayNone");
+            mensaje.textContent = "Correcto";
+            mensaje.style.color = "green";
+        }
+
         // Marque todas las respuestas y resalte la correcta.
         buttons.forEach(btn => {
             if (btn.dataset.correct === "1") {
                 //btn.classList.add('highlight-correct');
-                btn.style.backgroundColor = 'green';
+                //btn.style.backgroundColor = 'green';
+                btn.classList.add('verdeImportat');
             }
         });
-        //console.log(buttons);
-
-        // Mark the clicked button
-        // Marque el botón hecho clic
-        if (button.dataset.correct === "1") {
-            //button.classList.add('correct-answer');
-            button.style.backgroundColor = 'green';
-        } else {
-            //button.classList.add('incorrect-answer');
-            button.style.backgroundColor = 'red';
-        }
-
-        // Pausar durante 1,5 segundos antes de enviar el formulario
-        setTimeout(function() {
-            // Reanudar el envío del formulario después de 1,5 segundos
-            button.closest('form').submit();
-        }, 3000);
 
     }
 

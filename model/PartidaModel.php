@@ -23,7 +23,9 @@ class PartidaModel extends BaseModel
             $pregunta = $this->traerUnaPreguntaAleatoriaQueNoSeHayaVisto($idUsuario, $nivel);
 
             if(!isset($pregunta) || empty($pregunta) ){
-                die("No se pudo traer una pregunta aleatoria que no  haya sido vista y sea del nivel $nivel");
+                echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea del nivel $nivel";
+                echo "<a href='/homeUsuario' >Volver Al Home</a>";
+                exit();
             }else{
                 return $pregunta;
             }

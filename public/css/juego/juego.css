@@ -17,17 +17,59 @@
 
 .answer {
     background-color: #fff;
+
     border: 2px solid #ccc;
     border-radius: 5px;
-    padding: 10px 20px;
+
     margin-bottom: 10px;
-    cursor: pointer;
+    /*cursor: pointer;*/
     transition: background-color 0.3s ease;
+
+
+    display: inline-block;
+    /*padding: 8px 16px;*/
+    vertical-align: middle;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+
+    text-align: center;
+
+    white-space: nowrap;
 }
 
+/*background-color: inherit;*/
+/*padding: 0 0;*/
+/*
 .answer:hover {
-    background-color: #f0f0f0;
+    background-color: blue;
+}*/
+.padding10_20{
+    padding: 10px 20px;
+    border:none;
 }
+.mensaje{
+    text-align: center;
+    padding: 20px;
+}
+.rojoImportant{
+    background: red !important;
+    color: white;
+}
+.verdeImportat{
+    background: green;
+    color: white;
+}
+
+.displayNone{
+    display: none;
+}
+
+
+/*
+.padding10_20:hover {
+    background-color: #ffffff;
+}*/
 /*
  .correct-answer {
      background-color: green !important;
