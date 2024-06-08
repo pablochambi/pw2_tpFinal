@@ -60,13 +60,9 @@ class PartidaController extends BaseController
 
         $user = $_SESSION['username'];
         $user_id = $user['id'];
-        //$id_usuario = isset($_SESSION['id']) ? $_SESSION['id'] : die("No hay un usuario id en la session");
-
         $ultimaPartida = $this->model->obtenerUltimaPartida($user_id);
-        //var_dump($ultimaPartida);
         $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($user_id, $ultimaPartida);
-        //var_dump($pregunta);
-        //exit();
+
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$user_id);
 
@@ -149,45 +145,14 @@ class PartidaController extends BaseController
             $id_pregunta = $_POST['pregunta'];//En realidad solo te da el id de la pregunta
             $this->manejoDeRespuesta($continuar, $id_pregunta);
 
-            //$datos = $this->getDatos($categoria_nombre['nombre'], $valor_respuesta, $pregunta);
-
-            //$this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
         }
 
-        /*
-        elseif (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
-            $continuar = $_POST['valor_respuesta'];
-            $id_pregunta = $_POST['id_pregunta'];
-            $this->manejoDeRespuesta($continuar, $id_pregunta);
-        }else {
-            echo "No se envio la respuesta o la pregunta en el formulario.";
-        }
-*/
-
-        /*
-        if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
-            $this->handleTimeExpired(); // checkeo si se acabo el timepo
-        } elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
-            $respuesta = $_POST['respuesta'];
-            $idPregunta = $_POST['pregunta'];
-
-            $categoria_nombre = $this->model->getCategoriaPorIdDePregunta($idPregunta);
-            $valor_respuesta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
-            $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($idPregunta);
-
-            $datos = $this->getDatos($categoria_nombre['nombre'], $valor_respuesta, $pregunta);
-
-            $this->presenter->render("view/esRespuestaCorrecta.mustache", $datos);
-        } else {
-            echo "No se encontró la respuesta o la pregunta en el formulario.";
-        }
-        */
 
     }
 
-    
+
     private function getDatos($nombre, $valor_respuesta, $pregunta): array
     {
         $datos = [

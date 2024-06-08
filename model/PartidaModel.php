@@ -276,31 +276,9 @@ class PartidaModel extends BaseModel
             $vecesEntregadas = $row['vecesEntregadas'];
             $vecesCorrectas = $row['vecesCorrectas'];
 
-            if($vecesEntregadas == 0)
-            {
-                return "FACIL";
-            }
-            else
-            {
-                $porcentaje = ($vecesCorrectas / $vecesEntregadas) * 100;
-                if($porcentaje >= 80)
-                {
-                    return "FACIL";
-                }
-                else if($porcentaje >= 50)
-                {
-                    return "MEDIO";
-                }
-                else
-                {
-                    return "DIFICIL";
-                }
-            }
+            return $this->retornarNivel($vecesEntregadas, $vecesCorrectas);
         }
-        else
-        {
-            return "FACIL";
-        }
+
 
 
     }
@@ -312,12 +290,29 @@ class PartidaModel extends BaseModel
 
         if ($puntaje < 1) {
             $nivel = "FACIL";
-        } else if ($puntaje <= 2) {
+        } else if ($puntaje < 2) {
             $nivel = "MEDIO";
-        } else if ($puntaje <= 3) {
+        } else if ($puntaje < 3) {
             $nivel = "DIFICIL";
         }
         return $nivel;
+    }
+
+
+    private function retornarNivel($vecesEntregadas, $vecesCorrectas): string
+    {
+        if ($vecesEntregadas == 0) {
+            return "FACIL";
+        } else {
+            $porcentaje = ($vecesCorrectas / $vecesEntregadas) * 100;
+            if ($porcentaje >= 80) {
+                return "FACIL";
+            } else if ($porcentaje >= 50) {
+                return "MEDIO";
+            } else {
+                return "DIFICIL";
+            }
+        }
     }
 
 
