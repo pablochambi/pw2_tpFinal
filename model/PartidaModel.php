@@ -2,8 +2,7 @@
 
 class PartidaModel extends BaseModel
 {
-    public function __construct($database)
-    {
+    public function __construct($database){
         parent:: __construct($database);
     }
 
@@ -25,8 +24,7 @@ class PartidaModel extends BaseModel
 
             if (!isset($pregunta) || empty($pregunta)) {
                 echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea del nivel $nivel";
-                echo "<a href='/homeUsuario' >Volver Al Home</a>";
-                exit();
+                echo "<a href='/homeUsuario' >Volver Al Home</a><br>";
             } else {
                 return $pregunta;
             }
