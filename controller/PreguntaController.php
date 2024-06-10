@@ -10,7 +10,6 @@ class PreguntaController extends BaseController {
 
     public function get()
     {
-        session_start();
         if (isset($_SESSION)){
             $categorias = $this->model->getCategorias();
             $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias]);
