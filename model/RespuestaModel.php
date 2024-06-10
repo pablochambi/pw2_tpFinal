@@ -22,11 +22,8 @@ class RespuestaModel {
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('sii', $texto, $id_pregunta, $es_correcta);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute())
             return true;
-        } else {
-            return false;
-        }
     }
 
 }

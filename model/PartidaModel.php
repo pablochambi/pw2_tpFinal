@@ -71,7 +71,6 @@ class PartidaModel extends BaseModel
                           WHERE PV.veces_entregadas =  $cant_veces_vistas ";
 
         $resultado = $this->database->query($consultaVerificar);
-        //$fila = $resultado->fetch_assoc();No sirve
 
         return $this->retornarCantidadTotalDePreguntas($resultado);
 
@@ -193,18 +192,13 @@ class PartidaModel extends BaseModel
         $consulta = "SELECT COUNT(*) AS total FROM PreguntaVistas 
                     WHERE id_pregunta = ? AND id_usuario = ?";
 
-        // Preparar la consulta
         $stmt = $this->database->prepare($consulta);
-        if (!$stmt) {
+        if (!$stmt)
             die("Error en la preparación de la consulta: " . $this->database->error);
-        }
 
-        // Asignar los parámetros y ejecutar la consulta
         $stmt->bind_param("ii", $idPregunta, $idUsuario);
-        if (!$stmt->execute()) {
+        if (!$stmt->execute())
             die("Error al ejecutar la consulta: " . $stmt->error);
-        }
-
 
         $result = $stmt->get_result();
         $total_registros = $result->fetch_assoc()['total'];
@@ -220,7 +214,6 @@ class PartidaModel extends BaseModel
         $result = $this->database->executeAndReturn($arrancarPartida);
 
         return $result;
-
     }
 
     public function obtenerUltimaPartida($id_usuario)
@@ -272,7 +265,6 @@ class PartidaModel extends BaseModel
         $consulta = "UPDATE PreguntaVistas SET veces_entregadas = veces_entregadas + 1 
                 WHERE id_usuario = ? AND id_pregunta = ?";
 
-        // Ejecutar la consulta preparada
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("ii", $user_id, $id_pregunta);
         $stmt->execute();
@@ -280,11 +272,9 @@ class PartidaModel extends BaseModel
 
     public function sumarEnPreguntaVistaVecesAcertadasPorUnUsuario($id_pregunta, $user_id)
     {
-
         $consulta = "UPDATE PreguntaVistas SET veces_acertadas = veces_acertadas + 1
                       WHERE id_pregunta = ? AND id_usuario = ?";
 
-        // Ejecutar la consulta preparada
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("ii", $id_pregunta, $user_id);
         $stmt->execute();
@@ -361,6 +351,5 @@ class PartidaModel extends BaseModel
         $query = "UPDATE Pregunta SET nivel = '$nuevoNivel' WHERE id = $idPregunta";
         $this->database->executeAndReturn($query);
     }
-
 
 }

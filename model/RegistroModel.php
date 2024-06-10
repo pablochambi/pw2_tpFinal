@@ -18,17 +18,14 @@ class RegistroModel
         $nivel = 0.0;
         $qr = NULL;
 
-        // Preparar la consulta SQL
         $consulta = "
         INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ";
 
         $stmt = $this->database->prepare($consulta);
-        // Vincular los parámetros
         $stmt->bind_param("sissssssssiidis", $nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $qr);
 
-        // Ejecutar la declaración
         if ($stmt->execute()) {
             // Obtener el ID del usuario recién insertado
             $idUsuario = $stmt->insert_id;
@@ -48,21 +45,6 @@ class RegistroModel
             return null;
         }
     }
-/*
-    public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email, $password,$username,$foto)
-    {
-        $token = bin2hex(random_bytes(8)); // Generar un token aleatorio
-        $habilitado = 0;
-
-        $resultado = $this->database->executeAndReturn(
-            "INSERT INTO usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email,password, username, foto,token,habilitado)
-VALUES ('$nombre', '$anio_nacimiento', '$sexo', '$pais', '$ciudad', '$email', '$password', '$username', '$foto', '$token', '$habilitado')");
-
-        if(!$resultado)
-            echo "Error al registrar al usuario: " . mysqli_error($this->database->conn);
-
-        return $token;
-    }*/
 
     public function verificarYSubirLaFotoDePerfil($foto)
     {

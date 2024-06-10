@@ -25,11 +25,8 @@ class PreguntaModel {
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('sii', $texto, $id_categoria, $usuario_creador);
 
-        if ($stmt->execute()) {
+        if ($stmt->execute())
             return true;
-        } else {
-            return false;
-        }
     }
 
     public function getCategorias()
