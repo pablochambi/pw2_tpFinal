@@ -94,6 +94,7 @@ class PartidaController extends BaseController
         if (isset($_SESSION['username'])) {
             $user = $_SESSION['username'];
             $this->model->updatePregBienRespondidas($id_pregunta);
+            $this->model->manejarNivelDePregunta($id_pregunta);
             $partida = $this->model->obtenerUltimaPartida($user['id']);
             $this->model->sumarPuntos($user['id'], $partida);
         }
@@ -144,6 +145,7 @@ class PartidaController extends BaseController
             $continuar = $valor_respuesta ? "Correcto" : "Incorrecta";
             $id_pregunta = $_POST['pregunta'];//En realidad solo te da el id de la pregunta
             $this->manejoDeRespuesta($continuar, $id_pregunta);
+            $this->model->manejarNivelDePregunta($id_pregunta);
 
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
