@@ -17,9 +17,8 @@ class HomeUsuarioModel extends BaseModel
 
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        if($row['puntaje_acumulado'] == null){
+        if($row['puntaje_acumulado'] == null)
             return 0;
-        }
 
         return $row['puntaje_acumulado'];
     }

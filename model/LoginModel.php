@@ -18,8 +18,7 @@ class LoginModel
         $resultado->execute();
         $resultado = $resultado->get_result();
 
-
-        if ($resultado -> num_rows > 0) {
+        if ($resultado -> num_rows == 1) {
             $fila = $resultado -> fetch_assoc();
 
             if ($password == $fila["password"]  ) {
@@ -27,10 +26,14 @@ class LoginModel
                 $seInicioSesion =  true;
             }
 
+        }elseif ($resultado -> num_rows == 0){
+            die("No se encuentra el mail ingresado en la base de datos");
+        }
+        else {
+            die("Hay mails repetidos en la base de datos");
         }
 
         return $seInicioSesion;
-
     }
 
     public function obtenerDatosUsuario($userId)
@@ -48,11 +51,10 @@ class LoginModel
         $stmt->execute();
         $resultado = $stmt->get_result(); // agarro el resultado de la consulta
 
-        if ($resultado->num_rows > 0) {
-
+        if ($resultado->num_rows > 0)
             return $resultado->fetch_assoc();
             // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
-        }
+
         return false;
     }
 
@@ -66,17 +68,27 @@ class LoginModel
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        if ($resultado && $resultado->num_rows > 0) {
+        if ($resultado && $resultado->num_rows > 0)
             return $resultado->fetch_assoc();
-        } else {
+        else
             return null;
-        }
     }
 
-
-
-
-
-
+    public function obtenerUsuarioPorUsername($username)
+    {
+        // COALESCE devuelve la primera expresión no nula de una lista de expresiones
+        $stmt = $this->database->prepare("
+        SELECT u.*, 
+               COALESCE(SUM(p.puntaje), 0) as puntaje_acumulado,
+               COALESCE(COUNT(p.id), 0) as partidas_realizadas
+        FROM Usuarios u
+        LEFT JOIN Partida p ON u.id = p.id_usuario
+        WHERE u.username = ?
+        GROUP BY u.id
+    ");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
 
 }

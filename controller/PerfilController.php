@@ -15,8 +15,28 @@ class PerfilController extends BaseController
         $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
 
         $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
+    }
 
+    public function mostrarPerfil()
+    {
+        $this->checkSession();
 
+        if (!isset($_GET['username']))
+            die('Usuario no especificado.');
+
+        $username = $_GET['username'];
+        $usuario = $this->model->obtenerUsuarioPorUsername($username);
+
+        if ($usuario === null)
+            die('Usuario no encontrado.');
+
+        $anioNacimiento = $usuario['anio_nacimiento'];
+        $anioActual = date("Y");
+        $edad = $anioActual - $anioNacimiento;
+        // calculo la edad del usuario para mostrarla
+        $usuario['edad'] = $edad;
+
+        $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }
 }
 
