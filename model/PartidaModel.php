@@ -31,7 +31,7 @@ class PartidaModel extends BaseModel
             }
         }
         // Si no hay preguntas no vistas, intentamos obtener una pregunta aleatoria que se haya visto
-        // Iteramos desde 1 hasta 3 para buscar preguntas vistas
+        // Iteramos desde 1 hasta 10 para buscar preguntas vistas
         for ($cant_veces_vistas = 1; $cant_veces_vistas <= 10; $cant_veces_vistas++) {
             $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario);
             // Si encontramos una pregunta vista para la cantidad de veces indicada, la devolvemos
