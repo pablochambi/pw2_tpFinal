@@ -1,0 +1,8 @@
+footer{
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem 0;
+    bottom: 0;
+    right: 0px;
+    left: 0px;
+}
