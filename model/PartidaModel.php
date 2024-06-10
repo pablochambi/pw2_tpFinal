@@ -2,8 +2,7 @@
 
 class PartidaModel extends BaseModel
 {
-    public function __construct($database)
-    {
+    public function __construct($database){
         parent:: __construct($database);
     }
 
@@ -25,14 +24,13 @@ class PartidaModel extends BaseModel
 
             if (!isset($pregunta) || empty($pregunta)) {
                 echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea del nivel $nivel";
-                echo "<a href='/homeUsuario' >Volver Al Home</a>";
-                exit();
+                echo "<a href='/homeUsuario' >Volver Al Home</a><br>";
             } else {
                 return $pregunta;
             }
         }
         // Si no hay preguntas no vistas, intentamos obtener una pregunta aleatoria que se haya visto
-        // Iteramos desde 1 hasta 3 para buscar preguntas vistas
+        // Iteramos desde 1 hasta 10 para buscar preguntas vistas
         for ($cant_veces_vistas = 1; $cant_veces_vistas <= 10; $cant_veces_vistas++) {
             $cant = $this->contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario);
             // Si encontramos una pregunta vista para la cantidad de veces indicada, la devolvemos
