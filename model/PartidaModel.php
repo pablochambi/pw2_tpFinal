@@ -301,7 +301,9 @@ class PartidaModel extends BaseModel
             $vecesEntregadas = $row['vecesEntregadas'];
             $vecesCorrectas = $row['vecesCorrectas'];
 
-            return $this->retornarNivel($vecesEntregadas, $vecesCorrectas);
+            $nivel = $this->retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta);
+
+            return $nivel;
         }
 
     }
@@ -320,19 +322,45 @@ class PartidaModel extends BaseModel
         return $nivel;
     }
 
-    private function retornarNivel($vecesEntregadas, $vecesCorrectas): string
+    private function retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta): string
     {
+        $nivelActual = $this->obtenerNivelActualDesdeBD($idPregunta);
+
         if ($vecesEntregadas == 0)
-            return "FACIL";
+            $nuevoNivel = "FACIL";
         else {
             $porcentaje = ($vecesCorrectas / $vecesEntregadas) * 100;
             if ($porcentaje >= 80)
-                return "FACIL";
+                $nuevoNivel = "FACIL";
             else if ($porcentaje >= 50)
-                return "MEDIO";
+                $nuevoNivel = "MEDIO";
             else
-                return "DIFICIL";
+                $nuevoNivel = "DIFICIL";
+        }
+
+        if ($nuevoNivel !== $nivelActual){
+            $this->actualizarNivelDePreguntaEnBD($idPregunta, $nuevoNivel);
+         }
+
+    return $nuevoNivel;
+    }
+    private function obtenerNivelActualDesdeBD($idPregunta)
+    {
+        $query = "SELECT nivel FROM Pregunta WHERE id = $idPregunta";
+        $result = $this->database->executeAndReturn($query);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['nivel'];
+        } else {
+            return null;
         }
     }
+
+    private function actualizarNivelDePreguntaEnBd($idPregunta, $nuevoNivel)
+    {
+        $query = "UPDATE Pregunta SET nivel = '$nuevoNivel' WHERE id = $idPregunta";
+        $this->database->executeAndReturn($query);
+    }
+
 
 }
