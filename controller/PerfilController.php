@@ -19,7 +19,6 @@ class PerfilController extends BaseController
 
     public function mostrarPerfil()
     {
-
         $this->checkSession();
 
         if (!isset($_GET['username']))
@@ -30,6 +29,12 @@ class PerfilController extends BaseController
 
         if ($usuario === null)
             die('Usuario no encontrado.');
+
+        $anioNacimiento = $usuario['anio_nacimiento'];
+        $anioActual = date("Y");
+        $edad = $anioActual - $anioNacimiento;
+        // calculo la edad del usuario para mostrarla
+        $usuario['edad'] = $edad;
 
         $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }
