@@ -76,7 +76,16 @@ class LoginModel
 
     public function obtenerUsuarioPorUsername($username)
     {
-        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE username = ?");
+        // COALESCE devuelve la primera expresión no nula de una lista de expresiones
+        $stmt = $this->database->prepare("
+        SELECT u.*, 
+               COALESCE(SUM(p.puntaje), 0) as puntaje_acumulado,
+               COALESCE(COUNT(p.id), 0) as partidas_realizadas
+        FROM Usuarios u
+        LEFT JOIN Partida p ON u.id = p.id_usuario
+        WHERE u.username = ?
+        GROUP BY u.id
+    ");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
