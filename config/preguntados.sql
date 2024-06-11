@@ -7,31 +7,33 @@ CREATE TABLE Pais (
 );
 
 CREATE TABLE Usuarios (
-                          id INT AUTO_INCREMENT PRIMARY KEY,
-                          nombre_completo VARCHAR(100) NOT NULL,
-                          anio_nacimiento YEAR NOT NULL,
-                          sexo CHAR(1) NOT NULL,
-                          id_pais INT,
-                          ciudad VARCHAR(100),
-                          email VARCHAR(100) NOT NULL UNIQUE,
-                          password VARCHAR(100) NOT NULL,
-                          username VARCHAR(50) NOT NULL UNIQUE,
-                          token VARCHAR(50) NOT NULL UNIQUE,
-                          foto VARCHAR(100),
-                          habilitado BOOLEAN DEFAULT FALSE,
-                          puntaje_acumulado INT DEFAULT 0,
-                          partidas_realizadas INT DEFAULT 0,
-                          nivel DECIMAL(5,2) DEFAULT 0.0, -- ratio de respuestas correctas
-                          qr VARCHAR(255),
-                          FOREIGN KEY (id_pais) REFERENCES Pais(id)
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre_completo VARCHAR(100) NOT NULL,
+anio_nacimiento YEAR NOT NULL,
+sexo CHAR(1) NOT NULL,
+id_pais INT,
+ciudad VARCHAR(100),
+email VARCHAR(100) NOT NULL UNIQUE,
+password VARCHAR(100) NOT NULL,
+username VARCHAR(50) NOT NULL UNIQUE,
+token VARCHAR(50) NOT NULL UNIQUE,
+foto VARCHAR(100),
+habilitado BOOLEAN DEFAULT FALSE,
+puntaje_acumulado INT DEFAULT 0,
+partidas_realizadas INT DEFAULT 0,
+nivel DECIMAL(5,2) DEFAULT 0.0, -- ratio de respuestas correctas
+preguntas_acertadas INT DEFAULT 0,
+preguntas_entregadas INT DEFAULT 0,
+qr VARCHAR(255),
+FOREIGN KEY (id_pais) REFERENCES Pais(id)
 );
 
 CREATE TABLE Partida (
-                         id INT AUTO_INCREMENT PRIMARY KEY,
-                         id_usuario INT,
-                         puntaje INT DEFAULT 0,
-                         fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-                         FOREIGN KEY (id_usuario) REFERENCES Usuarios(id)
+                 id INT AUTO_INCREMENT PRIMARY KEY,
+                 id_usuario INT,
+                 puntaje INT DEFAULT 0,
+                 fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+                 FOREIGN KEY (id_usuario) REFERENCES Usuarios(id)
 );
 
 CREATE TABLE Rol (

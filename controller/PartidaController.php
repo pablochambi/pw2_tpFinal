@@ -21,7 +21,7 @@ class PartidaController extends BaseController
 
             $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
 
-            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
+            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
 
             $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
             $categoria = $categoria['nombre'];
@@ -73,21 +73,6 @@ class PartidaController extends BaseController
         $this->traerRespuestasDespuesSiguiente($pregunta);
 
     }
-
-    /*
-    public function continuar()
-    {
-
-        $this->checkSession();
-
-        if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
-            $continuar = $_POST['valor_respuesta'];
-            $id_pregunta = $_POST['id_pregunta'];
-            $this->manejoDeRespuesta($continuar, $id_pregunta);
-        }
-
-    }
-    */
 
     private function respuestaCorrectaPath($id_pregunta)
     {
