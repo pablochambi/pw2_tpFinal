@@ -36,4 +36,5 @@ class PreguntaModel {
         return $categorias;
     }
 
+
 }
