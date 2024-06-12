@@ -9,7 +9,7 @@
 
         <form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
             <div class="question-container">
-                <h3 class="question">{{{categoria}}}</h3>
+                <h3 class="question">{{{categoria.nombre}}}</h3>
                 {{#pregunta}}
                     <input type="hidden" name="pregunta" value="{{id}}">
                     <h3 class="question">{{texto}}</h3>

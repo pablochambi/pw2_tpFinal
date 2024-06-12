@@ -12,32 +12,24 @@ class PartidaController extends BaseController
     {
         $this->checkSession();
 
-        if (isset($_POST['id_usuario'])) {
-            $id_usuario = $_POST['id_usuario'];
+        $id_usuario = $_SESSION['username']['id'];
 
-            $this->model->arrancarPartida($id_usuario);
+        $this->model->arrancarPartida($id_usuario);
 
-            $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
+        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
-            $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
 
-            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
+        $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
+        //$categoria = $categoria['nombre'];
 
-            $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
-            $categoria = $categoria['nombre'];
+        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
 
-            $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
+        $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
 
-            $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
+        $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
-            $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
-
-            $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-
-            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
-        }else{
-            echo "No recibio ningun dato a partidaController";
-        }
+        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
 
 
     }
@@ -58,15 +50,11 @@ class PartidaController extends BaseController
     {
         $this->checkSession();
 
-        $user = $_SESSION['username'];
-        $user_id = $user['id'];
-        $ultimaPartida = $this->model->obtenerUltimaPartida($user_id);
-        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($user_id, $ultimaPartida);
+        $user_id = $_SESSION['username']['id'];
 
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($user_id);
 
         $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$user_id);
-
-        $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$user_id);
 
         $this->model->updateDatosPregunta($pregunta[0]['id']);//suma veces entregadas
 

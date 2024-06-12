@@ -22,7 +22,6 @@ class LoginModel
             $fila = $resultado -> fetch_assoc();
 
             if ($password == $fila["password"]  ) {
-                $_SESSION = $fila;
                 $seInicioSesion =  true;
             }
 
