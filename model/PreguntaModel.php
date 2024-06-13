@@ -26,7 +26,8 @@ class PreguntaModel {
         $stmt->bind_param('sii', $texto, $id_categoria, $usuario_creador);
 
         if ($stmt->execute())
-            return true;
+            $idPregunta = $stmt->insert_id;
+            return $idPregunta;
     }
 
     public function getCategorias()

@@ -29,6 +29,7 @@ class PreguntaController extends BaseController {
             $usuario_creador = 1;
 
             $resultado = $this->model->crearPreguntaSugerida($texto, $id_categoria, $usuario_creador);
+           
 
             if ($resultado) {
                 $this->presenter->render("view/crearRespuesta.mustache", ['id_pregunta' => $resultado]);

@@ -1,6 +1,7 @@
 <?php
 
-class RespuestaController extends BaseController {
+class RespuestaController extends BaseController
+{
 
     public function __construct($model, $presenter)
     {
@@ -8,11 +9,12 @@ class RespuestaController extends BaseController {
         parent::__construct($model, $presenter);
     }
 
-    public function get(){
+    public function get()
+    {
         session_start();
-        if (isset($_SESSION)){
+        if (isset($_SESSION)) {
             $this->presenter->render("view/crearRespuesta.mustache");
-        }else{
+        } else {
             header("location: login");
             exit();
         }
@@ -21,12 +23,14 @@ class RespuestaController extends BaseController {
 
     public function obtenerRespuesta()
     {
-      $respuesta = $this->model->obtenerRespuesta();
-      $this->presenter->render("view/respuesta.mustache", ["respuesta" => $respuesta]);
+        $respuesta = $this->model->obtenerRespuesta();
+        $this->presenter->render("view/respuesta.mustache", ["respuesta" => $respuesta]);
     }
 
     public function crearRespuestasSugeridas()
     {
+
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $respuestas = $_POST['respuesta'];
             $id_pregunta = $_POST['id_pregunta'];
@@ -37,9 +41,11 @@ class RespuestaController extends BaseController {
                 $resultado = $this->model->crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta);
 
             }
+            header("location: /pregunta");
         } else {
-            echo "error";
-        }
-    }
+            header("location: /homeUsuario");
 
+        }
+
+    }
 }
