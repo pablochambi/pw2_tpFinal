@@ -17,11 +17,19 @@ class BaseController
 
     protected function checkSession()
     {
-        if (!isset($_SESSION) || empty($_SESSION)) {
+        if (!isset($_SESSION['username']) || empty($_SESSION)) {
             header("location: /login");
             exit();
         }
     }
+
+    protected function checkSessionYTraerIdUsuario()
+    {
+        $this->checkSession();
+        return $_SESSION['username']['id'];
+    }
+
+
 
     protected function getUsername()
     {

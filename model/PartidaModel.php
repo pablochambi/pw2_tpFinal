@@ -124,6 +124,39 @@ class PartidaModel extends BaseModel
         $result = $this->database->executeAndReturn($query);
         return $result;
     }
+    public function actualizarPreguntasEntregadasAUnUsuario($id_usuario)
+    {
+        $query = "UPDATE Usuarios
+                 set preguntas_entregadas = preguntas_entregadas + 1
+                  where id = $id_usuario ";
+
+        $this->actualizarNivelDelUsuario($id_usuario);
+
+        $this->database->execute($query);
+    }
+
+    private function actualizarNivelDelUsuario($id_usuario)
+    {
+        $query = "SELECT preguntas_acertadas, preguntas_entregadas 
+                    From Usuarios 
+                    where id = ? ";
+
+        $stmt = $this->ejecutarEnLaBD1($query,"i",$id_usuario);
+
+        $fila = $this->obtenerResultados($stmt);
+
+        if ($fila['preguntas_entregadas']!= 0){
+            $this->UpdateNivelDelUsuario($fila['preguntas_acertadas'],$fila['preguntas_entregadas'],$id_usuario);
+        }
+    }
+
+    public function actualizarCantidadDePreguntasCorrectasAUnUsuario($id_usuario)
+    {
+        $query = "UPDATE Usuarios
+                 set preguntas_acertadas = preguntas_acertadas + 1
+                  where id = $id_usuario ";
+        $this->database->execute($query);
+    }
     public function updatePregBienRespondidas($idPregunta)
     {
         $query = "UPDATE Pregunta set vecesCorrectas = vecesCorrectas + 1 where id = $idPregunta";
@@ -131,7 +164,7 @@ class PartidaModel extends BaseModel
         return $result;
     }
 
-    public function manejarNivelDePregunta($idPregunta)
+    public function actualizarNivelDePregunta($idPregunta)
     {
         $query = "SELECT vecesEntregadas, vecesCorrectas From Pregunta where id = $idPregunta";
 
@@ -142,9 +175,7 @@ class PartidaModel extends BaseModel
             $vecesEntregadas = $row['vecesEntregadas'];
             $vecesCorrectas = $row['vecesCorrectas'];
 
-            $nivel = $this->retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta);
-
-            return $nivel;
+            return $this->retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta);
         }
 
     }
@@ -169,9 +200,9 @@ class PartidaModel extends BaseModel
             $nuevoNivel = "FACIL";
         else {
             $porcentaje = ($vecesCorrectas / $vecesEntregadas) * 100;
-            if ($porcentaje >= 80)
+            if ($porcentaje >= 66)
                 $nuevoNivel = "FACIL";
-            else if ($porcentaje >= 50)
+            else if ($porcentaje >= 33)
                 $nuevoNivel = "MEDIO";
             else
                 $nuevoNivel = "DIFICIL";
@@ -197,7 +228,7 @@ class PartidaModel extends BaseModel
     private function actualizarNivelDePreguntaEnBd($idPregunta, $nuevoNivel)
     {
         $query = "UPDATE Pregunta SET nivel = '$nuevoNivel' WHERE id = $idPregunta";
-        $this->database->executeAndReturn($query);
+        $this->database->execute($query);
     }
     private function contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario)
     {
@@ -273,7 +304,7 @@ class PartidaModel extends BaseModel
         //$pregunta = $this->traerUnaPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario);
 
         if (!isset($pregunta) || empty($pregunta)) {
-            echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea de nivel $nivelDePregunta";
+            echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea de nivel del Usuario";
             echo "<a href='/homeUsuario' >Volver Al Home</a><br>";
             exit();
         } else {
@@ -305,6 +336,25 @@ class PartidaModel extends BaseModel
         }
         return $nivelPregunta;
     }
+
+    private function UpdateNivelDelUsuario($preguntasAcertadas, $preguntasEntregadas, $id_usuario)
+    {
+        $porcentaje = ($preguntasAcertadas / $preguntasEntregadas) * 100;
+
+        if ($porcentaje >= 66)
+            $nuevoNivel = 'ALTO';
+        else if ($porcentaje >= 33)
+            $nuevoNivel = 'MEDIO';
+        else
+            $nuevoNivel = 'BAJO';
+
+        $query = "UPDATE Usuarios
+                    SET nivel = ?
+                    WHERE id = ? ";
+        $this->ejecutarEnLaBD2($query, "si", $nuevoNivel, $id_usuario);
+
+    }
+
 
 
 }
