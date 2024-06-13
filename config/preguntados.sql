@@ -7,25 +7,25 @@ CREATE TABLE Pais (
 );
 
 CREATE TABLE Usuarios (
-id INT AUTO_INCREMENT PRIMARY KEY,
-nombre_completo VARCHAR(100) NOT NULL,
-anio_nacimiento YEAR NOT NULL,
-sexo CHAR(1) NOT NULL,
-id_pais INT,
-ciudad VARCHAR(100),
-email VARCHAR(100) NOT NULL UNIQUE,
-password VARCHAR(100) NOT NULL,
-username VARCHAR(50) NOT NULL UNIQUE,
-token VARCHAR(50) NOT NULL UNIQUE,
-foto VARCHAR(100),
-habilitado BOOLEAN DEFAULT FALSE,
-puntaje_acumulado INT DEFAULT 0,
-partidas_realizadas INT DEFAULT 0,
-nivel DECIMAL(5,2) DEFAULT 0.0, -- ratio de respuestas correctas
-preguntas_acertadas INT DEFAULT 0,
-preguntas_entregadas INT DEFAULT 0,
-qr VARCHAR(255),
-FOREIGN KEY (id_pais) REFERENCES Pais(id)
+                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    nombre_completo VARCHAR(100) NOT NULL,
+                    anio_nacimiento YEAR NOT NULL,
+                    sexo CHAR(1) NOT NULL,
+                    id_pais INT,
+                    ciudad VARCHAR(100),
+                    email VARCHAR(100) NOT NULL UNIQUE,
+                    password VARCHAR(100) NOT NULL,
+                    username VARCHAR(50) NOT NULL UNIQUE,
+                    token VARCHAR(50) NOT NULL UNIQUE,
+                    foto VARCHAR(100),
+                    habilitado BOOLEAN DEFAULT FALSE,
+                    puntaje_acumulado INT DEFAULT 0,
+                    partidas_realizadas INT DEFAULT 0,
+                    nivel VARCHAR(10) DEFAULT 'BAJO',
+                    preguntas_acertadas INT DEFAULT 0,
+                    preguntas_entregadas INT DEFAULT 0,
+                    qr VARCHAR(255),
+                    FOREIGN KEY (id_pais) REFERENCES Pais(id)
 );
 
 CREATE TABLE Partida (
@@ -94,8 +94,6 @@ CREATE TABLE PreguntaVistas (
         id_usuario INT,
         id_pregunta INT,
         fecha_vista DATETIME DEFAULT CURRENT_TIMESTAMP,
-        veces_acertadas INT DEFAULT 0,
-        veces_entregadas INT DEFAULT 0,
         PRIMARY KEY (id_usuario, id_pregunta),
         FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
         FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
@@ -108,9 +106,9 @@ INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paragua
 
 INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
 VALUES
-    (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 0.0, NULL),
-    (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 0.0, NULL),
-    (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 0.0, NULL);
+    (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL),
+    (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL),
+    (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL);
 
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
 

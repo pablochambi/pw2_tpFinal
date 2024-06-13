@@ -22,13 +22,13 @@ class BaseModel
         return $stmt;
     }
 
-    public function ejecutarEnLaBD2($consulta,$tiposDeDatos, $idUsuario, $idPregunta)
+    public function ejecutarEnLaBD2($consulta,$tiposDeDatos, $parametro1,  $parametro2)
     {
         $stmt = $this->database->prepare($consulta);
         if (!$stmt)
             die("Error en la preparación de la consulta: " . $this->database->error);
 
-        $stmt->bind_param($tiposDeDatos, $idUsuario, $idPregunta);
+        $stmt->bind_param($tiposDeDatos, $parametro1, $parametro2);
         if (!$stmt->execute())
             die("Error al ejecutar la consulta: " . $stmt->error);
 
