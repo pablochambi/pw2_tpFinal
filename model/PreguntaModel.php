@@ -20,7 +20,7 @@ class PreguntaModel {
     public function crearPreguntaSugerida($texto, $id_categoria, $usuario_creador)
     {
         $query = "INSERT INTO Pregunta (texto, id_categoria, nivel, usuario_creador, revisada, valida) 
-              VALUES (?, ?, 0.0, ?, false, true)";
+              VALUES (?, ?, 0.0, ?, false, 0)";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('sii', $texto, $id_categoria, $usuario_creador);
