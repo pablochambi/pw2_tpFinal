@@ -13,8 +13,9 @@ class PerfilController extends BaseController
 
         $userId = $_SESSION["username"];
         $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
+        $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
 
-        $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario]);
+        $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario, "rol" => $rol['rol']]);
     }
 
     public function mostrarPerfil()
