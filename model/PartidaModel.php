@@ -2,12 +2,19 @@
 
 class PartidaModel extends BaseModel
 {
+    const CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES = 5;
+
     public function __construct($database){
         parent:: __construct($database);
     }
-
     public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario)
     {
+        $preguntasEntregadas = $this->getCantidadDePreguntasEntregadasAUnUsuario($idUsuario);
+
+        if($preguntasEntregadas < self::CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES){
+            return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeNivelFacil($idUsuario);
+        }
+
         $totalPreguntasNiveladas = $this->contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeSuNivel($idUsuario);
 
         if ($totalPreguntasNiveladas > 0) {
@@ -44,7 +51,7 @@ class PartidaModel extends BaseModel
     public function getCategoriaPorIdDePregunta($idPregunta)
     {
         $consulta = "
-        SELECT c.nombre
+        SELECT c.*
         FROM Pregunta p
         INNER JOIN Categoria c ON p.id_categoria = c.id
         WHERE p.id = ?;
@@ -290,7 +297,8 @@ class PartidaModel extends BaseModel
         $pregunta = $this->retornarPregunta($idUsuario,$nivelDePregunta);
 
         if (!isset($pregunta) || empty($pregunta)) {
-            return $this->retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario);
+            die("No hay una pregunta del nivel $nivelDePregunta ");
+            //return $this->retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario);
         } else {
             return $pregunta;
         }
@@ -367,6 +375,71 @@ class PartidaModel extends BaseModel
                      LIMIT 1";
 
         return  $this->database->query($consulta);
+    }
+
+    private function retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeNivelFacil($idUsuario)
+    {
+        $totalPreguntasFaciles = $this->contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeNivelFacil($idUsuario);
+
+        if ($totalPreguntasFaciles > 0) {
+            return $this->retornarPreguntaNivelFacil($idUsuario);
+        }else{
+            $this->resetearPreguntasFacilesVistasPorElUsuario($idUsuario);
+            return $this->retornarPreguntaNivelFacil($idUsuario);
+        }
+    }
+
+    private function contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeNivelFacil($idUsuario)
+    {
+        $consulta = "SELECT COUNT(*) AS total
+                          FROM Pregunta P
+                          LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta
+                          AND PV.id_usuario = $idUsuario
+                          WHERE PV.id_usuario IS NULL AND P.nivel = 'FACIL' ";
+
+        $resultado = $this->database->query($consulta);
+        return $this->retornarCantidadTotalDePreguntas($resultado);
+    }
+
+    private function retornarPreguntaNivelFacil($idUsuario)
+    {
+        $nivelDePregunta = 'FACIL';
+        $pregunta = $this->retornarPregunta($idUsuario,$nivelDePregunta);
+
+        if (!isset($pregunta) || empty($pregunta)) {
+            die("No hay una pregunta del nivel $nivelDePregunta ");
+            //return $this->retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario);
+        } else {
+            return $pregunta;
+        }
+    }
+
+    private function resetearPreguntasFacilesVistasPorElUsuario($idUsuario)
+    {
+        $nivelDePregunta = 'FACIL';
+        $consulta = "DELETE PV
+                        FROM PreguntaVistas PV
+                        JOIN Pregunta P ON PV.id_pregunta = P.id
+                        JOIN Usuarios U ON PV.id_usuario = U.id
+                        WHERE U.id = ? AND P.nivel = ? ";
+        $this->ejecutarEnLaBD2($consulta,"is",$idUsuario,$nivelDePregunta);
+    }
+
+    private function getCantidadDePreguntasEntregadasAUnUsuario($idUsuario)
+    {
+        $consulta = "SELECT preguntas_entregadas
+                     FROM Usuarios u
+                        WHERE u.id = $idUsuario " ;
+
+        $resultado =   $this->database->query($consulta);
+
+        if (isset($resultado) && !empty($resultado)) {
+            $primerResultado = $resultado[0];
+            $totalPreguntasEntregadas = $primerResultado["preguntas_entregadas"];
+        } else {
+            die ("No se conto la cantidad de preguntas entregadas a un usuario");
+        }
+        return $totalPreguntasEntregadas;
     }
 
 

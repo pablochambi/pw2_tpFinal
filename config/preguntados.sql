@@ -113,7 +113,7 @@ VALUES
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
 
 INSERT INTO Categoria(id,nombre,color) VALUES
-                                           (1,'Espectaculo','#F5D430'),
+                                           (1,'Espectaculo','#b39606'),
                                            (2,'Deportes', '#da6e19'),
                                            (3,'Arte','#1eb0a6'),
                                            (4,'Ciencia','#abc52f'),
@@ -133,10 +133,10 @@ INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valid
 (6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICIL', NULL, FALSE, TRUE, 10, 1, TRUE),
 (7, '¿Cuál es la capital de Uruguay?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
 (8, '¿Cuántos lados tiene un triangulo?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
-(9, '¿Quién escribió "Cien años de soledad"?', 6, 'FACIL', NULL, FALSE, TRUE, 10, 7, TRUE),
+(9, '¿Quién escribió "Cien años de soledad"?', 8, 'FACIL', NULL, FALSE, TRUE, 10, 7, TRUE),
 (10, '¿Cuál es el país más grande del mundo en términos de superficie?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 9, TRUE),
 (11, '¿Qué elemento químico tiene el símbolo "O"?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
-(12, '¿En qué año terminó la Segunda Guerra Mundial?', 5, 'MEDIO', NULL, FALSE, TRUE, 10, 6, TRUE),
+(12, '¿En qué año terminó la Segunda Guerra Mundial?', 6, 'MEDIO', NULL, FALSE, TRUE, 10, 6, TRUE),
 (13, '¿Cuál es el idioma más hablado en el mundo?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
 (14, '¿Quién es el autor de la teoría de la relatividad?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
 (15, '¿Cuál es la moneda oficial de Japón?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),

@@ -1,23 +1,23 @@
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form id="continuar" action="/partida/siguientePregunta" method="post" enctype="multipart/form-data">
-            <div class="alert alert-info" role="alert">
-                <h4 class="alert-heading">La categoria es: {{{categoria.nombre}}}</h4>
+<div class="w3-container">
+    <div class="w3-card w3-margin">
+        {{#categoria}}
+        <div class="conteinerTituloCategoria" style="background-color: {{{color}}}">
+            <h2 id="tituloCategoria" >{{{nombre}}}</h2>
+        </div>
+        {{/categoria}}
 
-                <input type="hidden" name="id_pregunta" value="{{{id_pregunta}}}">
-
-                <h4 class="alert-heading">La pregunta es: {{{pregunta}}}</h4>
-
-                <div>
-                    <a href="/partida/reportarPregunta" >Reportar Pregunta</a>
-                </div>
-                        <br><br>
+        <form id="formEsRespuestaCorrecta" action="/partida/siguientePregunta" method="post" enctype="multipart/form-data">
+            <div class="question-container">
+                <input type="hidden" name="pregunta" value="{{id}}">
+                <h3 class="question">{{{pregunta}}}</h3>
+            </div>
+            <div id="reportarPreguntaOContinuar" >
+                <a href="/partida/reportarPregunta" >Reportar Pregunta</a>
+                <br><br>
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Continuar</button>
-
             </div>
-            </form>
-        </div>
+
+        </form>
     </div>
 </div>

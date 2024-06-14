@@ -12,6 +12,19 @@ form{
     display: flex;
     justify-content: space-evenly;
 }
+#formEsRespuestaCorrecta{
+    display: flex;
+    flex-direction: column;
+}
+#reportarPreguntaOContinuar{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
 .registration-form h2 {
     margin-bottom: 20px;
+}
+.conteinerTituloCategoria{
+    padding: 0.01em 16px;
+    color: #fff !important;
 }

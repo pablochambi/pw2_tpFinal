@@ -1,4 +1,4 @@
-let timeLeft = 1099;
+let timeLeft = 1000;
 let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
 let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
 let form = document.getElementById('respPregunta');
@@ -26,8 +26,6 @@ function checkAnswer(button) {
         mensaje.classList.remove("displayNone");
         mensaje.textContent = "Incorrecto";
         mensaje.style.color = "red";
-
-
     }else{
         button.classList.add('verdeImportat');
         mensaje.classList.remove("displayNone");
@@ -41,8 +39,8 @@ function checkAnswer(button) {
             btn.classList.add('verdeImportat');
         }
     });
-    setTimeout(function() {
 
+    setTimeout(function() {
         button.closest('form').submit();
     }, 5000);
 
