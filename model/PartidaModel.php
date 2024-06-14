@@ -352,7 +352,7 @@ class PartidaModel extends BaseModel
         $consulta = "SELECT P.*
                      FROM Pregunta P
                      LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
-                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta'
+                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta' and p.activa = 1
                      ORDER BY RAND()
                      LIMIT 1";
 
@@ -364,7 +364,7 @@ class PartidaModel extends BaseModel
         $consulta = "SELECT P.*
                      FROM Pregunta P
                      LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
-                     WHERE PV.id_usuario IS NULL
+                     WHERE PV.id_usuario IS NULL and p.activa = 1
                      ORDER BY RAND()
                      LIMIT 1";
 
