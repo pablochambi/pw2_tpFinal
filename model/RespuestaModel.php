@@ -16,7 +16,7 @@ class RespuestaModel {
 
     public function crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta)
     {
-        $query = "INSERT INTO Respuesta (texto, id_pregunta, es_correcta, activa) 
+        $query = "INSERT INTO respuesta (texto, id_pregunta, es_correcta, activa) 
               VALUES (?, ?, ?, 0)";
 
         $stmt = $this->database->prepare($query);

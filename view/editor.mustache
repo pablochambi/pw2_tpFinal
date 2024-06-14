@@ -1,0 +1,43 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-warning text-black">
+            <div class="container mt-5">
+                <h1 class="text-center">Preguntas sugeridas sugeridamente por sugeridores</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pregunta</th>
+                        <th scope="col">Respuestas</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#pregunta}}
+                        <tr>
+                            <td>{{Pregunta}}</td>
+                            <td>
+                                <ul>
+                                    {{#Respuestas}}
+                                        {{#es_correcta}}
+                                            <li class="correcta">{{.}}</li> <!-- Ese "." es la posicion en la que esta la ITERACION de respuestas -->
+                                        {{/es_correcta}}
+                                        {{^es_correcta}}
+                                            <li>{{.}}</li>
+                                        {{/es_correcta}}
+                                    {{/Respuestas}}
+                                </ul>
+                            </td>
+                            <td>
+                                <button class="btn btn-success">Aceptar</button>
+                                <button class="btn btn-danger">Denegar</button>
+                            </td>
+                        </tr>
+                    {{/pregunta}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

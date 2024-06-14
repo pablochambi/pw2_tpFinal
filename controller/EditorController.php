@@ -12,7 +12,11 @@ class EditorController extends BaseController
     {
         $this -> checkSession();
 
-        $this->presenter->render('view/editor.mustache');
+        $data = [
+            'pregunta' => $this ->model->traerPreguntasSugeridas()
+        ];
+
+        $this->presenter->render('view/editor.mustache', $data);
 
     }
 }
