@@ -63,7 +63,7 @@ class EditorModel extends BaseModel
         if ($stmt->affected_rows == 0)
             die('Error al denegar la pregunta: ' . $this->database->error);
 
-       
+
     }
 
 
