@@ -1,13 +1,10 @@
 <?php
 
-class RankingModel
+class RankingModel extends BaseModel
 {
 
-    private $database;
-
-    public function __construct($database)
-    {
-        $this->database = $database;
+    public function __construct($database){
+        parent:: __construct($database);
     }
 
     public function obtenerRanking()

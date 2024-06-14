@@ -10,13 +10,13 @@ class PreguntaController extends BaseController {
 
     public function get()
     {
-        if (isset($_SESSION)){
-            $categorias = $this->model->getCategorias();
-            $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias]);
-        }else{
-            header("location: login");
-            exit();
-        }
+    $this->checkSession();
+        $userId = $_SESSION["username"];
+        $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
+        $categorias = $this->model->getCategorias();
+
+        $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol"=> $rol['rol']]);
+
 
     }
 
@@ -32,7 +32,8 @@ class PreguntaController extends BaseController {
            
 
             if ($resultado) {
-                $this->presenter->render("view/crearRespuesta.mustache", ['id_pregunta' => $resultado]);
+                $rol = $this->verificarDeQueRolEsElUsuario($usuario_creador);
+                $this->presenter->render("view/crearRespuesta.mustache", ['id_pregunta' => $resultado, 'rol' => $rol['rol']]);
                 exit();
             } else {
                 header("location: login");

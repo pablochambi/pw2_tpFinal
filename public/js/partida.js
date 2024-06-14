@@ -1,4 +1,4 @@
-let timeLeft = 2000;
+let timeLeft = 1099;
 let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
 let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
 let form = document.getElementById('respPregunta');
@@ -15,7 +15,7 @@ let countdown = setInterval(function () { // se utiliza para ejecutar una funcio
     timeLeft -= 1;
 }, 1000);
 
-function checkAnswer( button) {
+function checkAnswer(button) {
     //Obtener todos los botones de respuesta
     const buttons = document.querySelectorAll('.answer button');
 
@@ -27,10 +27,7 @@ function checkAnswer( button) {
         mensaje.textContent = "Incorrecto";
         mensaje.style.color = "red";
 
-        setTimeout(function() {
-            // Reanudar el envío del formulario después de 1,5 segundos
-            button.closest('form').submit();
-        }, 3000);
+
     }else{
         button.classList.add('verdeImportat');
         mensaje.classList.remove("displayNone");
@@ -44,5 +41,9 @@ function checkAnswer( button) {
             btn.classList.add('verdeImportat');
         }
     });
+    setTimeout(function() {
+
+        button.closest('form').submit();
+    }, 5000);
 
 }
