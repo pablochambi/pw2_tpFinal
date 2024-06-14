@@ -86,7 +86,7 @@ CREATE TABLE Respuesta (
                            es_correcta BOOLEAN DEFAULT FALSE,
                            id_pregunta INT,
                            activa BOOLEAN DEFAULT FALSE,
-                           FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id)
+                           FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id) ON DELETE CASCADE
 );
 
 -- Tabla para rastrear preguntas vistas
