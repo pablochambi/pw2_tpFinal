@@ -121,6 +121,9 @@ class PartidaModel extends BaseModel
         $query = "UPDATE Pregunta 
                  set vecesEntregadas = vecesEntregadas + 1
                   where id = $idPregunta";
+
+        $this->actualizarNivelDePregunta($idPregunta);
+
         $result = $this->database->executeAndReturn($query);
         return $result;
     }
@@ -292,21 +295,10 @@ class PartidaModel extends BaseModel
     {
         $nivelDePregunta = $this->retornarNivelDePreguntaParaUnUsuario($idUsuario);
 
-        $consulta = "SELECT P.*
-                     FROM Pregunta P
-                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
-                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta'
-                     ORDER BY RAND()
-                     LIMIT 1";
-
-        $pregunta =  $this->database->query($consulta);
-
-        //$pregunta = $this->traerUnaPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario);
+        $pregunta = $this->retornarPregunta($idUsuario,$nivelDePregunta);
 
         if (!isset($pregunta) || empty($pregunta)) {
-            echo "No se pudo traer una pregunta aleatoria que no  haya sido vista y sea de nivel del Usuario";
-            echo "<a href='/homeUsuario' >Volver Al Home</a><br>";
-            exit();
+            return $this->retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario);
         } else {
             return $pregunta;
         }
@@ -341,9 +333,9 @@ class PartidaModel extends BaseModel
     {
         $porcentaje = ($preguntasAcertadas / $preguntasEntregadas) * 100;
 
-        if ($porcentaje >= 66)
+        if ($porcentaje >= 70)
             $nuevoNivel = 'ALTO';
-        else if ($porcentaje >= 33)
+        else if ($porcentaje >= 40)
             $nuevoNivel = 'MEDIO';
         else
             $nuevoNivel = 'BAJO';
@@ -355,6 +347,29 @@ class PartidaModel extends BaseModel
 
     }
 
+    private function retornarPregunta($idUsuario, string $nivelDePregunta)
+    {
+        $consulta = "SELECT P.*
+                     FROM Pregunta P
+                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
+                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta'
+                     ORDER BY RAND()
+                     LIMIT 1";
+
+        return  $this->database->query($consulta);
+    }
+
+    private function retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario)
+    {
+        $consulta = "SELECT P.*
+                     FROM Pregunta P
+                     LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
+                     WHERE PV.id_usuario IS NULL
+                     ORDER BY RAND()
+                     LIMIT 1";
+
+        return  $this->database->query($consulta);
+    }
 
 
 }

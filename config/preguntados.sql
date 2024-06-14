@@ -130,7 +130,7 @@ INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valid
 (3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 'DIFICIL', NULL, FALSE, TRUE, 10, 2, TRUE),
 (4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 'DIFICIL', NULL, FALSE, TRUE, 10, 3, TRUE),
 (5, '¿En qué año se fundó la empresa Apple?', 5, 'DIFICIL', NULL, FALSE, TRUE, 10, 2, TRUE),
-(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICL', NULL, FALSE, TRUE, 10, 1, TRUE),
+(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICIL', NULL, FALSE, TRUE, 10, 1, TRUE),
 (7, '¿Cuál es la capital de Uruguay?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
 (8, '¿Cuántos lados tiene un triangulo?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE),
 (9, '¿Quién escribió "Cien años de soledad"?', 6, 'FACIL', NULL, FALSE, TRUE, 10, 7, TRUE),
