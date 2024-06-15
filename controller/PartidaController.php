@@ -59,7 +59,7 @@ class PartidaController extends BaseController
             if($this->model->esRespuestaCorrecta($respuesta, $idPregunta)){
                 $this->respuestaCorrectaPath($idPregunta);
                 $this->model->actualizarNivelDelUsuario($user_id);
-                $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta['texto'], 'categoria' => $categoria, "rol" => $rol['rol']]);
+                $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }else{
                 $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
                 $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
@@ -86,6 +86,44 @@ class PartidaController extends BaseController
         $partida = $this->model->obtenerUltimaPartida($id_usuario);
         $this->model->sumarPuntos($id_usuario, $partida);
     }
+    public function reportarPregunta()
+    {
+        $idPregunta = isset($_GET['idPregunta']) ? $_GET['idPregunta'] : die("No se trajo el id de pregunta");
+        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta]);
+    }
+    public function procesarReporte()
+    {
+        //$idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta'] : die("No se trajo el id de pregunta");
+
+        $idUsuario = $this->checkSessionYTraerIdUsuario();
+        $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta']: null;
+        $razonReporteRadio = isset($_POST['reason']) ? $_POST['reason']: null;
+        $otraRazonReporteText = isset($_POST['otherReasonText']) ? $_POST['otherReasonText']: '';
+
+        if (!$idPregunta || !$razonReporteRadio) {
+            die('ID de la pregunta y la razón son requeridos.');
+        }
+
+        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
+
+        $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
+
+        header("Location:/partida/siguientePregunta");
+    }
+    private function determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText)
+    {
+        switch ($razonReporteRadio){
+            CASE '1': $razon = "Contenido ofensivo";break;
+            CASE '2': $razon = "Error ortográfico o gramática";break;
+            CASE '3': $razon = "Respuesta incorrecta";break;
+            CASE '4': $razon = "Pregunta mal formulada";break;
+            CASE '5': $razon = "Categoria incorrecta";break;
+            CASE 'otro': $razon = $otraRazonReporteText;break;
+            default: die("No se envio ninguna razon");
+        }
+        return $razon;
+    }
+
     private function getDatos($nombre, $valor_respuesta, $pregunta): array
     {
         $datos = [

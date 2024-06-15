@@ -7,17 +7,17 @@
         {{/categoria}}
 
         <form id="formEsRespuestaCorrecta" action="/partida/siguientePregunta" method="post" enctype="multipart/form-data">
+            {{#pregunta}}
             <div class="question-container">
-                <input type="hidden" name="pregunta" value="{{id}}">
-                <h3 class="question">{{{pregunta}}}</h3>
+                <h3 class="question">{{texto}}</h3>
             </div>
             <div id="reportarPreguntaOContinuar" >
-                <a href="/partida/reportarPregunta" >Reportar Pregunta</a>
+                <a href="/partida/reportarPregunta?idPregunta={{id}}" > Reportar Pregunta </a>
                 <br><br>
                 <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Continuar</button>
             </div>
-
+            {{/pregunta}}
         </form>
     </div>
 </div>

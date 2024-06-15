@@ -34,6 +34,18 @@ class BaseModel
 
         return $stmt;
     }
+    public function ejecutarEnLaBD3Parametros($consulta,$tiposDeDatos, $parametro1,  $parametro2, $parametro3)
+    {
+        $stmt = $this->database->prepare($consulta);
+        if (!$stmt)
+            die("Error en la preparación de la consulta: " . $this->database->error);
+
+        $stmt->bind_param($tiposDeDatos, $parametro1, $parametro2, $parametro3);
+        if (!$stmt->execute())
+            die("Error al ejecutar la consulta: " . $stmt->error);
+
+        return $stmt;
+    }
 
 
 

@@ -183,6 +183,24 @@ class PartidaModel extends BaseModel
             return $this->retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta);
         }
     }
+
+    public function registrarReporte($idPregunta,$idUsuario,$razon)
+    {
+        if (!$this->estaRegistradoElReporte($idPregunta,$idUsuario)) {
+
+            $registro = " 
+            INSERT INTO Reporte_Pregunta (id_pregunta, id_usuario,descripcion)
+            VALUES (?,?,?);
+            ";
+            $this->ejecutarEnLaBD3Parametros($registro,'iis', $idPregunta,$idUsuario,$razon);
+        }else{
+            $actualizacion = "UPDATE Reporte_Pregunta
+                 SET descripcion = '$razon'
+                  WHERE id_usuario = $idUsuario AND id_pregunta = $idPregunta ";
+            $this->database->execute($actualizacion);
+        }
+    }
+
     private function verificarCantidadPuntos($resultadoDePuntaje): string
     {
         if (!empty($resultadoDePuntaje))
@@ -442,5 +460,17 @@ class PartidaModel extends BaseModel
         return $totalPreguntasEntregadas;
     }
 
+    private function estaRegistradoElReporte($idPregunta,$idUsuario)
+    {
+        // Consulta para verificar si ya existe un registro en la tabla PreguntaVistas para la pregunta y el usuario especificados
+        $consulta = "SELECT COUNT(*) AS total FROM Reporte_Pregunta 
+                    WHERE id_pregunta = ? AND id_usuario = ?";
+
+        $stmt = $this->ejecutarEnLaBD2($consulta,'ii',$idPregunta,$idUsuario);
+
+        $total_registros = $stmt->get_result()->fetch_assoc()['total'];
+
+        return ($total_registros > 0);
+    }
 
 }
