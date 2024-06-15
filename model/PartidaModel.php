@@ -110,6 +110,7 @@ class PartidaModel extends BaseModel
         $query = "UPDATE Partida set puntaje = puntaje + 1 where id_usuario = $id_usuario and id = $idPartida";
         return $this->database->executeAndReturn($query);
     }
+
     public function obtenerCantidadDePuntos($id_usuario)
     {
         $query = "SELECT puntaje FROM Partida WHERE id_usuario = $id_usuario ORDER BY fecha DESC LIMIT 1";
@@ -305,7 +306,7 @@ class PartidaModel extends BaseModel
     }
     private function resetearPreguntasVistas($idUsuario)
     {
-        $consulta = "DELETE FROM preguntavistas
+        $consulta = "DELETE FROM Preguntavistas
                       WHERE id_usuario = ? ";
         $this->ejecutarEnLaBD1($consulta,"i",$idUsuario);
     }
@@ -359,7 +360,7 @@ class PartidaModel extends BaseModel
         $consulta = "SELECT P.*
                      FROM Pregunta P
                      LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta AND PV.id_usuario = $idUsuario
-                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta' and p.activa = 1
+                     WHERE PV.id_usuario IS NULL AND P.nivel = '$nivelDePregunta' and P.activa = 1
                      ORDER BY RAND()
                      LIMIT 1";
 

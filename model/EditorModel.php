@@ -16,9 +16,9 @@ class EditorModel extends BaseModel
                         p.texto AS Pregunta, 
                         GROUP_CONCAT(CONCAT(r.texto, IF(r.es_correcta = 1, ' (correcta)', '')) SEPARATOR ', ') AS Respuestas
                     FROM 
-                        respuesta r 
+                        Respuesta r 
                     JOIN 
-                        pregunta p 
+                        Pregunta p 
                     ON 
                         p.id = r.id_pregunta 
                     WHERE 
@@ -43,7 +43,7 @@ class EditorModel extends BaseModel
 
     public function aceptarPreguntaSugerida($idPregunta)
     {
-        $query = "UPDATE pregunta SET activa = 1 WHERE id = ?";
+        $query = "UPDATE Pregunta SET activa = 1 WHERE id = ?";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
@@ -55,7 +55,7 @@ class EditorModel extends BaseModel
 
     public function denegarPreguntaSugerida($idPregunta)
     {
-        $query = "delete from pregunta where id = ?";
+        $query = "delete from Pregunta where id = ?";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
