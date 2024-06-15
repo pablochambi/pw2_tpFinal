@@ -54,15 +54,15 @@ class PartidaController extends BaseController
 
             $respuesta = $_POST['respuesta'];
             $idPregunta = $_POST['pregunta'];
-            $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($idPregunta);
+            $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
 
             if($this->model->esRespuestaCorrecta($respuesta, $idPregunta)){
                 $this->respuestaCorrectaPath($idPregunta);
                 $this->model->actualizarNivelDelUsuario($user_id);
                 $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }else{
-                $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
-                $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
+                $puntaje = (string) $this->model->obtenerCantidadDePuntos($user_id);
+                $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
@@ -88,27 +88,31 @@ class PartidaController extends BaseController
     }
     public function reportarPregunta()
     {
-        $idPregunta = isset($_GET['idPregunta']) ? $_GET['idPregunta'] : die("No se trajo el id de pregunta");
-        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta]);
+        $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta'] : die("No se trajo el id de pregunta");
+        $perdiste = isset($_POST['perdiste']) ? (string) $_POST['perdiste'] : die("No se sabe si perdiste o no, error 1");
+
+        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta,'perdiste' => $perdiste]);
     }
     public function procesarReporte()
     {
-        //$idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta'] : die("No se trajo el id de pregunta");
-
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta']: null;
         $razonReporteRadio = isset($_POST['reason']) ? $_POST['reason']: null;
         $otraRazonReporteText = isset($_POST['otherReasonText']) ? $_POST['otherReasonText']: '';
+        $perdiste = isset($_POST['perdiste']) ? $_POST['perdiste'] : die("No se sabe si perdiste o no, error 2");
 
         if (!$idPregunta || !$razonReporteRadio) {
-            die('ID de la pregunta y la razón son requeridos.');
+
+            die('no se envio el id pregunta o la razon del reporte');
+        }
+        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
+        $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
+        if($perdiste == 0){
+            header("Location:/partida/siguientePregunta");
+        }elseif($perdiste == 1){
+            header("Location:/homeUsuario");
         }
 
-        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
-
-        $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
-
-        header("Location:/partida/siguientePregunta");
     }
     private function determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText)
     {

@@ -1,3 +1,18 @@
+<style>
+    .btn-link-style {
+        background: none;
+        color: #007bff;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .btn-link-style:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+</style>
 <div class="w3-container">
     <div class="w3-card w3-margin">
         {{#categoria}}
@@ -11,13 +26,26 @@
             <div class="question-container">
                 <h3 class="question">{{texto}}</h3>
             </div>
-            <div id="reportarPreguntaOContinuar" >
-                <a href="/partida/reportarPregunta?idPregunta={{id}}" > Reportar Pregunta </a>
+            <div id="reportarPreguntaOContinuar">
+                <button type="button" class="btn btn-link-style" onclick="submitReportForm('{{id}}')">Reportar Pregunta</button>
                 <br><br>
-                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                <button type="submit" class="btn btn-primary">
                     Continuar</button>
+
             </div>
             {{/pregunta}}
         </form>
     </div>
+    <form id="reportFormOculto" action="/partida/reportarPregunta" method="post" style="display: none;">
+        <input type="hidden" name="idPregunta" id="reportIdPregunta">
+        <input type="hidden" name="perdiste" value="0">
+    </form>
 </div>
+<script>
+    function submitReportForm(idPregunta) {
+        var reportForm = document.getElementById('reportFormOculto');
+        var reportIdPregunta = document.getElementById('reportIdPregunta');
+        reportIdPregunta.value = idPregunta;
+        reportForm.submit();
+    }
+</script>

@@ -61,7 +61,7 @@ class PartidaModel extends BaseModel
         return $this->obtenerResultados($stmt);
 
     }
-    public function getDescripcionDeLaPreguntaPorId($idPregunta)
+    public function getPreguntaPorIdDePregunta($idPregunta)
     {
         $consulta = "
         SELECT *
@@ -119,7 +119,7 @@ class PartidaModel extends BaseModel
             $row = $result->fetch_assoc();
             return $row['puntaje'];
         } else {
-            return 0;
+            return '0';
         }
     }
     public function updateDatosPregunta($idPregunta)
