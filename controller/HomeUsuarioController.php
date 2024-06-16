@@ -24,13 +24,9 @@ class HomeUsuarioController extends BaseController
     public function obtenerPuntosTotales()
     {
         $this->checkSession();
-
-        if (isset($_SESSION) && !empty($_SESSION)) {
-            $user = $_SESSION['username'];
-            $puntaje = $this->model->sumarPuntajeAcumulado($user['id']);
-            $this->presenter->render("view/puntaje.mustache", ["usuario" => $user, "puntaje" => $puntaje]);
-        }else{
-            header("location:/login");
-        }
+        $user = $_SESSION['username'];
+        $puntaje = $this->model->sumarPuntajeAcumulado($user['id']);
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        $this->presenter->render("view/puntaje.mustache", ["usuario" => $user, "puntaje" => $puntaje, "rol" => $rol['rol']]);
     }
 }

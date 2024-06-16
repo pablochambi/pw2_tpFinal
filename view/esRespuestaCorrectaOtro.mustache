@@ -1,0 +1,23 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="continuar" action="/partida/siguientePregunta" method="post" enctype="multipart/form-data">
+            <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">La categoria es: {{{categoria.nombre}}}</h4>
+
+                <input type="hidden" name="id_pregunta" value="{{{id_pregunta}}}">
+
+                <h4 class="alert-heading">La pregunta es: {{{pregunta}}}</h4>
+
+                <div>
+                    <a href="/partida/reportarPregunta" >Reportar Pregunta</a>
+                </div>
+                        <br><br>
+                <button type="submit" class="btn btn-primary">
+                    Continuar</button>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

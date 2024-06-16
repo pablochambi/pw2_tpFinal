@@ -1,15 +1,14 @@
 <?php
 
-class PreguntaModel {
+class PreguntaModel Extends BaseModel{
 
-    private $database;
+
     private $preguntaFacil;
     private $preguntaMedia;
     private $preguntaDificil;
 
-    public function __construct($database)
-    {
-        $this->database = $database;
+    public function __construct($database){
+        parent:: __construct($database);
     }
 
     public function obtenerPregunta(){
@@ -19,14 +18,15 @@ class PreguntaModel {
 
     public function crearPreguntaSugerida($texto, $id_categoria, $usuario_creador)
     {
-        $query = "INSERT INTO Pregunta_Sugerida (texto, id_categoria, nivel, usuario_creador, revisada, valida) 
-              VALUES (?, ?, 0.0, ?, false, true)";
+        $query = "INSERT INTO Pregunta (texto, id_categoria, nivel, usuario_creador, revisada, valida) 
+              VALUES (?, ?, 0.0, ?, false, 0)";
 
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('sii', $texto, $id_categoria, $usuario_creador);
 
         if ($stmt->execute())
-            return true;
+            $idPregunta = $stmt->insert_id;
+            return $idPregunta;
     }
 
     public function getCategorias()
@@ -35,5 +35,6 @@ class PreguntaModel {
 
         return $categorias;
     }
+
 
 }

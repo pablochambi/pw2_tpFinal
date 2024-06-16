@@ -30,15 +30,6 @@ class LoginController extends BaseController
 
                 $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
 
-               $usuario = [
-                   'nombre_completo' => $user['nombre_completo'],
-                    'username' => $user['username'],
-                    'foto' => $user['foto'],
-                    'anio_nacimiento' => $user['anio_nacimiento'],
-                    'pais' => $user['pais'],
-                    'ciudad' => $user['ciudad']
-                ];
-
                 $_SESSION['username'] = $user;
 
               header("Location: /homeUsuario");

@@ -10,150 +10,122 @@ class PartidaController extends BaseController
 
     public function get()
     {
-        $this->checkSession();
+        $id_usuario =$this->checkSessionYTraerIdUsuario();
+        $this->model->arrancarPartida($id_usuario);
+        $pregunta = $this->traerUnaPreguntaYActualizarDatos($id_usuario);
+        $this->mostrarPreguntaYRespuestasPosibles($pregunta);
+    }
 
-        if (isset($_POST['id_usuario'])) {
-            $id_usuario = $_POST['id_usuario'];
+    private function traerUnaPreguntaYActualizarDatos($id_usuario)
+    {
+        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
+        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
+        $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
+        $this->model->actualizarPreguntasEntregadasAUnUsuario($id_usuario);
+        return $pregunta;
+    }
+    private function mostrarPreguntaYRespuestasPosibles($pregunta)
+    {
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
+        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
-            $this->model->arrancarPartida($id_usuario);
+        $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
+        $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
-            $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
-
-            $ultimaPartida = $this->model->obtenerUltimaPartida($id_usuario);
-
-            $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario, $ultimaPartida);
-
-            $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
-            $categoria = $categoria['nombre'];
-
-            $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
-
-            $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$id_usuario);
-
-            $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
-
-            $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-
-            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
-        }else{
-            echo "No recibio ningun dato a partidaController";
-        }
-
+        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
 
     }
 
     public function procesarRespuesta()
     {
         $this->checkSession();
-
         $this->manejoDeElProcesoDeRespuesta();
     }
-
-    private function handleTimeExpired()
+    private function manejoDeElProcesoDeRespuesta()
     {
-        echo "El tiempo ha expirado. Has perdido la pregunta."; // ESTO DEBERIA SER UNA VISTA o controlarlo como mensaje pop up como mensajeValidacion.mustache
+        $user_id = $this->checkSessionYTraerIdUsuario();
+        $rol = $this->verificarDeQueRolEsElUsuario($user_id);
+
+        $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
+
+        if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
+            $this->handleTimeExpired(); // checkeo si se acabo el timepo
+        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+
+            $respuesta = $_POST['respuesta'];
+            $idPregunta = $_POST['pregunta'];
+            $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
+
+            if($this->model->esRespuestaCorrecta($respuesta, $idPregunta)){
+                $this->respuestaCorrectaPath($idPregunta);
+                $this->model->actualizarNivelDelUsuario($user_id);
+                $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
+            }else{
+                $puntaje = (string) $this->model->obtenerCantidadDePuntos($user_id);
+                $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
+            }
+        } else {
+            echo "No se encontró la respuesta o la pregunta en el formulario.";
+        }
     }
 
     public function siguientePregunta()
     {
-        $this->checkSession();
-
-        $user = $_SESSION['username'];
-        $user_id = $user['id'];
-        $ultimaPartida = $this->model->obtenerUltimaPartida($user_id);
-        $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($user_id, $ultimaPartida);
-
-
-        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$user_id);
-
-        $this->model->sumarVecesEntregadasUnaPreguntaAUnUsuario($pregunta[0]['id'],$user_id);
-
-        $this->model->updateDatosPregunta($pregunta[0]['id']);//suma veces entregadas
-
-        $this->traerRespuestasDespuesSiguiente($pregunta);
-
+        $user_id = $this->checkSessionYTraerIdUsuario();
+        $pregunta = $this->traerUnaPreguntaYActualizarDatos($user_id);
+        $this->mostrarPreguntaYRespuestasPosibles($pregunta);
     }
-
-    /*
-    public function continuar()
-    {
-
-        $this->checkSession();
-
-        if (isset($_POST['valor_respuesta']) && isset($_POST['id_pregunta'])) {
-            $continuar = $_POST['valor_respuesta'];
-            $id_pregunta = $_POST['id_pregunta'];
-            $this->manejoDeRespuesta($continuar, $id_pregunta);
-        }
-
-    }
-    */
 
     private function respuestaCorrectaPath($id_pregunta)
     {
-        if (isset($_SESSION['username'])) {
-            $user = $_SESSION['username'];
-            $this->model->updatePregBienRespondidas($id_pregunta);
-            $this->model->manejarNivelDePregunta($id_pregunta);
-            $partida = $this->model->obtenerUltimaPartida($user['id']);
-            $this->model->sumarPuntos($user['id'], $partida);
-        }
-    }
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
 
-    private function manejoDeRespuesta($continuar, $id_pregunta)
+        $this->model->updatePregBienRespondidas($id_pregunta);//sumar en vecesCorrectas
+        $this->model->actualizarCantidadDePreguntasCorrectasAUnUsuario($id_usuario);
+        $this->model->actualizarNivelDePregunta($id_pregunta);
+        $partida = $this->model->obtenerUltimaPartida($id_usuario);
+        $this->model->sumarPuntos($id_usuario, $partida);
+    }
+    public function reportarPregunta()
     {
-        $user = $_SESSION['username'];
-        $user_id = $user['id'];
-        $pregunta = $this->model->getDescripcionDeLaPreguntaPorId($id_pregunta);
-        $categoria_nombre = $this->model->getCategoriaPorIdDePregunta($id_pregunta);
+        $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta'] : die("No se trajo el id de pregunta");
+        $perdiste = isset($_POST['perdiste']) ? (string) $_POST['perdiste'] : die("No se sabe si perdiste o no, error 1");
 
-        $categoria = $categoria_nombre["nombre"];
-        $rol = $this->verificarDeQueRolEsElUsuario($user_id);
-
-        if ($continuar == "Incorrecta") {
-
-            $puntaje = $this->model->obtenerCantidadDePuntos($user_id);
-            $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje]);
-        } else {
-            $this->model->sumarEnPreguntaVistaVecesAcertadasPorUnUsuario($id_pregunta,$user_id);
-
-            $this->respuestaCorrectaPath($id_pregunta);
-
-            $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta['texto'], 'categoria' => $categoria, "rol" => $rol['rol']]);
-        }
+        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta,'perdiste' => $perdiste]);
     }
-
-    private function traerRespuestasDespuesSiguiente($pregunta)
+    public function procesarReporte()
     {
-        if (isset($pregunta[0]['id'])) {
-            $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-            $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta[0], 'respuestas' => $respuestas]);
-        } else {
-            echo "No se encontró ninguna pregunta.";
+        $idUsuario = $this->checkSessionYTraerIdUsuario();
+        if( isset($_POST['idPregunta']) && isset($_POST['reason'])
+            && isset($_POST['otherReasonText'])&&isset($_POST['perdiste'])){
+            $idPregunta = $_POST['idPregunta'];
+            $razonReporteRadio = $_POST['reason'];
+            $otraRazonReporteText = $_POST['otherReasonText'];
+            $perdiste = $_POST['perdiste'];
+        }else{
+            die('No se enviaron los datos del formulario correctamente');
+        }
+        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
+        $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
+        if($perdiste == 0){
+            header("Location:/partida/siguientePregunta");
+        }elseif($perdiste == 1){
+            header("Location:/homeUsuario");
         }
     }
-
-    private function manejoDeElProcesoDeRespuesta()
+    private function determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText)
     {
-        if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
-            $this->handleTimeExpired(); // checkeo si se acabo el timepo
-        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
-            $respuesta = $_POST['respuesta'];
-            $idPregunta = $_POST['pregunta'];
-
-            $valor_respuesta = $this->model->esRespuestaCorrecta($respuesta, $idPregunta);
-            $continuar = $valor_respuesta ? "Correcto" : "Incorrecta";
-            $id_pregunta = $_POST['pregunta'];//En realidad solo te da el id de la pregunta
-            $this->manejoDeRespuesta($continuar, $id_pregunta);
-            $this->model->manejarNivelDePregunta($id_pregunta);
-
-        } else {
-            echo "No se encontró la respuesta o la pregunta en el formulario.";
+        switch ($razonReporteRadio){
+            CASE '1': $razon = "Contenido ofensivo";break;
+            CASE '2': $razon = "Error ortográfico o gramática";break;
+            CASE '3': $razon = "Respuesta incorrecta";break;
+            CASE '4': $razon = "Pregunta mal formulada";break;
+            CASE '5': $razon = "Categoria incorrecta";break;
+            CASE 'otro': $razon = $otraRazonReporteText;break;
+            default: die("No se envio ninguna razon");
         }
-
-
+        return $razon;
     }
-
 
     private function getDatos($nombre, $valor_respuesta, $pregunta): array
     {
@@ -165,4 +137,13 @@ class PartidaController extends BaseController
         ];
         return $datos;
     }
+
+    private function handleTimeExpired()
+    {
+        echo "El tiempo ha expirado. Has perdido la pregunta."; // ESTO DEBERIA SER UNA VISTA o controlarlo como mensaje pop up como mensajeValidacion.mustache
+    }
+
+
+
+
 }

@@ -1,0 +1,78 @@
+<style>
+    #reportForm {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+    .conteinerFormReporte {
+        display: flex;
+        margin: 0 auto;
+        border-style: groove;
+        border-radius: 1rem;
+        width: 35rem;
+        padding: 1rem;
+        flex-direction: column;
+    }
+</style>
+<div class="registration-form">
+    <div class="conteinerFormReporte">
+        <form id="reportForm" action="/partida/procesarReporte" method="post">
+            <h2>Reportar Pregunta</h2>
+            <div class="mb-3">
+                <label class="form-label">Razón de reporte</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="offensiveContent" name="reason" value="1">
+                    <label class="form-check-label" for="offensiveContent">Contenido ofensivo</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="spellingError" name="reason" value="2">
+                    <label class="form-check-label" for="spellingError">Error ortográfico o gramática</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="incorrectAnswer" name="reason" value="3">
+                    <label class="form-check-label" for="incorrectAnswer">Respuesta incorrecta</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="badlyFormulated" name="reason" value="4">
+                    <label class="form-check-label" for="badlyFormulated">Pregunta mal formulada</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="categoriaIncorrecta" name="reason" value="5">
+                    <label class="form-check-label" for="badlyFormulated">Categoria incorrecta</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="otraRazonRadio" name="reason" value="otro">
+                    <label class="form-check-label" for="otraRazonRadio">Otro</label>
+                </div>
+            </div>
+            <div class="mb-3" id="otherReasonContainer" style="display: none;">
+                <label for="otherReasonText" class="form-label">Por favor, especifique</label>
+                <textarea class="form-control" id="otherReasonText" name="otherReasonText"></textarea>
+            </div>
+            <input type="hidden" name="idPregunta" value="{{idPregunta}}">
+            <input type="hidden" name="perdiste" value="{{perdiste}}">
+            <button type="submit" class="btn btn-danger">Reportar</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var otraRazonRadio = document.getElementById('otraRazonRadio');
+        var otherReasonContainer = document.getElementById('otherReasonContainer');
+        var otherReasonText = document.getElementById('otherReasonText');
+        var reasonRadios = document.getElementsByName('reason');
+
+        reasonRadios.forEach(function(radio) {
+            radio.addEventListener('change', function () {
+                if (otraRazonRadio.checked) {
+                    otherReasonContainer.style.display = 'block';
+                    otherReasonText.required = true;
+                } else {
+                    otherReasonContainer.style.display = 'none';
+                    otherReasonText.required = false;
+                }
+            });
+        });
+    });
+</script>

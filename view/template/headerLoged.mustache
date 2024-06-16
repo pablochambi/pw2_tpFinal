@@ -16,27 +16,42 @@
 <link rel="stylesheet" href="/public/css/juego/juego.css">
 <link rel="stylesheet" href="/public/css/respuestas/respuestas.css">
 
+<style>.amarillo {color: yellow;}</style>
 
-<style>
-    .amarillo {color: yellow;}
-</style>
 <body>
 <header>
     <!-- Navbar -->
     <div class="navbar">
         <div class="w3-bar w3-black w3-card">
-            <a href="/homeUsuario" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Home</a>
+            <a href="/homeUsuario" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor Jugador">Home</a>
             <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
-            <a href="/perfil" class="w3-bar-item w3-button w3-padding-large">Mi Perfil</a>
-            <a href="/homeUsuario/obtenerPuntosTotales" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Ver puntaje total</a>
-            <a href="/ranking" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Ver Ranking</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Trampitas: 0</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hide-small amarillo">Rol: {{{rol}}} </a>
-            <a href="/pregunta" class="w3-bar-item w3-button w3-padding-large w3-hide-small amarillo">Crear Pregunta</a>
-            <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hide-small">Cerrar sesion</a>
-
+            <a href="/perfil" class="w3-bar-item w3-button w3-padding-large" data-rol= "Administrador Editor Jugador" >Mi Perfil</a>
+            <a href="/homeUsuario/obtenerPuntosTotales" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor Jugador" >Ver puntaje total</a>
+            <a href="/ranking" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor Jugador" >Ver Ranking</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor">Trampitas: 0</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding-large w3-hide-small amarillo" data-rol="Administrador Editor Jugador" id="rolUsuario">Rol: {{{rol}}} </a>
+            <a href="/pregunta" class="w3-bar-item w3-button w3-padding-large w3-hide-small amarillo" data-rol="Administrador Editor Jugador" >Sugerir Pregunta</a>
+            <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor Jugador" >Cerrar sesion</a>
+            <a href="/editor" class="w3-bar-item w3-button w3-padding-large w3-hide-small" data-rol="Administrador Editor">Editor</a>
         </div>
     </div>
 </header>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var rolesPermitidos = ["Administrador","Editor","Jugador"];
+        var rolUsuario = "{{rol}}";
+        var elementosRol = document.querySelectorAll("[data-rol]");
+
+        elementosRol.forEach(function(elemento) {
+            var rolesElemento = elemento.getAttribute("data-rol").split(" ");
+            if (rolesElemento.includes(rolUsuario)) {
+                elemento.style.display = "inline-block";
+            } else {
+                elemento.style.display = "none";
+            }
+            
+        });
+    });
+</script>
 <!-- Page content -->
 <div class="w3-content" style="max-width:2000px;margin-top:46px">
