@@ -96,14 +96,14 @@ class PartidaController extends BaseController
     public function procesarReporte()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta']: null;
-        $razonReporteRadio = isset($_POST['reason']) ? $_POST['reason']: null;
-        $otraRazonReporteText = isset($_POST['otherReasonText']) ? $_POST['otherReasonText']: '';
-        $perdiste = isset($_POST['perdiste']) ? $_POST['perdiste'] : die("No se sabe si perdiste o no, error 2");
-
-        if (!$idPregunta || !$razonReporteRadio) {
-
-            die('no se envio el id pregunta o la razon del reporte');
+        if( isset($_POST['idPregunta']) && isset($_POST['reason'])
+            && isset($_POST['otherReasonText'])&&isset($_POST['perdiste'])){
+            $idPregunta = $_POST['idPregunta'];
+            $razonReporteRadio = $_POST['reason'];
+            $otraRazonReporteText = $_POST['otherReasonText'];
+            $perdiste = $_POST['perdiste'];
+        }else{
+            die('No se enviaron los datos del formulario correctamente');
         }
         $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
         $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
@@ -112,7 +112,6 @@ class PartidaController extends BaseController
         }elseif($perdiste == 1){
             header("Location:/homeUsuario");
         }
-
     }
     private function determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText)
     {
