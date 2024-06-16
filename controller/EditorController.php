@@ -18,10 +18,7 @@ class EditorController extends BaseController
         $data = [
             'pregunta' => $pregunta,
             'rol' => $rol['rol'],
-
-
         ];
-        ;
 
         $this->presenter->render('view/editor.mustache', $data);
 

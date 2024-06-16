@@ -1,8 +1,50 @@
-<div class="container w3-card">
-    <h1>Upss! Perdiste</h1>
+<style>
+    .textAlingCenter{
+        text-align: center;
+    }
+    .bgRojoClaro{
+        background: #db5d5d;
+    }
+    .btn_estilo_link {
+        background: none;
+        color: #007bff;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .btn_estilo_link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+</style>
 
-    {{#puntaje}}
-    <p class="points">Obtuviste {{puntaje}} puntos</p>
-    {{/puntaje}}
-    <a href="/homeUsuario" class="w3-button w3-blue button">Continuar</a>
+<div class="w3-container">
+    <div class="textAlingCenter w3-card">
+        <h1 class="bgRojoClaro">Upss! Perdiste</h1>
+        <h2 class="points">Obtuviste {{{puntaje}}} puntos</h2>
+    </div>
+    <div class="w3-card w3-margin">
+        {{#categoria}}
+            <div class="conteinerTituloCategoria" style="background-color: {{{color}}}">
+                <h2 id="tituloCategoria" >{{{nombre}}}</h2>
+            </div>
+        {{/categoria}}
+        {{#pregunta}}
+            <div class="question-container">
+                <h3 class="question">{{texto}}</h3>
+            </div>
+            <div id="reportarPreguntaOContinuar">
+                <form id="reportForm" action="/partida/reportarPregunta" method="post">
+                    <input type="hidden" name="idPregunta" value="{{id}}">
+                    <input type="hidden" name="perdiste" value="1">
+                    <button type="submit" class="btn btn_estilo_link">Reportar Pregunta</button>
+                </form>
+                <br><br>
+                <a href="/homeUsuario" class="w3-button w3-blue button">Volver al Home</a>
+            </div>
+        {{/pregunta}}
+
+    </div>
 </div>
