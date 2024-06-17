@@ -24,6 +24,8 @@ CREATE TABLE Usuarios (
                     nivel VARCHAR(10) DEFAULT 'BAJO',
                     preguntas_acertadas INT DEFAULT 0,
                     preguntas_entregadas INT DEFAULT 0,
+                    latitud FLOAT NOT NULL,
+                    longitud FLOAT NOT NULL,
                     qr VARCHAR(255),
                     FOREIGN KEY (id_pais) REFERENCES Pais(id)
 );

@@ -31,11 +31,13 @@ class RegistroController
             $email = $_POST['email'];
             $password = $_POST['password'];
             $username = $_POST['username'];
+            $latitud = $_POST['latitud'];
+            $longitud = $_POST['longitud'];
             $foto =  isset($_FILES['foto']) ? $_FILES['foto'] : null;
 
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
-            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino);
+            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino, $latitud, $longitud);
 
             $mensaje = $this->model->enviarCorreoValidacion($email, $token);
 
