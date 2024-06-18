@@ -66,5 +66,27 @@ class EditorModel extends BaseModel
 
     }
 
+    public function traerTodasLasPreguntas()
+    {
+        $pregunta = $this->database->query("SELECT * FROM Pregunta");
+        return $pregunta;
+    }
+
+    public function buscarPreguntasPorIdONombre($filtro)
+    {
+        $pregunta = "SELECT * FROM Pregunta WHERE id = '$filtro' OR texto like '%$filtro%'";
+        $resultado = $this->database->query($pregunta);
+
+        if ($resultado && $resultado->num_rows > 0) {
+            $preguntasEncontradas = [];
+            while ($row = $resultado->fetch_assoc()) {
+                $preguntasEncontradas[] = $row;
+            }
+            return $preguntasEncontradas;
+        }
+
+
+    }
+
 
 }
