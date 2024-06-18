@@ -1,9 +1,17 @@
 <?php
 class AdministradorModel extends BaseModel
 {
-    public function __construct($database)
+    protected $grafica;
+    public function __construct($database,$grafica)
     {
         parent::__construct($database);
+        $this->grafica = $grafica;
     }
+
+    public function crearGrafico()
+    {
+        $this->grafica->graficar();
+    }
+
 
 }
