@@ -136,7 +136,7 @@ class EditorModel extends BaseModel
     public function buscarPreguntasPorIdONombre($filtro)
     {
         $pregunta = "SELECT * FROM Pregunta WHERE id = '$filtro' OR texto like '%$filtro%'";
-        $resultado = $this->database->query($pregunta);
+        $resultado = $this->database->executeAndReturn($pregunta);
 
         if ($resultado && $resultado->num_rows > 0) {
             $preguntasEncontradas = [];
@@ -145,6 +145,17 @@ class EditorModel extends BaseModel
             }
             return $preguntasEncontradas;
         }
+
+
+    }
+
+    public function actualizarPregunta($id, $nuevoTitulo)
+    {
+        $pregunta = "UPDATE Pregunta SET texto = ? WHERE id = ?";
+        $stmt = $this->database->prepare($pregunta);
+        $stmt->bind_param("si", $nuevoTitulo, $id);
+        $stmt->execute();
+
 
 
     }

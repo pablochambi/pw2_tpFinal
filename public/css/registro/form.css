@@ -8,10 +8,7 @@
 .form_parte{
     width: 400px;
 }
-form{
-    display: flex;
-    justify-content: space-evenly;
-}
+
 #formEsRespuestaCorrecta{
     display: flex;
     flex-direction: column;
