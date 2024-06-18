@@ -10,6 +10,7 @@ include_once ("controller/PreguntaController.php");
 include_once ("controller/RespuestaController.php");
 include_once ("controller/RankingController.php");
 include_once ("controller/EditorController.php");
+include_once ("controller/AdministradorController.php");
 
 include_once ("model/BaseModel.php");
 include_once ("model/RegistroModel.php");
@@ -20,6 +21,7 @@ include_once ("model/PreguntaModel.php");
 include_once ("model/RespuestaModel.php");
 include_once ("model/RankingModel.php");
 include_once ("model/EditorModel.php");
+include_once ("model/AdministradorModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
@@ -36,6 +38,10 @@ class Configuration
     public static function getBaseController()
     {
         return new BaseController(self::getBaseModel(), self::getPresenter());
+    }
+    public static function getAdministradorController()
+    {
+        return new AdministradorController(self::getAdministradorModel(), self::getPresenter());
     }
 
     public static function getEditorController()
@@ -85,6 +91,17 @@ class Configuration
 
 
     // MODELS
+
+    private static function getBaseModel()
+    {
+        return new BaseModel(self::getDatabase());
+    }
+    private static function getAdministradorModel()
+    {
+        return new AdministradorModel(self::getDatabase());
+    }
+
+
     private static function getEditorModel()
     {
         return new EditorModel(self::getDatabase());
@@ -95,10 +112,7 @@ class Configuration
         return new LoginModel(self::getDatabase());
     }
 
-    private static function getBaseModel()
-    {
-        return new BaseModel(self::getDatabase());
-    }
+
 
     private static function getRankingModel()
     {
@@ -150,6 +164,11 @@ class Configuration
     private static function getPresenter()
     {
         return new MustachePresenter("view/template");
+    }
+
+    public static function getPdfCreator()
+    {
+        return new PdfCreator();
     }
 
 }

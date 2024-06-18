@@ -9,7 +9,7 @@ class RegistroModel
         $this->database = $database;
     }
 
-    public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $foto)
+    public function registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $foto, $latitud, $longitud)
     {
         $token = bin2hex(random_bytes(8)); // Generar un token aleatorio
         $habilitado = 0;
@@ -19,12 +19,12 @@ class RegistroModel
         $qr = NULL;
 
         $consulta = "
-        INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, latitud, longitud, qr)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ";
 
         $stmt = $this->database->prepare($consulta);
-        $stmt->bind_param("sissssssssiidis", $nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $qr);
+        $stmt->bind_param("sissssssssiididds", $nombre, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $latitud, $longitud, $qr);
 
         if ($stmt->execute()) {
             // Obtener el ID del usuario recién insertado

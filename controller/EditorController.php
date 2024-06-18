@@ -29,7 +29,7 @@ class EditorController extends BaseController
             'rol' => $rol['rol'],
         ];
 
-        $this->presenter->render('view/editor.mustache', $data);
+        $this->presenter->render('view/vistaEditor/editor.mustache', $data);
     }
 
     public function aceptar()

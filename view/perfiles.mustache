@@ -1,3 +1,4 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&libraries=places&callback=initMap&async=1" defer></script>
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
@@ -21,19 +22,15 @@
                              class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
                     </div>
                     <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
-                        <div id="map"
-                             class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg">
-                        </div>
+                        <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk"></script>
 <script>
     function initMap() {
-        var geocoder = new google.maps.Geocoder();
         var lat = {{ usuario.latitud }};
         var lng = {{ usuario.longitud }};
 
@@ -47,7 +44,7 @@
             gestureHandling: 'cooperative'
         });
 
-        var marker = new google.maps.Marker({
+        var marker = new google.maps.marker.AdvancedMarkerElement({
             position: myLatLng,
             map: map,
             title: 'Marcador'

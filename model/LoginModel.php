@@ -87,4 +87,19 @@ class LoginModel extends BaseModel
         return $stmt->get_result()->fetch_assoc();
     }
 
+    public function generarQr($id)
+    {
+        $url = 'http://localhost/tpFinal/perfilJugador/list?id=' . $id;
+
+        // Ruta y nombre del archivo de imagen del código QR (puede ser un archivo PNG, JPG, etc.)
+        $archivoImagen = './public/img/qrcode.png';
+
+        // Tamaño y nivel de corrección del código QR (0 = bajo, 1 = medio, 2 = alto, 3 = mejor)
+        $tamano = 10;
+        $nivelCorreccion = 'L';
+
+        QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamano);
+        return $archivoImagen;
+    }
+
 }

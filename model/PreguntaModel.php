@@ -1,8 +1,6 @@
 <?php
 
 class PreguntaModel Extends BaseModel{
-
-
     private $preguntaFacil;
     private $preguntaMedia;
     private $preguntaDificil;
