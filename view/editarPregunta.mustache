@@ -7,29 +7,47 @@
                 <h5 class="card-title">ID: {{id}}</h5>
                 <p class="card-text">Texto actual: {{texto}}</p>
                 <div>
-                    <p>Categoría actual: {{categoria}}</p>
-                    <p>Dificultad actual: {{dificultad}}</p>
-                    <p>Respuesta correcta actual: {{respuesta_correcta}}</p>
+                    {{#categoria}}
+                    <p>Categoría actual: {{nombre}}</p>
+                    {{/categoria}}
+                    <p>Dificultad actual: {{nivel}}</p>
+                    <p>Respuesta correcta actual:
+                        {{#respuestas}}
+                            {{#es_correcta}}
+                                {{texto}}
+                            {{/es_correcta}}
+                        {{/respuestas}}
+                    </p>
                     <p>Respuestas incorrectas actuales:</p>
                     <ul>
-                        <li>{{respuesta_incorrecta1}}</li>
-                        <li>{{respuesta_incorrecta2}}</li>
-                        <li>{{respuesta_incorrecta3}}</li>
+                        {{#respuestas}}
+                            {{^es_correcta}}
+                                <li>{{texto}}</li>
+                            {{/es_correcta}}
+                        {{/respuestas}}
                     </ul>
                 </div>
                 <div>
-                <form action="/editor/editarPregunta" method="GET">
+                <form action="/editor/editarPregunta" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nuevo_texto">Nuevo texto:</label>
                         <input type="text" id="nuevo_texto" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese la nueva pregunta">
                     </div>
                     <div class="form-group">
                         <label for="nueva_categoria">Nueva categoría:</label>
-                        <input type="text" id="nueva_categoria" name="nueva_categoria" class="form-control mb-2" placeholder="Ingrese la nueva categoría">
+                        <select id="nueva_categoria" name="nueva_categoria" class="form-control mb-2">
+                            {{#allCategorias}}
+                                <option value="{{id}}">{{nombre}}</option>
+                            {{/allCategorias}}
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="nueva_dificultad">Nueva dificultad:</label>
-                        <input type="text" id="nueva_dificultad" name="nueva_dificultad" class="form-control mb-2" placeholder="Ingrese la nueva dificultad">
+                        <select id="nueva_dificultad" name="nueva_dificultad" class="form-control mb-2">
+                            <option value="FACIL">Fácil</option>
+                            <option value="MEDIO">Intermedio</option>
+                            <option value="DIFICIL">Difícil</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="nueva_respuesta">Nueva respuesta correcta:</label>
