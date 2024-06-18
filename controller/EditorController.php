@@ -1,6 +1,7 @@
 <?php
 class EditorController extends BaseController
 {
+
     public function __construct($model, $presenter)
     {
         session_start();
@@ -9,78 +10,76 @@ class EditorController extends BaseController
 
     public function get()
     {
-        $user_id = $this->checkSessionYTraerIdUsuario();
-        $rol = $this->verificarDeQueRolEsElUsuario($user_id);
-        $pregunta = $this ->model->traerPreguntasSugeridas();
-        $data = ['pregunta' => $pregunta, 'rol' => $rol['rol']];
-        $this->presenter->render('view/vistaEditor/editor.mustache', $data);
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        $this->presenter->render('view/menu-editor.mustache', ['rol' => $rol['rol']]);
+
     }
+
+    public function verSugeridas()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        $pregunta = $this->model->traerPreguntasSugeridas();
+        $data = [
+            'pregunta' => $pregunta,
+            'rol' => $rol['rol'],
+        ];
+
+        $this->presenter->render('view/editor.mustache', $data);
+    }
+
     public function aceptar()
     {
         $this->checkSession();
+
         $idPregunta = $_GET['id'];
+
         $this->model->aceptarPreguntaSugerida($idPregunta);
+
         header('Location: /editor');
     }
+
     public function denegar()
-{
-    $this->checkSession();
-    $idPregunta = $_GET['id'];
-    $this->model->eliminarPregunta($idPregunta);
-    header('Location: /editor');
-}
-    public function mostrarPreguntasReportadas()
     {
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $datos = $this->datosAEnviarALaVistaDeReportes($idUsuario);
-        $this->presenter->render("view/vistaEditor/preguntasReportadas.mustache",$datos);
-    }
+        $this->checkSession();
 
-    public function mostrarTodasLasPreguntas()
-    {//Hacer
-        $user_id = $this->checkSessionYTraerIdUsuario();
-        $rol = $this->verificarDeQueRolEsElUsuario($user_id);
-
-        $preguntas = $this ->model->traerTodasLasPreguntas(); // Hacer metodo
-
-        $data = ['preguntas' => $preguntas, 'rol' => $rol['rol']];
-        $this->presenter->render("view/vistaEditor/todasLasPreguntas.mustache",$data);
-    }
-
-    public function aprobarPregunta()
-    {
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $idPregunta = $_GET['id'];
-        $this->model->eliminarPreguntaDeLaListaDeReportes($idPregunta,$idUsuario);
-
-        $datos = $this->datosAEnviarALaVistaDeReportes($idUsuario);
-        $this->presenter->render("view/vistaEditor/preguntasReportadas.mustache",$datos);
-    }
-    public function eliminarPregunta()
-    {
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
         $idPregunta = $_GET['id'];
 
-        $this->model->eliminarPreguntaDeLaListaDeReportes($idPregunta,$idUsuario);
-        $this->model->eliminarPregunta($idPregunta);
+        $this->model->denegarPreguntaSugerida($idPregunta);
 
-        $datos = $this->datosAEnviarALaVistaDeReportes($idUsuario);
-
-        $this->presenter->render("view/vistaEditor/preguntasReportadas.mustache",$datos);
-    }
-    public function modificarPregunta()
-    {//Preguntar si se hace o no
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $idPregunta = $_GET['id'];
+        header('Location: /editor');
     }
 
-
-    private function datosAEnviarALaVistaDeReportes($idUsuario): array
+    public function buscarParaEditar()
     {
-        $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
-        $preguntas = $this->model->traerPreguntasReportadas();
-        return ['preguntas' => $preguntas, 'rol' => $rol['rol']];
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        $preguntas = $this->model->traerTodasLasPreguntas();
+        $this->presenter->render('view/editarPregunta.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
 
+    public function buscarPregunta()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
 
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
+            $term = $_GET['term'];
+            $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
+            $this->presenter->render('view/editarPregunta.mustache', ['rol' => $rol['rol'], 'preguntaEncontrada' => $preguntaEncontrada]);
+
+        } else {
+
+            $this->presenter->render('view/editarPregunta.mustache', [
+                'rol' => $rol['rol'],
+                'preguntasEncontradas' => []
+            ]);
+        }
+    }
 }
