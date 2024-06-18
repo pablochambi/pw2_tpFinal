@@ -1,29 +1,63 @@
 <div class="container mt-5">
     <h2>Editar Pregunta</h2>
-    <div class="form-group">
-        <label for="buscar-pregunta">Buscar Pregunta:</label>
-        <input type="text" class="form-control" id="buscar-pregunta" placeholder="Ingrese el ID o título de la pregunta">
-    </div>
-    <button type="submit" class="btn btn-primary" onclick="buscarPregunta()">Buscar</button>
 
-    <div id="resultado-busqueda" class="mt-4">
-        <form action="/editor/actualizarPregunta" method="POST">
-            {{#preguntasEncontradas}}
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">ID: {{id}}</h5>
-                        <p class="card-text">Texto actual: {{texto}}</p>
-                        <label for="nuevo_texto_{{id}}">Nuevo texto:</label>
-                        <input type="text" id="nuevo_texto_{{id}}" name="nuevo_texto_{{id}}" class="form-control mb-2" placeholder="Ingrese el nuevo texto">
-                        <button type="submit" class="btn btn-success">Actualizar pregunta</button>
-                        <input type="hidden" name="pregunta_id" value="{{id}}">
-                    </div>
+    {{#preguntaEncontrada}}
+        <div class="card mb-5">
+            <div class="card-body">
+                <h5 class="card-title">ID: {{id}}</h5>
+                <p class="card-text">Texto actual: {{texto}}</p>
+                <div>
+                    <p>Categoría actual: {{categoria}}</p>
+                    <p>Dificultad actual: {{dificultad}}</p>
+                    <p>Respuesta correcta actual: {{respuesta_correcta}}</p>
+                    <p>Respuestas incorrectas actuales:</p>
+                    <ul>
+                        <li>{{respuesta_incorrecta1}}</li>
+                        <li>{{respuesta_incorrecta2}}</li>
+                        <li>{{respuesta_incorrecta3}}</li>
+                    </ul>
                 </div>
-            {{/preguntasEncontradas}}
-            {{^preguntasEncontradas}}
-                <p>No se encontraron preguntas.</p>
-            {{/preguntasEncontradas}}
-        </form>
-    </div>
+                <div>
+                <form action="/editor/editarPregunta" method="GET">
+                    <div class="form-group">
+                        <label for="nuevo_texto">Nuevo texto:</label>
+                        <input type="text" id="nuevo_texto" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese la nueva pregunta">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_categoria">Nueva categoría:</label>
+                        <input type="text" id="nueva_categoria" name="nueva_categoria" class="form-control mb-2" placeholder="Ingrese la nueva categoría">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_dificultad">Nueva dificultad:</label>
+                        <input type="text" id="nueva_dificultad" name="nueva_dificultad" class="form-control mb-2" placeholder="Ingrese la nueva dificultad">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_respuesta">Nueva respuesta correcta:</label>
+                        <input type="text" id="nueva_respuesta" name="nueva_respuesta" class="form-control mb-2" placeholder="Ingrese la nueva respuesta">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_respuesta_incorrecta1">Nueva respuesta incorrecta 1:</label>
+                        <input type="text" id="nueva_respuesta_incorrecta1" name="nueva_respuesta_incorrecta1" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 1">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_respuesta_incorrecta2">Nueva respuesta incorrecta 2:</label>
+                        <input type="text" id="nueva_respuesta_incorrecta2" name="nueva_respuesta_incorrecta2" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 2">
+                    </div>
+                    <div class="form-group">
+                        <label for="nueva_respuesta_incorrecta3">Nueva respuesta incorrecta 3:</label>
+                        <input type="text" id="nueva_respuesta_incorrecta3" name="nueva_respuesta_incorrecta3" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 3">
+                    </div>
+                    <button type="submit" class="btn btn-success">Actualizar pregunta</button>
+                    <input type="hidden" name="pregunta_id" value="{{id}}">
+                </form>
+            </div>
+        </div>
+        </div>
+    {{/preguntaEncontrada}}
+
+    {{^preguntaEncontrada}}
+        <p>No se encontró la pregunta.</p>
+    {{/preguntaEncontrada}}
 </div>
+
 

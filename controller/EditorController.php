@@ -60,7 +60,7 @@ class EditorController extends BaseController
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
         $preguntas = $this->model->traerTodasLasPreguntas();
-        $this->presenter->render('view/editarPregunta.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
+        $this->presenter->render('view/buscarPregunta.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
 
     public function buscarPregunta()
@@ -82,4 +82,22 @@ class EditorController extends BaseController
             ]);
         }
     }
+
+    public function editarPregunta()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pregunta_id']) && isset($_GET['nuevo_texto'])) {
+            $id = $_GET['pregunta_id'];
+            $nuevoTexto = $_GET['nuevo_texto'];
+
+            $pregunta = $this->model->actualizarPregunta($id, $nuevoTexto);
+            header('Location: /editor/buscarParaEditar');
+        }
+    }
+
+
+
 }
