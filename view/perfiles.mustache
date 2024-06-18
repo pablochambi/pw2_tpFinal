@@ -1,4 +1,4 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&libraries=places&callback=initMap&async=1" defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&callback=initMap&libraries=places,marker" async defer></script>
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
@@ -30,13 +30,15 @@
     </div>
 </div>
 <script>
-    function initMap() {
+    var map, AdvancedMarkerElement;
+
+    async function initMap() {
         var lat = {{ usuario.latitud }};
         var lng = {{ usuario.longitud }};
 
-        var myLatLng = {lat: lat, lng: lng};
+        var myLatLng = { lat: lat, lng: lng };
 
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
             zoom: 14,
             center: myLatLng,
             disableDefaultUI: true,
@@ -44,14 +46,15 @@
             gestureHandling: 'cooperative'
         });
 
-        var marker = new google.maps.marker.AdvancedMarkerElement({
-            position: myLatLng,
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        new AdvancedMarkerElement({
             map: map,
+            position: myLatLng,
             title: 'Marcador'
         });
     }
 
-    // inicializo el mapa cuando la pagina haya cargado
     window.onload = function() {
         initMap();
     };

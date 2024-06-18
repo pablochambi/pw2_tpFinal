@@ -37,17 +37,6 @@ class PerfilController extends BaseController
         // calculo la edad del usuario para mostrarla
         $usuario['edad'] = $edad;
 
-        include('third-party/phpqrcode/qrlib.php');
-        $contenido = 'https://NOSE/usuario/' . $usuario['username'];
-        $nombreArchivo = 'qrs/' . $usuario['username'] . '.png';
-
-        if (!file_exists('qrs'))
-            mkdir('qrs', 0777, true);
-
-        QRcode::png($contenido, $nombreArchivo, QR_ECLEVEL_L, 10);
-
-        $usuario['qr'] = $nombreArchivo;
-
         $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }
 }
