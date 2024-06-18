@@ -72,7 +72,18 @@ class EditorController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
             $term = $_GET['term'];
             $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
-            $this->presenter->render('view/editarPregunta.mustache', ['rol' => $rol['rol'], 'preguntaEncontrada' => $preguntaEncontrada]);
+            $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
+            $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
+            $allCategorias = $this->model->traerTodasLasCategorias();
+
+            $this->presenter->render('view/editarPregunta.mustache', [
+                'rol' => $rol['rol'],
+                'preguntaEncontrada' => $preguntaEncontrada,
+                'respuestas' => $respuestas,
+                'categoria' => $categoria,
+                'allCategorias' => $allCategorias
+
+            ]);
 
         } else {
 
@@ -89,12 +100,42 @@ class EditorController extends BaseController
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['pregunta_id']) && isset($_GET['nuevo_texto'])) {
-            $id = $_GET['pregunta_id'];
-            $nuevoTexto = $_GET['nuevo_texto'];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id']) && isset($_POST['nuevo_texto'])
+        && isset($_POST['nueva_categoria']) && isset($_POST['nueva_dificultad']) && isset($_POST['nueva_respuesta'])
+        && isset($_POST['nueva_respuesta_incorrecta3']) && isset($_POST['nueva_respuesta_incorrecta1']) && isset($_POST['nueva_respuesta_incorrecta2'])){
+            $id = $_POST['pregunta_id'];
+            $nuevoTexto = $_POST['nuevo_texto'];
+            $nuevaCategoria = $_POST['nueva_categoria'];
+            $nuevaDificultad = $_POST['nueva_dificultad'];
+            $nuevaRespuesta = $_POST['nueva_respuesta'];
+            $nuevaRespuestaIncorrecta1 = $_POST['nueva_respuesta_incorrecta1'];
+            $nuevaRespuestaIncorrecta2 = $_POST['nueva_respuesta_incorrecta2'];
+            $nuevaRespuestaIncorrecta3 = $_POST['nueva_respuesta_incorrecta3'];
 
-            $pregunta = $this->model->actualizarPregunta($id, $nuevoTexto);
+
+
+            $respuestasIncorrectasActuales = $this->model->obtenerRespuestasIncorrectas($id);
+
+            $this->model->actualizarPregunta($id, $nuevoTexto);
+            $this->model->actualizarCategoriaDeLaPregunta($id, $nuevaCategoria);
+            $this->model->actualizarDificultadDeLaPregunta($id, $nuevaDificultad);
+            $this->model->actualizarRespuestaCorrecta($id, $nuevaRespuesta);
+
+            if ($nuevaRespuestaIncorrecta1 !== $respuestasIncorrectasActuales['incorrecta1']) {
+                $this->model->actualizarRespuestaIncorrecta($id, 1, $nuevaRespuestaIncorrecta1);
+            }
+            if ($nuevaRespuestaIncorrecta2 !== $respuestasIncorrectasActuales['incorrecta2']) {
+                $this->model->actualizarRespuestaIncorrecta($id, 2, $nuevaRespuestaIncorrecta2);
+            }
+            if ($nuevaRespuestaIncorrecta3 !== $respuestasIncorrectasActuales['incorrecta3']) {
+                $this->model->actualizarRespuestaIncorrecta($id, 3, $nuevaRespuestaIncorrecta3);
+            }
+
+            var_dump();
+
             header('Location: /editor/buscarParaEditar');
+        } else {
+            echo "no fue post";
         }
     }
 
