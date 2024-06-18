@@ -6,7 +6,7 @@ class PdfCreator
     public function create($html)
     {
         $dompdf = new Dompdf();
-        $dompdf->loadHtml('hello world');
+        $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->render();
         $dompdf->stream("document.pdf" , ['Attachment' => 0]);

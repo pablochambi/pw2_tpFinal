@@ -25,11 +25,16 @@ include_once ("model/AdministradorModel.php");
 
 include_once ("helper/Database.php");
 include_once ("helper/Router.php");
-
 include_once ("helper/Presenter.php");
 include_once ("helper/MustachePresenter.php");
+include_once ("helper/GraficoCreator.php");
+include_once ("helper/PdfCreator.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
+require_once('third-party/dompdf-example/dompdf/autoload.inc.php');
+require_once('third-party/jpgraph-example/jpgraph/src/jpgraph.php');
+require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_bar.php');
+require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_line.php');
 
 class Configuration
 {
@@ -98,10 +103,8 @@ class Configuration
     }
     private static function getAdministradorModel()
     {
-        return new AdministradorModel(self::getDatabase());
+        return new AdministradorModel(self::getDatabase(),self::getGraficoCreator());
     }
-
-
     private static function getEditorModel()
     {
         return new EditorModel(self::getDatabase());
@@ -111,14 +114,10 @@ class Configuration
     {
         return new LoginModel(self::getDatabase());
     }
-
-
-
     private static function getRankingModel()
     {
         return new RankingModel(self::getDatabase());
     }
-
     private static function getPartidaModel()
     {
         return new PartidaModel(self::getDatabase());
@@ -170,5 +169,10 @@ class Configuration
     {
         return new PdfCreator();
     }
+    public static function getGraficoCreator()
+    {
+        return new GraficoCreator();
+    }
+
 
 }

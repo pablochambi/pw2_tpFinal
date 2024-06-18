@@ -14,11 +14,18 @@ class AdministradorController extends BaseController
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
     }
 
+    public function generarGrafico()
+    {
+        $this->model->crearGrafico();
+    }
+
+
+
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
-        $preguntas = $this->model->traerPreguntasReportadas();
-        return ['preguntas' => $preguntas, 'rol' => $rol['rol']];
+        //$preguntas = $this->model->traerPreguntasReportadas();
+        return ['rol' => $rol['rol']];
     }
 
 }
