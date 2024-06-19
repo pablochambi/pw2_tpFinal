@@ -63,6 +63,15 @@ class EditorController extends BaseController
         $this->presenter->render('view/buscarPregunta.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
 
+    public function buscarParaEliminar()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        $preguntas = $this->model->traerTodasLasPreguntas();
+        $this->presenter->render('view/buscarParaEliminar.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
+    }
+
     public function buscarPregunta()
     {
         $this->checkSession();
@@ -72,25 +81,30 @@ class EditorController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
             $term = $_GET['term'];
             $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
-            $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
-            $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
-            $allCategorias = $this->model->traerTodasLasCategorias();
+                if($preguntaEncontrada){
+                    $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
+                    $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
+                    $allCategorias = $this->model->traerTodasLasCategorias();
 
-            $this->presenter->render('view/editarPregunta.mustache', [
-                'rol' => $rol['rol'],
-                'preguntaEncontrada' => $preguntaEncontrada,
-                'respuestas' => $respuestas,
-                'categoria' => $categoria,
-                'allCategorias' => $allCategorias
+                    $this->presenter->render('view/editarPregunta.mustache', [
+                        'rol' => $rol['rol'],
+                        'preguntaEncontrada' => $preguntaEncontrada,
+                        'respuestas' => $respuestas,
+                        'categoria' => $categoria,
+                        'allCategorias' => $allCategorias
 
-            ]);
+                    ]);
+                } else {
 
-        } else {
+                    $this->presenter->render('view/editarPreguntaVistaError.mustache', [
+                        'rol' => $rol['rol'],
 
-            $this->presenter->render('view/editarPregunta.mustache', [
-                'rol' => $rol['rol'],
-                'preguntasEncontradas' => []
-            ]);
+                    ]);
+                }
+            }  else {
+            header('Location: /editor/buscarParaEditar');
+
+
         }
     }
 
@@ -113,30 +127,58 @@ class EditorController extends BaseController
             $nuevaRespuestaIncorrecta3 = $_POST['nueva_respuesta_incorrecta3'];
 
 
-
             $respuestasIncorrectasActuales = $this->model->obtenerRespuestasIncorrectas($id);
+            $respuestaIncorrecta1 = $respuestasIncorrectasActuales['incorrecta1']['id'];
+            $respuestaIncorrecta2 = $respuestasIncorrectasActuales['incorrecta2']['id'];
+            $respuestaIncorrecta3 = $respuestasIncorrectasActuales['incorrecta3']['id'];
 
             $this->model->actualizarPregunta($id, $nuevoTexto);
             $this->model->actualizarCategoriaDeLaPregunta($id, $nuevaCategoria);
             $this->model->actualizarDificultadDeLaPregunta($id, $nuevaDificultad);
             $this->model->actualizarRespuestaCorrecta($id, $nuevaRespuesta);
-
-            if ($nuevaRespuestaIncorrecta1 !== $respuestasIncorrectasActuales['incorrecta1']) {
-                $this->model->actualizarRespuestaIncorrecta($id, 1, $nuevaRespuestaIncorrecta1);
-            }
-            if ($nuevaRespuestaIncorrecta2 !== $respuestasIncorrectasActuales['incorrecta2']) {
-                $this->model->actualizarRespuestaIncorrecta($id, 2, $nuevaRespuestaIncorrecta2);
-            }
-            if ($nuevaRespuestaIncorrecta3 !== $respuestasIncorrectasActuales['incorrecta3']) {
-                $this->model->actualizarRespuestaIncorrecta($id, 3, $nuevaRespuestaIncorrecta3);
-            }
-
-            var_dump();
+           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta1, $nuevaRespuestaIncorrecta1);
+           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta2, $nuevaRespuestaIncorrecta2);
+           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta3, $nuevaRespuestaIncorrecta3);
 
             header('Location: /editor/buscarParaEditar');
         } else {
             echo "no fue post";
         }
+    }
+
+    public function eliminarPregunta()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
+            $term = $_GET['term'];
+            $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
+
+            if($preguntaEncontrada){
+                $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
+                $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
+                $allCategorias = $this->model->traerTodasLasCategorias();
+
+                $this->presenter->render('view/eliminarPregunta.mustache', [
+                    'rol' => $rol['rol'],
+                    'preguntaEncontrada' => $preguntaEncontrada,
+                    'respuestas' => $respuestas,
+                    'categoria' => $categoria,
+                    'allCategorias' => $allCategorias
+
+                ]);
+            } else {
+                $this->presenter->render('view/eliminarPreguntaVistaError.mustache', [
+                    'rol' => $rol['rol'],
+
+                ]);
+            }
+        } else {
+            header('Location: /editor/buscarPreguntaParaEliminar');
+        }
+
     }
 
 

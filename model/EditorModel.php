@@ -225,7 +225,7 @@ class EditorModel extends BaseModel
 
     public function obtenerRespuestasIncorrectas($idPregunta)
     {
-        $query = "SELECT texto 
+        $query = "SELECT id, texto  
               FROM Respuesta 
               WHERE id_pregunta = ? AND es_correcta = 0 
               ORDER BY id ASC LIMIT 3";
@@ -243,25 +243,30 @@ class EditorModel extends BaseModel
 
         $respuestas = array();
         while ($row = $result->fetch_assoc()) {
-            $respuestas[] = $row['texto'];
+
+            $respuestas[] = [
+                'id' => $row['id'],
+                'texto' =>  $row['texto'],
+            ];
+
         }
 
         return [
-            'incorrecta1' => isset($respuestas[0]) ? $respuestas[0] : '',
-            'incorrecta2' => isset($respuestas[1]) ? $respuestas[1] : '',
-            'incorrecta3' => isset($respuestas[2]) ? $respuestas[2] : '',
+            'incorrecta1' => isset($respuestas[0]) ? $respuestas[0] : ['id' => '', 'texto' => ''],
+            'incorrecta2' => isset($respuestas[1]) ? $respuestas[1] : ['id' => '', 'texto' => ''],
+            'incorrecta3' => isset($respuestas[2]) ? $respuestas[2] : ['id' => '', 'texto' => ''],
         ];
     }
 
-    public function actualizarRespuestaIncorrecta($idPregunta, $numeroRespuesta, $nuevaRespuestaIncorrecta)
+    public function actualizarRespuestaIncorrecta($idPregunta, $idRespuesta, $nuevaRespuestaIncorrecta)
     {
         $query = "UPDATE Respuesta 
               SET texto = ?
-              WHERE id_pregunta = ? AND es_correcta = 0
+              WHERE id_pregunta = ? AND es_correcta = 0 and id = $idRespuesta
               ORDER BY id ASC LIMIT ?";
 
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("sii", $nuevaRespuestaIncorrecta, $idPregunta, $numeroRespuesta);
+        $stmt->bind_param("sii", $nuevaRespuestaIncorrecta, $idPregunta, $idRespuesta);
         $stmt->execute();
 
 
