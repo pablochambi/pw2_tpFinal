@@ -6,7 +6,6 @@ class AdministradorController extends BaseController
         session_start();
         parent::__construct($model, $presenter);
     }
-
     public function get()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();
@@ -19,13 +18,20 @@ class AdministradorController extends BaseController
         $this->model->crearGrafico();
     }
 
-
-
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
-        //$preguntas = $this->model->traerPreguntasReportadas();
-        return ['rol' => $rol['rol']];
+        $cantJugadores = $this->model->getCantidadDeJugadores();
+        $cantPartidasJugadas = $this->model->getCantidadDePartidasJugadas();
+        $cantPreguntas = $this->model->getCantidadDePreguntasActivas();
+        $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadasActivas();
+
+        return [
+            'rol' => $rol['rol'],
+            'cant_jugadores' => $cantJugadores,
+            'cantidad_partidas' => $cantPartidasJugadas,
+            'cantidad_preguntas' => $cantPreguntas,
+            'cantidad_preguntas_creadas' => $cantPreguntasCreadas];
     }
 
 }
