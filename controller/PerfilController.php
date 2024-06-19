@@ -22,20 +22,33 @@ class PerfilController extends BaseController
     {
         $this->checkSession();
 
-        if (!isset($_GET['username']))
+        if (!isset($_GET['username'])) {
             die('Usuario no especificado.');
+        }
 
         $username = $_GET['username'];
         $usuario = $this->model->obtenerUsuarioPorUsername($username);
 
-        if ($usuario === null)
+        if ($usuario === null) {
             die('Usuario no encontrado.');
+        }
 
         $anioNacimiento = $usuario['anio_nacimiento'];
         $anioActual = date("Y");
         $edad = $anioActual - $anioNacimiento;
-        // calculo la edad del usuario para mostrarla
         $usuario['edad'] = $edad;
+
+        $urlPerfil = 'http://localhost/perfiles?username=' . $username;
+        $qrPath = 'qrs/' . $username . '.png';
+
+        // Generar el QR si no existe o si la URL ha cambiado
+        if (empty($usuario['qr']) || $usuario['qr'] !== $qrPath) {
+            QRcode::png($urlPerfil, $qrPath);
+
+            // Actualizar la ruta del QR en la base de datos
+            $this->model->actualizarQRUsuario($username, $qrPath);
+            $usuario['qr'] = $qrPath;
+        }
 
         $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }
