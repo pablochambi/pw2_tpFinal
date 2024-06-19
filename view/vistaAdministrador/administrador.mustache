@@ -5,8 +5,6 @@
         flex-wrap: wrap;
         gap: 20px;
     }
-
-
 </style>
 
 <div class="container mt-4">
@@ -24,7 +22,7 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de jugadores</td>
-                        <td>100</td>
+                        <td>{{{cant_jugadores}}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -45,7 +43,7 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de partidas jugadas</td>
-                        <td>100</td>
+                        <td>{{{cantidad_partidas}}}</td>
                         <td>
                             <label for="timeframe"></label>
                             <select id="timeframe" name="timeframe">
@@ -75,7 +73,37 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de preguntas</td>
-                        <td>100</td>
+                        <td>{{{cantidad_preguntas}}}</td>
+                        <td>
+                            <label for="timeframe"></label>
+                            <select id="timeframe" name="timeframe">
+                                <option value="day">Día</option>
+                                <option value="week">Semana</option>
+                                <option value="month">Mes</option>
+                                <option value="year">Año</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-header bg-warning text-black">
+            <div class="container mt-3">
+                <h1 class="text-center">Preguntas creadas en el juego</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Metrica</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Filtracion</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Cantidad de preguntas creadas</td>
+                        <td>{{{cantidad_preguntas_creadas}}}</td>
                         <td>
                             <label for="timeframe"></label>
                             <select id="timeframe" name="timeframe">

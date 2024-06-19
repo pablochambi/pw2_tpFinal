@@ -12,6 +12,56 @@ class AdministradorModel extends BaseModel
     {
         $this->grafica->graficar();
     }
+    public function getCantidadDeJugadores()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_jugadores'];
+        } else {
+            die("No se conto la cantidad de jugadores");
+        }
+
+    }
+    public function getCantidadDePartidasJugadas()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_partidas'];
+        } else {
+            die("No se conto la cantidad de partidas");
+        }
+
+    }
+    public function getCantidadDePreguntas()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_preguntas FROM Pregunta ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntas'];
+        } else {
+            die("No se conto la cantidad de preguntas");
+        }
+
+    }
+    public function getCantidadDePreguntasCreadas()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
+                    WHERE usuario_creador is not null";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntas_creadas'];
+        } else {
+            die("No se conto la cantidad de preguntas creadas");
+        }
+
+    }
+
 
 
 }
