@@ -26,7 +26,7 @@ class PreguntaController extends BaseController {
 
             $texto = $_POST['texto'];
             $id_categoria = $_POST['id_categoria'];
-            $usuario_creador = 1;
+            $usuario_creador = $this->checkSessionYTraerIdUsuario();
 
             $resultado = $this->model->crearPreguntaSugerida($texto, $id_categoria, $usuario_creador);
            

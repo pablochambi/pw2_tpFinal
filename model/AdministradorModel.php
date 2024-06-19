@@ -36,9 +36,9 @@ class AdministradorModel extends BaseModel
         }
 
     }
-    public function getCantidadDePreguntas()
+    public function getCantidadDePreguntasActivas()
     {
-        $consulta = "SELECT COUNT(*) AS cantidad_preguntas FROM Pregunta ";
+        $consulta = "SELECT COUNT(*) AS cantidad_preguntas FROM Pregunta WHERE activa = 1";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -48,10 +48,10 @@ class AdministradorModel extends BaseModel
         }
 
     }
-    public function getCantidadDePreguntasCreadas()
+    public function getCantidadDePreguntasCreadasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
-                    WHERE usuario_creador is not null";
+                    WHERE usuario_creador is not null AND activa = 1 ";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();

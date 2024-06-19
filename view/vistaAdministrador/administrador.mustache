@@ -1,7 +1,7 @@
 <style>
     .card_wrap{
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         flex-wrap: wrap;
         gap: 20px;
     }
@@ -72,7 +72,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Cantidad de preguntas</td>
+                        <td>Cantidad de preguntas activas</td>
                         <td>{{{cantidad_preguntas}}}</td>
                         <td>
                             <label for="timeframe"></label>
@@ -90,7 +90,7 @@
         </div>
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
-                <h1 class="text-center">Preguntas creadas en el juego</h1>
+                <h1 class="text-center">Preguntas creadas</h1>
 
                 <table class="table table-striped">
                     <thead>
@@ -102,7 +102,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Cantidad de preguntas creadas</td>
+                        <td>Cantidad de preguntas creadas activas</td>
                         <td>{{{cantidad_preguntas_creadas}}}</td>
                         <td>
                             <label for="timeframe"></label>

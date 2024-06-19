@@ -23,8 +23,8 @@ class AdministradorController extends BaseController
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
         $cantJugadores = $this->model->getCantidadDeJugadores();
         $cantPartidasJugadas = $this->model->getCantidadDePartidasJugadas();
-        $cantPreguntas = $this->model->getCantidadDePreguntas();
-        $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadas();
+        $cantPreguntas = $this->model->getCantidadDePreguntasActivas();
+        $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadasActivas();
 
         return [
             'rol' => $rol['rol'],
