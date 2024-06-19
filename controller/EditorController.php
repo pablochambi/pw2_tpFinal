@@ -142,9 +142,13 @@ class EditorController extends BaseController
            $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta2, $nuevaRespuestaIncorrecta2);
            $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta3, $nuevaRespuestaIncorrecta3);
 
-            header('Location: /editor/buscarParaEditar');
+            $this->presenter->render('view/vistasPostAccion/editarPreguntaAviso.mustache', [
+                'rol' => $rol['rol'],
+            ]);
         } else {
-
+             $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
+                'rol' => $rol['rol'],
+                 ]);
         }
     }
 
@@ -197,7 +201,9 @@ class EditorController extends BaseController
                 'rol' => $rol['rol'],
             ]);
         } else {
-           //Manejar la excepcion
+            $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
+                'rol' => $rol['rol'],
+            ]);
         }
     }
 
