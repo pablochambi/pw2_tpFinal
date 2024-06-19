@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <h2>Eliminar Pregunta</h2>
+
+    {{#preguntaEncontrada}}
+        <div class="card mb-5">
+            <div class="card-body">
+                <h5 class="card-title">ID: {{id}}</h5>
+                <p class="card-text">Texto actual: {{texto}}</p>
+                <div>
+                    {{#categoria}}
+                        <p>Categoría actual: {{nombre}}</p>
+                    {{/categoria}}
+                    <p>Dificultad actual: {{nivel}}</p>
+                    <p>Respuesta correcta actual:
+                        {{#respuestas}}
+                            {{#es_correcta}}
+                                {{texto}}
+                            {{/es_correcta}}
+                        {{/respuestas}}
+                    </p>
+                    <p>Respuestas incorrectas actuales:</p>
+                    <ul>
+                        {{#respuestas}}
+                            {{^es_correcta}}
+                                <li>{{texto}}</li>
+                            {{/es_correcta}}
+                        {{/respuestas}}
+                    </ul>
+                </div>
+                <div>
+                    <form action="/editor/eliminarPregunta" method="POST">
+                        <p>¿Estás seguro de que deseas eliminar esta pregunta?</p>
+                        <button type="submit" class="btn btn-danger">Eliminar pregunta</button>
+                        <input type="hidden" name="pregunta_id" value="{{id}}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/preguntaEncontrada}}
+
+    {{^preguntaEncontrada}}
+        <div class="alert alert-warning" role="alert">
+            <p>No se encontró la pregunta.</p>
+        </div>
+    {{/preguntaEncontrada}}
+</div>
