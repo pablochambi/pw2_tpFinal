@@ -72,6 +72,8 @@ class EditorController extends BaseController
         $this->presenter->render('view/buscarParaEliminar.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
 
+
+
     public function buscarPregunta()
     {
         $this->checkSession();
@@ -96,7 +98,7 @@ class EditorController extends BaseController
                     ]);
                 } else {
 
-                    $this->presenter->render('view/editarPreguntaVistaError.mustache', [
+                    $this->presenter->render('view/vistasPostAccion/editarPreguntaVistaError.mustache', [
                         'rol' => $rol['rol'],
 
                     ]);
@@ -142,18 +144,18 @@ class EditorController extends BaseController
 
             header('Location: /editor/buscarParaEditar');
         } else {
-            echo "no fue post";
+
         }
     }
 
-    public function eliminarPregunta()
+    public function buscarEliminarPregunta()
     {
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
-            $term = $_GET['term'];
+        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['param'])) {
+            $term = $_GET['param'];
             $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
 
             if($preguntaEncontrada){
@@ -170,7 +172,7 @@ class EditorController extends BaseController
 
                 ]);
             } else {
-                $this->presenter->render('view/eliminarPreguntaVistaError.mustache', [
+                $this->presenter->render('view/vistasPostAccion/editarPreguntaVistaError.mustache', [
                     'rol' => $rol['rol'],
 
                 ]);
@@ -180,6 +182,25 @@ class EditorController extends BaseController
         }
 
     }
+
+
+    public function eliminarPregunta()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id'])) {
+            $id = $_POST['pregunta_id'];
+            $this->model->eliminarLaPregunta($id);
+           $this->presenter->render('view/vistasPostAccion/eliminarExitoso.mustache', [
+                'rol' => $rol['rol'],
+            ]);
+        } else {
+           //Manejar la excepcion
+        }
+    }
+
 
 
 

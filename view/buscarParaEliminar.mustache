@@ -2,8 +2,8 @@
     <h2>Buscar y Editar Preguntas</h2>
     <div class="form-group">
         <label for="buscar-pregunta">Buscar Pregunta:</label>
-        <form action="/editor/buscarParaEliminar" method="GET">
-            <input type="text" class="form-control" id="buscar-pregunta" name="term" placeholder="Ingrese el ID o título de la pregunta">
+        <form action="/editor/buscarEliminarPregunta" method="GET">
+            <input type="text" class="form-control" id="buscar-preguntaEliminar" name="param" placeholder="Ingrese el ID o título de la pregunta">
             <button type="submit" class="btn btn-primary mt-2">Buscar</button>
         </form>
     </div>
@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <h5 class="card-title">ID: {{id}}</h5>
                     <p class="card-text">Texto actual: {{texto}}</p>
-                    <form action="/editor/editarPregunta" method="GET">
+                    <form action="/editor/eliminarPregunta" method="GET">
                         <label for="nuevo_texto_{{id}}">Nuevo texto:</label>
                         <input type="text" id="nuevo_texto_{{id}}" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese el nuevo texto">
                         <button type="submit" class="btn btn-success">Actualizar pregunta</button>
