@@ -41,11 +41,11 @@ class PerfilController extends BaseController
         $urlPerfil = 'http://localhost/perfiles?username=' . $username;
         $qrPath = 'qrs/' . $username . '.png';
 
-        // Generar el QR si no existe o si la URL ha cambiado
+        // genero el QR si no existe o si la URL cambio
         if (empty($usuario['qr']) || $usuario['qr'] !== $qrPath) {
             QRcode::png($urlPerfil, $qrPath);
 
-            // Actualizar la ruta del QR en la base de datos
+            // actualizo la ruta del QR en la bdd
             $this->model->actualizarQRUsuario($username, $qrPath);
             $usuario['qr'] = $qrPath;
         }
