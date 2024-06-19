@@ -19,8 +19,6 @@ class AdministradorController extends BaseController
         $this->model->crearGrafico();
     }
 
-
-
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
