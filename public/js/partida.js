@@ -45,3 +45,19 @@ function checkAnswer(button) {
     }, 5000);
 
 }
+
+var music = document.getElementById('background-music');
+var playButton = document.getElementById('play-music');
+var pauseButton = document.getElementById('pause-music');
+document.addEventListener('DOMContentLoaded', function () {
+    // la musica empieza automaticamente cuando carga la pagina
+    music.play();
+
+    playButton.addEventListener('click', function() {
+        music.play();
+    });
+
+    pauseButton.addEventListener('click', function() {
+        music.pause();
+    });
+});

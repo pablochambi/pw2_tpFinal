@@ -49,37 +49,7 @@
     <source src="/public/music/background.mp3" type="audio/mpeg">
 </audio>
 
+<!-- animaciones -->
 <script src="/public/js/partida.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var music = document.getElementById('background-music');
-        var playButton = document.getElementById('play-music');
-        var pauseButton = document.getElementById('pause-music');
 
-        // la musica empieza automaticamente cuando carga la pagina
-        music.play();
-
-        playButton.addEventListener('click', function() {
-            music.play();
-        });
-
-        pauseButton.addEventListener('click', function() {
-            music.pause();
-        });
-    });
-
-    function checkAnswer(button) {
-        var isCorrect = button.getAttribute('data-correct') === 'true';
-        var message = document.querySelector('.mensaje');
-        if (isCorrect) {
-            message.textContent = '¡Correcto!';
-            message.classList.remove('displayNone');
-            message.classList.add('correct');
-        } else {
-            message.textContent = 'Incorrecto. Intenta nuevamente.';
-            message.classList.remove('displayNone');
-            message.classList.add('incorrect');
-        }
-    }
-</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
