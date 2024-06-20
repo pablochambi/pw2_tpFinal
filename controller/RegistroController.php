@@ -13,8 +13,8 @@ class RegistroController
 
     public function get()
     {
-        $paises = $this->model->obtenerPaises();
-        $this->presenter->render("view/registro.mustache", ["paises" => $paises]);
+        //$paises = $this->model->obtenerPaises();
+        $this->presenter->render("view/registro.mustache");
     }
 
     public function procesarRegistro()
@@ -37,7 +37,7 @@ class RegistroController
 
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
-            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo,$pais,$ciudad,$email,$password,$username,$direccionDestino, $latitud, $longitud);
+            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email,$password,$username,$direccionDestino, $latitud, $longitud);
 
             $mensaje = $this->model->enviarCorreoValidacion($email, $token);
 

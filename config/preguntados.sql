@@ -1,18 +1,13 @@
 CREATE DATABASE IF NOT EXISTS preguntados;
 USE preguntados;
 
-CREATE TABLE Pais (
-                      id INT AUTO_INCREMENT PRIMARY KEY,
-                      nombre VARCHAR(100) NOT NULL
-);
-
 CREATE TABLE Usuarios (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     nombre_completo VARCHAR(100) NOT NULL,
                     anio_nacimiento YEAR NOT NULL,
                     sexo CHAR(1) NOT NULL,
-                    id_pais INT,
                     ciudad VARCHAR(100),
+                    pais VARCHAR(100),
                     email VARCHAR(100) NOT NULL UNIQUE,
                     password VARCHAR(100) NOT NULL,
                     username VARCHAR(50) NOT NULL UNIQUE,
@@ -27,8 +22,7 @@ CREATE TABLE Usuarios (
                     latitud FLOAT,
                     longitud FLOAT,
                     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    qr VARCHAR(255),
-                    FOREIGN KEY (id_pais) REFERENCES Pais(id)
+                    qr VARCHAR(255)
 );
 
 CREATE TABLE Partida (
@@ -105,13 +99,11 @@ CREATE TABLE PreguntaVistas (
 -- Datos iniciales
 INSERT INTO Rol (id,nombre) VALUES (1,'Administrador'),(2,'Editor'), (3,'Jugador');
 
-INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paraguay'), ('Brasil'), ('Bolivia'), ('Peru'), ('Ecuador'), ('Colombia'), ('Venezuela'), ('Guyana'), ('Surinam'), ('Guyana Francesa');
-
-INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr,fecha_registro)
+INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr,fecha_registro)
 VALUES
-    (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-19 15:30:00'),
-    (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
-    (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00');
+    (1,'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-19 15:30:00'),
+    (2,'Editor', 1990, 'M', 'CABA', 'Argentina', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
+    (3,'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00');
 
 
 
