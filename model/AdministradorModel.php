@@ -26,7 +26,7 @@ class AdministradorModel extends BaseModel
     }
     public function getCantidadDePartidasJugadas()
     {
-        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida ";
+        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -62,17 +62,6 @@ class AdministradorModel extends BaseModel
 
     }
 
-    public function obtenerFechaDeHoy()
-    {
-        $query = "SELECT CURDATE() as fecha";
-        $result = $this->database->executeAndReturn($query);
-        if ($result && $result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            return $row['fecha'];
-        } else {
-            die("No se pudo obtener la fecha de hoy");
-        }
-    }
 
     public function getCantidadDePartidasJugadasPorPeriodo($timeframe)
     {
@@ -102,6 +91,7 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de partidas jugadas por periodo");
         }
     }
+
 
 
 

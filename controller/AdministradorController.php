@@ -21,7 +21,7 @@ class AdministradorController extends BaseController
     public function manejoDeCambioDeFechaCantPartida()
     {
         if($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $timeframe = $_GET['timeframe'];
+            $timeframe = $_GET['timeframe'] ?? 'day';
 
             $cantidad_partidas = $this->model->getCantidadDePartidasJugadasPorPeriodo($timeframe);
 
