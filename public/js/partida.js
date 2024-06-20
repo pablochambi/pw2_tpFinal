@@ -1,4 +1,4 @@
-let timeLeft = 1000;
+let timeLeft = 10;
 let timer = document.getElementById('timer'); // aca es donde se muestra el tiempo restante
 let timeExpiredInput = document.getElementById('time_expired'); // se utiliza para indicar si el tiempo se expiró
 let form = document.getElementById('respPregunta');
