@@ -60,6 +60,6 @@ class RegistroController
             $mensaje  = "No se recibió el token.";
         }
 
-        $this->presenter->render("view/mensajeValidacion.mustache", ["mensaje" => $mensaje]);
+        $this->presenter->render("view/vistasPostAccion/mensajeValidacion.mustache", ["mensaje" => $mensaje]);
     }
 }
