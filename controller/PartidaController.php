@@ -62,7 +62,7 @@ class PartidaController extends BaseController
                 $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }else{
                 $puntaje = (string) $this->model->obtenerCantidadDePuntos($user_id);
-                $this->presenter->render("view/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
+                $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
