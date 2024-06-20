@@ -26,6 +26,7 @@ CREATE TABLE Usuarios (
                     preguntas_entregadas INT DEFAULT 0,
                     latitud FLOAT NOT NULL,
                     longitud FLOAT NOT NULL,
+                    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
                     qr VARCHAR(255),
                     FOREIGN KEY (id_pais) REFERENCES Pais(id)
 );
@@ -63,6 +64,7 @@ CREATE TABLE Pregunta (
                           id_categoria INT,
                           nivel VARCHAR(50),
                           usuario_creador INT DEFAULT NULL,  -- si no lo creo un usuario es null
+                          fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
                           revisada BOOLEAN DEFAULT FALSE,
                           valida BOOLEAN DEFAULT TRUE,
                           vecesEntregadas INT,
@@ -105,11 +107,13 @@ INSERT INTO Rol (id,nombre) VALUES (1,'Administrador'),(2,'Editor'), (3,'Jugador
 
 INSERT INTO Pais(nombre) VALUES ('Argentina'), ('Uruguay'), ('Chile'), ('Paraguay'), ('Brasil'), ('Bolivia'), ('Peru'), ('Ecuador'), ('Colombia'), ('Venezuela'), ('Guyana'), ('Surinam'), ('Guyana Francesa');
 
-INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr)
+INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, id_pais, ciudad, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr,fecha_registro)
 VALUES
-    (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL),
-    (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL),
-    (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL);
+    (1,'ignacio', 1990, 'M', 1, 'CABA', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-19 15:30:00'),
+    (2,'Editor', 1990, 'M', 1, 'CABA', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
+    (3,'Admin', 1990, 'M', 1, 'CABA', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00');
+
+
 
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
 

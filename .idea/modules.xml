@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../pw2_pokedex_mvc/.idea/pw2_pokedex_mvc.iml" filepath="$PROJECT_DIR$/../pw2_pokedex_mvc/.idea/pw2_pokedex_mvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/pw2_tpFinal.iml" filepath="$PROJECT_DIR$/.idea/pw2_tpFinal.iml" />
     </modules>
   </component>
