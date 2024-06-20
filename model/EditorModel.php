@@ -75,7 +75,7 @@ class EditorModel extends BaseModel
 
     }
 
-    public function eliminarPregunta($idPregunta)
+    public function denegarPreguntaSugerida($idPregunta)
     {
         $this->eliminarLasReferenciasEnPreguntasVistas($idPregunta);
         $this->eliminarLasReferenciasEnReportePreguntas($idPregunta);
@@ -269,6 +269,20 @@ class EditorModel extends BaseModel
         $stmt->bind_param("sii", $nuevaRespuestaIncorrecta, $idPregunta, $idRespuesta);
         $stmt->execute();
 
+
+
+    }
+
+    public function eliminarLaPregunta($idPregunta)
+    {
+
+        $query = "UPDATE pregunta SET activa = 0 WHERE id = ? ";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idPregunta);
+        $stmt->execute();
+        if ($stmt->affected_rows === 0) {
+            die('Error eliminando pregunta: ' . $this->database->error);
+        }
 
 
     }
