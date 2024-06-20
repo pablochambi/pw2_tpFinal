@@ -275,8 +275,8 @@ class EditorModel extends BaseModel
 
     public function eliminarLaPregunta($idPregunta)
     {
-        $this->eliminarLasReferenciasEnPreguntasVistas($idPregunta);
-        $query = "delete from pregunta where id = ?";
+
+        $query = "UPDATE pregunta SET activa = 0 WHERE id = ? ";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idPregunta);
         $stmt->execute();
