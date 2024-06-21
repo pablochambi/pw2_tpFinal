@@ -48,6 +48,7 @@ class PartidaModel extends BaseModel
         else
             return false;
     }
+
     public function getCategoriaPorIdDePregunta($idPregunta)
     {
         $consulta = "

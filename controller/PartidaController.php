@@ -146,7 +146,7 @@ class PartidaController extends BaseController
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
         $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
-}
+    }
 
 
 
