@@ -207,6 +207,21 @@ class EditorController extends BaseController
         }
     }
 
+    public function mostrarTodasLasPreguntas()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+        $preguntas = $this->model->traerTodasLasPreguntas();
+        $data = [
+            'pregunta' => $preguntas,
+            'rol' => $rol['rol'],
+        ];
+
+        $this->presenter->render('view/vistaEditor/todasLasPreguntas.mustache', $data);
+    }
+
 
 
 

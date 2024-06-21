@@ -1,0 +1,57 @@
+<div>
+    <a href="/editor/mostrarTodasLasPreguntas"  class="btn btn-success">Preguntas</a>
+    <a href="/editor/verSugeridas"  class="btn btn-success">Preguntas sugeridas</a>
+    <a href="/editor/mostrarPreguntasReportadas"  class="btn btn-danger">Preguntas reportadas</a>
+</div>
+<div class="container mt-4 scrollable">
+    <div class="card ">
+        <div class="card-header bg-warning text-black ">
+            <div class="container mt-5 scrollable-div">
+                <style>
+                    .scrollable-div {
+                        width: 100%;
+                        height: 600px;
+                        overflow-y: auto;
+                        border: 1px solid #dee2e6;
+                        padding: 1rem;
+                    }
+                </style>
+                <h1 class="text-center">Preguntas</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pregunta</th>
+                        <th scope="col">Respuestas</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#pregunta}}
+                        <tr>
+                            <td>{{Pregunta}}</td>
+                            <td>
+                                <ul>
+                                    {{#Respuestas}}
+                                        {{#es_correcta}}
+                                            <li class="correcta">{{.}}</li> <!-- Ese "." es la posicion en la que esta la ITERACION de respuestas -->
+                                        {{/es_correcta}}
+                                        {{^es_correcta}}
+                                            <li>{{.}}</li>
+                                        {{/es_correcta}}
+                                    {{/Respuestas}}
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="/editor/aceptar?id={{idPregunta}}"  class="btn btn-success">Editar</a>
+                                <a href="/editor/denegar?id={{idPregunta}}" class="btn btn-danger">Eliminar</a>
+                            </td>
+                        </tr>
+                    {{/pregunta}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

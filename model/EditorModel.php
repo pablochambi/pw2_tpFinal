@@ -129,8 +129,28 @@ class EditorModel extends BaseModel
 
     public function traerTodasLasPreguntas()
     {
-        $pregunta = $this->database->query("SELECT * FROM Pregunta");
-        return $pregunta;
+        $query = "SELECT 
+                        p.id as idPregunta,
+                        p.texto AS Pregunta, 
+                        GROUP_CONCAT(CONCAT(r.texto, IF(r.es_correcta = 1, ' (correcta)', '')) SEPARATOR ', ') AS Respuestas
+                    FROM Respuesta r 
+                    JOIN Pregunta p 
+                    ON p.id = r.id_pregunta 
+                    WHERE p.activa = 1
+                    GROUP BY p.id, p.texto;";
+
+        $result = $this->database->executeAndReturn($query);
+
+        if ($result === false)
+            die('Error en la consulta: ' . $this->database->error);
+
+        $preguntas = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $preguntas[] = $row;
+        }
+
+        return $preguntas;
     }
 
     public function buscarPreguntasPorIdONombre($filtro)
