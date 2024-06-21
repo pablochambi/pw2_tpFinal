@@ -93,6 +93,17 @@ class PartidaController extends BaseController
 
         $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta,'perdiste' => $perdiste]);
     }
+    public function cancelarReporte()
+    {
+        $perdiste = isset($_GET['perdiste']) ? (string) $_GET['perdiste'] : die("No se sabe si perdiste o no, error 2");
+
+        if($perdiste == 0){
+            header("Location:/partida/siguientePregunta");
+        }elseif($perdiste == 1){
+            header("Location:/homeUsuario");
+        }
+
+    }
     public function procesarReporte()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();
@@ -140,7 +151,12 @@ class PartidaController extends BaseController
 
     private function handleTimeExpired()
     {
-        echo "El tiempo ha expirado. Has perdido la pregunta."; // ESTO DEBERIA SER UNA VISTA o controlarlo como mensaje pop up como mensajeValidacion.mustache
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
+        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
+        $pregunta = $this->model->getPreguntaPorIdDePregunta($_POST['pregunta']);
+        $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
+        $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
+        $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
 
 

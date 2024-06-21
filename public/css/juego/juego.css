@@ -1,6 +1,14 @@
 #tituloCategoria{
     text-align: center;
-    margin-top: 20px;
+    margin: 0px;
+}
+.conteinerTituloCategoria{
+    padding: 9px 5px 5px 5px;
+    color: #fff !important;
+}
+#timer{
+    margin: 7Px;
+    FONT-SIZE: LARGER;
 }
 
 .question-container {

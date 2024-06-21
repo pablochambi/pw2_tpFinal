@@ -46,11 +46,11 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de partidas jugadas</td>
-                        <td>{{{cantidad_partidas}}}</td>
+                        <td><span id="cantidad_partidas">{{cantidad_partidas}}</span></td>
                         <td>
                             <label for="timeframe"></label>
                             <select id="timeframe" name="timeframe">
-                                <option value="day">Día</option>
+                                <option value="day" >Día</option>
                                 <option value="week">Semana</option>
                                 <option value="month">Mes</option>
                                 <option value="year">Año</option>
@@ -264,3 +264,6 @@
     <h2>Generar Grafico</h2>
     <img src="/administrador/generarGrafico"/>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/public/js/tiempoSelect.js"></script>

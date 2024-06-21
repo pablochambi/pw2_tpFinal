@@ -26,7 +26,7 @@ class AdministradorModel extends BaseModel
     }
     public function getCantidadDePartidasJugadas()
     {
-        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida ";
+        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -61,6 +61,37 @@ class AdministradorModel extends BaseModel
         }
 
     }
+
+
+    public function getCantidadDePartidasJugadasPorPeriodo($timeframe)
+    {
+        switch ($timeframe) {
+            case 'day':
+                $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE YEARWEEK(fecha) = YEARWEEK(CURDATE())";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE MONTH(fecha) = MONTH(CURDATE())";
+                break;
+             case 'year':
+                $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE YEAR(fecha) = YEAR(CURDATE())";
+                break;
+             default:
+                die("No se pudo obtener la cantidad de partidas jugadas por periodo");
+
+        }
+        $result = $this->database->executeAndReturn($consulta);
+
+        if($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_partidas'];
+        } else {
+            die("No se pudo obtener la cantidad de partidas jugadas por periodo");
+        }
+    }
+
 
 
 

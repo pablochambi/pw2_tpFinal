@@ -1,19 +1,4 @@
-<style>
-    #reportForm {
-        display: flex;
-        justify-content: space-evenly;
-        flex-direction: column;
-    }
-    .conteinerFormReporte {
-        display: flex;
-        margin: 0 auto;
-        border-style: groove;
-        border-radius: 1rem;
-        width: 35rem;
-        padding: 1rem;
-        flex-direction: column;
-    }
-</style>
+
 <div class="registration-form">
     <div class="conteinerFormReporte">
         <form id="reportForm" action="/partida/procesarReporte" method="post">
@@ -53,26 +38,11 @@
             <input type="hidden" name="idPregunta" value="{{idPregunta}}">
             <input type="hidden" name="perdiste" value="{{perdiste}}">
             <button type="submit" class="btn btn-danger">Reportar</button>
+            <a class="btn btn-primary" href="/partida/cancelarReporte?perdiste={{perdiste}}" style="
+            padding: 5px;
+            ">Cancelar </a>
         </form>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var otraRazonRadio = document.getElementById('otraRazonRadio');
-        var otherReasonContainer = document.getElementById('otherReasonContainer');
-        var otherReasonText = document.getElementById('otherReasonText');
-        var reasonRadios = document.getElementsByName('reason');
 
-        reasonRadios.forEach(function(radio) {
-            radio.addEventListener('change', function () {
-                if (otraRazonRadio.checked) {
-                    otherReasonContainer.style.display = 'block';
-                    otherReasonText.required = true;
-                } else {
-                    otherReasonContainer.style.display = 'none';
-                    otherReasonText.required = false;
-                }
-            });
-        });
-    });
-</script>
+<script src="/public/js/reporteDePregunta.js" ></script>
