@@ -93,6 +93,17 @@ class PartidaController extends BaseController
 
         $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta,'perdiste' => $perdiste]);
     }
+    public function cancelarReporte()
+    {
+        $perdiste = isset($_GET['perdiste']) ? (string) $_GET['perdiste'] : die("No se sabe si perdiste o no, error 2");
+
+        if($perdiste == 0){
+            header("Location:/partida/siguientePregunta");
+        }elseif($perdiste == 1){
+            header("Location:/homeUsuario");
+        }
+
+    }
     public function procesarReporte()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();

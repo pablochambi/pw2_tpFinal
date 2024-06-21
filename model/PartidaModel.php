@@ -2,7 +2,7 @@
 
 class PartidaModel extends BaseModel
 {
-    const CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES = 5;
+    const CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES = 8;
 
     public function __construct($database){
         parent:: __construct($database);
