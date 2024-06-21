@@ -1,11 +1,17 @@
-
 <div class="w3-container">
     <div class="w3-card w3-margin">
-        {{#categoria}}
-        <div class="conteinerTituloCategoria" style="background-color: {{{color}}}">
-            <h2 id="tituloCategoria"  >{{{nombre}}}</h2>
-            <div id="timer" class="w3-right w3-large"> 10</div>
+
+        <!-- control de musica -->
+        <div class="music-controls">
+            <button id="play-music" class="w3-button w3-green"><i class="fas fa-play"></i></button>
+            <button id="pause-music" class="w3-button w3-red"><i class="fas fa-pause"></i></button>
         </div>
+
+        {{#categoria}}
+            <div class="conteinerTituloCategoria" style="background-color: {{{color}}}">
+                <h2 id="tituloCategoria">{{{nombre}}}</h2>
+                <div class="text-center" id="timer" class="w3-right w3-large">10</div>
+            </div>
         {{/categoria}}
 
         <form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
@@ -18,10 +24,10 @@
                 <ul class="answers">
                     {{#respuestas}}
                         <li class="answer">
-                           <button type="submit" name="respuesta" value="{{texto}}"
+                            <button type="submit" name="respuesta" value="{{texto}}"
                                     class="padding10_20"
                                     data-correct="{{es_correcta}}" onclick="checkAnswer(this)">
-                               {{texto}}
+                                {{texto}}
                             </button>
                         </li>
                     {{/respuestas}}
@@ -33,14 +39,17 @@
         </form>
 
         <div>
-            <h1 class="mensaje displayNone" >Mensaje</h1>
+            <h1 class="mensaje displayNone">Mensaje</h1>
         </div>
-
     </div>
 </div>
 
+<!-- musica -->
+<audio id="background-music" loop>
+    <source src="/public/music/background.mp3" type="audio/mpeg">
+</audio>
+
+<!-- animaciones -->
 <script src="/public/js/partida.js"></script>
 
-
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

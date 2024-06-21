@@ -48,6 +48,7 @@ class PartidaModel extends BaseModel
         else
             return false;
     }
+
     public function getCategoriaPorIdDePregunta($idPregunta)
     {
         $consulta = "
@@ -88,7 +89,9 @@ class PartidaModel extends BaseModel
     }
     public function arrancarPartida($usuario)
     {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
         $fecha = date('Y-m-d H:i:s');
+
         $arrancarPartida = "Insert into Partida (id_usuario, fecha) values ($usuario, '$fecha')";
         $result = $this->database->executeAndReturn($arrancarPartida);
 

@@ -140,7 +140,12 @@ class PartidaController extends BaseController
 
     private function handleTimeExpired()
     {
-        echo "El tiempo ha expirado. Has perdido la pregunta."; // ESTO DEBERIA SER UNA VISTA o controlarlo como mensaje pop up como mensajeValidacion.mustache
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
+        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
+        $pregunta = $this->model->getPreguntaPorIdDePregunta($_POST['pregunta']);
+        $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
+        $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
+        $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
 
 

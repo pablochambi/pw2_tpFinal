@@ -46,11 +46,11 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de partidas jugadas</td>
-                        <td>{{{cantidad_partidas}}}</td>
+                        <td><span id="cantidad_partidas">{{cantidad_partidas}}</span></td>
                         <td>
                             <label for="timeframe"></label>
                             <select id="timeframe" name="timeframe">
-                                <option value="day">Día</option>
+                                <option value="day" >Día</option>
                                 <option value="week">Semana</option>
                                 <option value="month">Mes</option>
                                 <option value="year">Año</option>
@@ -121,6 +121,113 @@
                 </table>
             </div>
         </div>
+
+        <div class="card-header bg-warning text-black">
+            <div class="container mt-3">
+                <h3 class="text-center">Usuarios por pais</h3>
+                <label for="timeframe">Filtrar Por: </label>
+                <select id="timeframe" name="timeframe">
+                    <option value="day">Día</option>
+                    <option value="week">Semana</option>
+                    <option value="month">Mes</option>
+                    <option value="year">Año</option>
+                </select>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pais</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Argentina</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Uruguay</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>Chile</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>Brasil</td>
+                        <td>100</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-header bg-warning text-black">
+            <div class="container mt-3">
+                <h3 class="text-center">Usuarios por sexo</h3>
+                <label for="timeframe">Filtrar Por: </label>
+                <select id="timeframe" name="timeframe">
+                    <option value="day">Día</option>
+                    <option value="week">Semana</option>
+                    <option value="month">Mes</option>
+                    <option value="year">Año</option>
+                </select>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sexo</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Masculino</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Femenino</td>
+                        <td>80</td>
+                    </tr>
+                    <tr>
+                        <td>Prefiero no decirlo</td>
+                        <td>10</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-header bg-warning text-black">
+            <div class="container mt-3">
+                <h3 class="text-center">Usuarios por grupo</h3>
+                <label for="timeframe">Filtrar Por:</label>
+                <select id="timeframe" name="timeframe">
+                    <option value="day">Día</option>
+                    <option value="week">Semana</option>
+                    <option value="month">Mes</option>
+                    <option value="year">Año</option>
+                </select>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Grupo</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Menores de 18</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Medio (entre 18 y 60)</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Jubilados (>60)</td>
+                            <td>10</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios nuevos</h3>
@@ -138,97 +245,7 @@
                         <td>Cantidad de usuarios nuevos</td>
                         <td>100</td>
                         <td>
-                            <label for="timeframe"></label>
-                            <select id="timeframe" name="timeframe">
-                                <option value="day">Día</option>
-                                <option value="week">Semana</option>
-                                <option value="month">Mes</option>
-                                <option value="year">Año</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-header bg-warning text-black">
-            <div class="container mt-3">
-                <h3 class="text-center">Usuarios por pais</h3>
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Metrica</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Filtracion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Cantidad de usuarios por pais</td>
-                        <td>100</td>
-                        <td>
-                            <label for="timeframe"></label>
-                            <select id="timeframe" name="timeframe">
-                                <option value="day">Día</option>
-                                <option value="week">Semana</option>
-                                <option value="month">Mes</option>
-                                <option value="year">Año</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-header bg-warning text-black">
-            <div class="container mt-3">
-                <h3 class="text-center">Usuarios por sexo</h3>
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Metrica</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Filtracion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Cantidad de usuarios por sexo</td>
-                        <td>100</td>
-                        <td>
-                            <label for="timeframe"></label>
-                            <select id="timeframe" name="timeframe">
-                                <option value="day">Día</option>
-                                <option value="week">Semana</option>
-                                <option value="month">Mes</option>
-                                <option value="year">Año</option>
-                            </select>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-header bg-warning text-black">
-            <div class="container mt-3">
-                <h3 class="text-center">Usuarios por grupo</h3>
-
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Metrica</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Filtracion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Cantidad de usuarios por grupo</td>
-                        <td>100</td>
-                        <td>
-                            <label for="timeframe"></label>
+                            <label for="timeframe">Filtrar Por:</label>
                             <select id="timeframe" name="timeframe">
                                 <option value="day">Día</option>
                                 <option value="week">Semana</option>
@@ -247,3 +264,6 @@
     <h2>Generar Grafico</h2>
     <img src="/administrador/generarGrafico"/>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/public/js/tiempoSelect.js"></script>
