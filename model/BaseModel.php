@@ -1,4 +1,5 @@
 <?php
+
 class BaseModel
 {
     protected $database;
@@ -8,7 +9,7 @@ class BaseModel
         $this->database = $database;
     }
 
-    public function ejecutarEnLaBD1($consulta,$tiposDeDatos,$parametro)
+    public function ejecutarEnLaBD1($consulta, $tiposDeDatos, $parametro)
     {
         $stmt = $this->database->prepare($consulta);
         if (!$stmt)
@@ -22,7 +23,7 @@ class BaseModel
         return $stmt;
     }
 
-    public function ejecutarEnLaBD2($consulta,$tiposDeDatos, $parametro1,  $parametro2)
+    public function ejecutarEnLaBD2($consulta, $tiposDeDatos, $parametro1, $parametro2)
     {
         $stmt = $this->database->prepare($consulta);
         if (!$stmt)
@@ -34,7 +35,8 @@ class BaseModel
 
         return $stmt;
     }
-    public function ejecutarEnLaBD3Parametros($consulta,$tiposDeDatos, $parametro1,  $parametro2, $parametro3)
+
+    public function ejecutarEnLaBD3Parametros($consulta, $tiposDeDatos, $parametro1, $parametro2, $parametro3)
     {
         $stmt = $this->database->prepare($consulta);
         if (!$stmt)
@@ -47,14 +49,12 @@ class BaseModel
         return $stmt;
     }
 
-
-
     public function obtenerResultados($stmt)
     {
         $resultado = $stmt->get_result();
         if ($resultado && $resultado->num_rows > 0)
             return $resultado->fetch_assoc();
-        else{
+        else {
             echo "No hay resultados  para la consulta";
             exit();
         }
@@ -70,7 +70,7 @@ class BaseModel
         WHERE u.id = ?;
     ";
 
-        $stmt = $this->ejecutarEnLaBD1($consulta,"i",$idUsuario);
+        $stmt = $this->ejecutarEnLaBD1($consulta, "i", $idUsuario);
         return $this->obtenerResultados($stmt);
     }
 }

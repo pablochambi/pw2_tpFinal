@@ -1,6 +1,7 @@
 <?php
 
-class PreguntaController extends BaseController {
+class PreguntaController extends BaseController
+{
 
     public function __construct($model, $presenter)
     {
@@ -10,14 +11,12 @@ class PreguntaController extends BaseController {
 
     public function get()
     {
-    $this->checkSession();
+        $this->checkSession();
         $userId = $_SESSION["username"];
         $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
         $categorias = $this->model->getCategorias();
 
-        $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol"=> $rol['rol']]);
-
-
+        $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol" => $rol['rol']]);
     }
 
     public function crearPreguntaSugerida()
@@ -29,7 +28,6 @@ class PreguntaController extends BaseController {
             $usuario_creador = $this->checkSessionYTraerIdUsuario();
 
             $resultado = $this->model->crearPreguntaSugerida($texto, $id_categoria, $usuario_creador);
-           
 
             if ($resultado) {
                 $rol = $this->verificarDeQueRolEsElUsuario($usuario_creador);
@@ -46,5 +44,4 @@ class PreguntaController extends BaseController {
             echo "error";
         }
     }
-
 }

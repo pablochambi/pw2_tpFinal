@@ -1,15 +1,18 @@
 <?php
 
-class PreguntaModel Extends BaseModel{
+class PreguntaModel extends BaseModel
+{
     private $preguntaFacil;
     private $preguntaMedia;
     private $preguntaDificil;
 
-    public function __construct($database){
+    public function __construct($database)
+    {
         parent:: __construct($database);
     }
 
-    public function obtenerPregunta(){
+    public function obtenerPregunta()
+    {
         $pregunta = $this->database->query("SELECT * FROM Pregunta");
         return $pregunta;
     }
@@ -24,7 +27,7 @@ class PreguntaModel Extends BaseModel{
 
         if ($stmt->execute())
             $idPregunta = $stmt->insert_id;
-            return $idPregunta;
+        return $idPregunta;
     }
 
     public function getCategorias()
@@ -33,7 +36,6 @@ class PreguntaModel Extends BaseModel{
 
         return $categorias;
     }
-
 
 
 }

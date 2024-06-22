@@ -3,7 +3,8 @@
 class RankingModel extends BaseModel
 {
 
-    public function __construct($database){
+    public function __construct($database)
+    {
         parent:: __construct($database);
     }
 

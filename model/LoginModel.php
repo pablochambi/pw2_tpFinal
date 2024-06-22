@@ -2,11 +2,13 @@
 
 class LoginModel extends BaseModel
 {
-    public function __construct($database){
+    public function __construct($database)
+    {
         parent:: __construct($database);
     }
 
-    public function procesarInicioSesion($email, $password){
+    public function procesarInicioSesion($email, $password)
+    {
 
         $seInicioSesion = false;
         $resultado = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
@@ -15,17 +17,16 @@ class LoginModel extends BaseModel
         $resultado->execute();
         $resultado = $resultado->get_result();
 
-        if ($resultado -> num_rows == 1) {
-            $fila = $resultado -> fetch_assoc();
+        if ($resultado->num_rows == 1) {
+            $fila = $resultado->fetch_assoc();
 
-            if ($password == $fila["password"]  ) {
-                $seInicioSesion =  true;
+            if ($password == $fila["password"]) {
+                $seInicioSesion = true;
             }
 
-        }elseif ($resultado -> num_rows == 0){
+        } elseif ($resultado->num_rows == 0) {
             die("No se encuentra el mail ingresado en la base de datos");
-        }
-        else {
+        } else {
             die("Hay mails repetidos en la base de datos");
         }
 
@@ -49,12 +50,13 @@ class LoginModel extends BaseModel
 
         if ($resultado->num_rows > 0)
             return $resultado->fetch_assoc();
-            // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
+        // verifico si el numero de filas en el resultado es mayor que 0 y devuelvo la fila
 
         return false;
     }
 
-    public function obtenerUsuarioConNombre($idUsuario) {
+    public function obtenerUsuarioConNombre($idUsuario)
+    {
         $consulta = "SELECT u.* 
                      FROM Usuarios u 
                      WHERE u.id = ?";

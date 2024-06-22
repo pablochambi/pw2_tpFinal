@@ -1,4 +1,5 @@
 <?php
+
 class BaseController
 {
     protected $model;
@@ -29,8 +30,6 @@ class BaseController
         return $_SESSION['username']['id'];
     }
 
-
-
     protected function getUsername()
     {
         return $_SESSION["username"];
@@ -40,5 +39,4 @@ class BaseController
     {
         return $this->model->verificarDeQueRolEsElUsuario($idUsuario);
     }
-
 }

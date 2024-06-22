@@ -1,4 +1,5 @@
 <?php
+
 class PreguntasReportadas extends BaseController
 {
     public function __construct($model, $presenter)
@@ -13,9 +14,7 @@ class PreguntasReportadas extends BaseController
         $rol = $this->verificarDeQueRolEsElUsuario($userId);
         $categorias = $this->model->getCategorias();
 
-        $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol"=> $rol['rol']]);
+        $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol" => $rol['rol']]);
 
     }
-
-
 }

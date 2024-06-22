@@ -1,6 +1,7 @@
 <?php
 
-class RespuestaModel {
+class RespuestaModel
+{
 
     private $database;
 
@@ -9,7 +10,8 @@ class RespuestaModel {
         $this->database = $database;
     }
 
-    public function obtenerRespuesta(){
+    public function obtenerRespuesta()
+    {
         $respuesta = $this->database->query("SELECT * FROM Respuesta where id_pregunta = 1");
         return $respuesta;
     }

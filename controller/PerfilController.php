@@ -1,4 +1,5 @@
 <?php
+
 class PerfilController extends BaseController
 {
     public function __construct($model, $presenter)
@@ -29,9 +30,8 @@ class PerfilController extends BaseController
         $username = $_GET['username'];
         $usuario = $this->model->obtenerUsuarioPorUsername($username);
 
-        if ($usuario === null) {
+        if ($usuario === null)
             die('Usuario no encontrado.');
-        }
 
         $anioNacimiento = $usuario['anio_nacimiento'];
         $anioActual = date("Y");
