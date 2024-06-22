@@ -8,11 +8,11 @@ class AdministradorModel extends BaseModel
         $this->grafica = $grafica;
     }
 
-    public function crearGrafico($arrayDeDatos)
-    {
-        $this->grafica->graficar($arrayDeDatos);
-    }
-
+    public function crearGrafico($datos) { $this->grafica->graficar($datos); }
+    public function crearGraficoDeUsuariosPorSexo($datos) { $this->grafica->usuariosPorSexo($datos); }
+    public function crearGraficoDeUsuariosPorGrupo($datos) { $this->grafica->usuariosPorGrupo($datos); }
+    public function crearGraficoDeUsuariosPorPais($datos) { $this->grafica->usuariosPorPais($datos); }
+    public function graficoPorcentajeCorrectoUsuarios($datos) { $this->grafica->usuariosPorGrupo($datos); }
     public function getCantidadDeJugadores()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
@@ -105,11 +105,8 @@ class AdministradorModel extends BaseModel
                         ORDER BY fecha;
                     ";
         $resultConsulta = $this->database->executeAndReturn($consulta);
-
         $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
-
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
-
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
     public function obtenerLasCantidadesDeUsuariosNuevosPorDia($fechas) :array
@@ -124,11 +121,8 @@ class AdministradorModel extends BaseModel
                         ORDER BY fecha;
                     ";
         $resultConsulta = $this->database->executeAndReturn($consulta);
-
         $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
-
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
-
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
     public function obtenerLasCantidadesDePartidasPorDia($fechas) :array
@@ -143,11 +137,8 @@ class AdministradorModel extends BaseModel
                         ORDER BY fecha;
                     ";
         $resultConsulta = $this->database->executeAndReturn($consulta);
-
         $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
-
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
-
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
 
