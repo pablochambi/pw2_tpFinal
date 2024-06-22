@@ -38,8 +38,8 @@ class AdministradorController extends BaseController
 //graficoDeUsuariosPorSexo
     public function graficoDeUsuariosPorSexo()
     {
-        $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosPorSexo();
-        $this->model->crearGraficoDeUsuariosPorSexo($arrayDeDatos);
+        $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
+        $this->model->graficarCantidadDeUsuariosPorSexo($arrayDeDatos);
     }
 
 //graficoDeUsuariosPorGrupo

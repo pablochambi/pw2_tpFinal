@@ -11,10 +11,25 @@ class AdministradorModel extends BaseModel
     }
 
     public function crearGrafico($datos) { $this->grafica->graficar($datos); }
-    public function crearGraficoDeUsuariosPorSexo($datos) { $this->grafica->usuariosPorSexo($datos); }
-    public function crearGraficoDeUsuariosPorGrupo($datos) { $this->grafica->usuariosPorGrupo($datos); }
-    public function crearGraficoDeUsuariosPorPais($datos) { $this->grafica->usuariosPorPais($datos); }
-    public function graficoPorcentajeCorrectoUsuarios($datos) { $this->grafica->usuariosPorGrupo($datos); }
+    public function graficarCantidadDeUsuariosPorSexo($datos) { $this->grafica->usuariosPorSexo($datos); }
+    public function graficarCantidadDeUsuariosPorGrupo($datos) { $this->grafica->usuariosPorGrupo($datos); }
+    public function graficarCantidadDeUsuariosPorPais($datos) { $this->grafica->usuariosPorPais($datos); }
+    public function graficarPorcentajeDeCorrectasPorUsuarios($datos) { $this->grafica->porcentajeUsuarioCorrectas($datos); }
+
+    public function getCantidadesDeUsuariosPorSexo()
+    {
+        $consulta = "SELECT  sexo , 
+                            COUNT(*) AS cantidad 
+                        FROM Usuarios 
+                        WHERE sexo IN ('M','F','X')
+                        GROUP BY sexo
+                        
+                    ";
+        $resultConsulta = $this->database->executeAndReturn($consulta);
+        $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
+        $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+    }
     public function getCantidadDeJugadores()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
@@ -26,7 +41,6 @@ class AdministradorModel extends BaseModel
             die("No se conto la cantidad de jugadores");
         }
     }
-
     public function getCantidadDePartidasJugadas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
@@ -38,7 +52,6 @@ class AdministradorModel extends BaseModel
             die("No se conto la cantidad de partidas");
         }
     }
-
     public function getCantidadDePreguntasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas FROM Pregunta WHERE activa = 1";
@@ -50,7 +63,6 @@ class AdministradorModel extends BaseModel
             die("No se conto la cantidad de preguntas");
         }
     }
-
     public function getCantidadDePreguntasCreadasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
@@ -63,7 +75,6 @@ class AdministradorModel extends BaseModel
             die("No se conto la cantidad de preguntas creadas");
         }
     }
-
     public function getCantidadDePartidasJugadasPorPeriodo($timeframe)
     {
         switch ($timeframe) {
@@ -92,7 +103,6 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de partidas jugadas por periodo");
         }
     }
-
     public function obtenerLasCantidadesDePreguntasCredasPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
@@ -109,7 +119,6 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-
     public function obtenerLasCantidadesDeUsuariosNuevosPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
@@ -126,7 +135,6 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-
     public function obtenerLasCantidadesDePartidasPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
@@ -143,7 +151,6 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {
         $dataFechaCantidad = [];
@@ -153,7 +160,6 @@ class AdministradorModel extends BaseModel
         }
         return $dataFechaCantidad;
     }
-
     private function llenarConCantidadesALasFechas($result, $dataFechaCantidad): array
     {
         if ($result && $result->num_rows > 0) {
@@ -165,7 +171,6 @@ class AdministradorModel extends BaseModel
         }
         return $dataFechaCantidad;
     }
-
     private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data): array
     {
         $final_array = [];
