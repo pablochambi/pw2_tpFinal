@@ -22,31 +22,33 @@ class PerfilController extends BaseController
     {
         $this->checkSession();
 
-        if (!isset($_GET['username']))
+        if (!isset($_GET['username'])) {
             die('Usuario no especificado.');
+        }
 
         $username = $_GET['username'];
         $usuario = $this->model->obtenerUsuarioPorUsername($username);
 
-        if ($usuario === null)
+        if ($usuario === null) {
             die('Usuario no encontrado.');
+        }
 
         $anioNacimiento = $usuario['anio_nacimiento'];
         $anioActual = date("Y");
         $edad = $anioActual - $anioNacimiento;
-        // calculo la edad del usuario para mostrarla
         $usuario['edad'] = $edad;
 
-        include('third-party/phpqrcode/qrlib.php');
-        $contenido = 'https://NOSE/usuario/' . $usuario['username'];
-        $nombreArchivo = 'qrs/' . $usuario['username'] . '.png';
+        $urlPerfil = 'http://localhost/perfiles?username=' . $username;
+        $qrPath = 'qrs/' . $username . '.png';
 
-        if (!file_exists('qrs'))
-            mkdir('qrs', 0777, true);
+        // genero el QR si no existe o si la URL cambio
+        if (empty($usuario['qr']) || $usuario['qr'] !== $qrPath) {
+            QRcode::png($urlPerfil, $qrPath);
 
-        QRcode::png($contenido, $nombreArchivo, QR_ECLEVEL_L, 10);
-
-        $usuario['qr'] = $nombreArchivo;
+            // actualizo la ruta del QR en la bdd
+            $this->model->actualizarQRUsuario($username, $qrPath);
+            $usuario['qr'] = $qrPath;
+        }
 
         $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario]);
     }

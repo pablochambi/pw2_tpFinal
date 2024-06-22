@@ -87,19 +87,21 @@ class LoginModel extends BaseModel
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public function generarQr($id)
+    public function actualizarQRUsuario($username, $qrPath)
     {
-        $url = 'http://localhost/tpFinal/perfilJugador/list?id=' . $id;
+        $query = "UPDATE Usuarios SET qr = ? WHERE username = ?";
+        $stmt = $this->database->prepare($query);
 
-        // Ruta y nombre del archivo de imagen del código QR (puede ser un archivo PNG, JPG, etc.)
-        $archivoImagen = './public/img/qrcode.png';
+        if ($stmt === false)
+            throw new Exception("error u.u: " . $this->database->error);
 
-        // Tamaño y nivel de corrección del código QR (0 = bajo, 1 = medio, 2 = alto, 3 = mejor)
-        $tamano = 10;
-        $nivelCorreccion = 'L';
+        $stmt->bind_param("ss", $qrPath, $username);
 
-        QRcode::png($url, $archivoImagen, $nivelCorreccion, $tamano);
-        return $archivoImagen;
+        if (!$stmt->execute())
+            throw new Exception("errorx2: " . $stmt->error);
+
+        return true;
     }
+
 
 }

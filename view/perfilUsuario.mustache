@@ -1,25 +1,64 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&callback=initMap&libraries=places,marker" async defer></script>
+<title>Perfil de {{usuario.username}}</title>
 <div class="container mt-4">
     <div class="card">
-        <div class="card-header bg-warning text-black">
-            Perfil de Usuario
+        <div class="card-header bg-primary text-white">
+            <h1>Perfil de {{usuario.username}}</h1>
         </div>
-        {{#usuario}}
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
+                    <img src="/{{usuario.foto}}" class="w-100 rounded-circle border border-2 border-gray-700 shadow-lg mb-3" alt="Foto de {{usuario.username}}">
+                </div>
+                <div class="col-md-8">
+                    <p><strong>Nombre:</strong> {{usuario.nombre_completo}}</p>
+                    <p><strong>Edad:</strong> {{usuario.edad}}</p>
+                    <p><strong>Email:</strong> {{usuario.email}}</p>
+                    <p><strong>Ciudad:</strong> {{usuario.ciudad}}</p>
+                    <p><strong>Puntaje acumulado:</strong> {{usuario.puntaje_acumulado}}</p>
+                    <p><strong>Partidas jugadas:</strong> {{usuario.partidas_realizadas}}</p>
+                    <p><strong>Nivel:</strong> {{usuario.nivel}}</p>
+
                     <div class="w-full md:w-1/3 flex justify-center">
-                        <img src="/{{foto}}" alt="Foto de perfil"
-                             class="w-40 h-40 rounded-full border border-[2px] border-gray-700 shadow-lg">
+                        <img src="qrs/{{usuario.qr}}" alt="Código QR del perfil" class="w-24 h-24 border border-2 border-gray-700 shadow-lg">
+                    </div>
+
+                    <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
+                        <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-2 border-gray-700 shadow-lg"></div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <p class="card-text"><strong>Nombre de usuario:</strong> {{username}}</p>
-                    <p class="card-text"><strong>Año de nacimiento:</strong> {{anio_nacimiento}}</p>
-                    <p class="card-text"><strong>País:</strong> {{nombre_pais}}</p>
-                    <p class="card-text"><strong>Ciudad:</strong> {{ciudad}}</p>
-                </div>
-                {{/usuario}}
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var map, AdvancedMarkerElement;
+
+    async function initMap() {
+        var lat = {{usuario.latitud}};
+        var lng = {{usuario.longitud}};
+
+        var myLatLng = { lat: lat, lng: lng };
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 14,
+            center: myLatLng,
+            disableDefaultUI: true,
+            zoomControl: true,
+            gestureHandling: 'cooperative'
+        });
+
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        new AdvancedMarkerElement({
+            map: map,
+            position: myLatLng,
+            title: 'Marcador'
+        });
+    }
+
+    window.onload = function() {
+        initMap();
+    };
+</script>
