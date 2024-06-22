@@ -153,6 +153,63 @@ class AdministradorModel extends BaseModel
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
 
+    public function obtenerPreguntasActivasPorPeriodo($timeframe)
+    {
+        $currentDate = date('Y-m-d'); // Obtener la fecha actual en formato YYYY-MM-DD
+
+        switch ($timeframe) {
+            case 'day':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntas 
+                 FROM Pregunta 
+                 WHERE (
+                     (fecha_comienzoActivo <= '$currentDate' AND (fecha_finActivo IS NULL OR fecha_finActivo >= '$currentDate'))
+                     OR
+                     (fecha_comienzoActivo <= '$currentDate' AND fecha_finActivo >= '$currentDate')
+                 )";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntas 
+                 FROM Pregunta 
+                 WHERE (
+                     YEARWEEK(fecha_comienzoActivo) = YEARWEEK('$currentDate')
+                     OR
+                     (fecha_comienzoActivo <= '$currentDate' AND fecha_comienzoActivo > DATE_SUB('$currentDate', INTERVAL 1 WEEK))
+                 )";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntas 
+                 FROM Pregunta 
+                 WHERE (
+                     MONTH(fecha_comienzoActivo) = MONTH('$currentDate')
+                     OR
+                     (fecha_comienzoActivo <= '$currentDate' AND fecha_comienzoActivo > DATE_SUB('$currentDate', INTERVAL 1 MONTH))
+                 )";
+                break;
+            case 'year':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntas 
+                 FROM Pregunta 
+                 WHERE (
+                     (YEAR(fecha_comienzoActivo) = YEAR('$currentDate') - 1 AND fecha_comienzoActivo > DATE_SUB('$currentDate', INTERVAL 1 YEAR))
+                     OR
+                     (fecha_comienzoActivo <= '$currentDate' AND (fecha_finActivo IS NULL OR fecha_finActivo >= '$currentDate'))
+                 )";
+                break;
+            default:
+                die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+
+        $result = $this->database->executeAndReturn($consulta);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntas']; // Ajustado el índice al nombre correcto del alias
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+
+
+
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {
         $dataFechaCantidad = [];

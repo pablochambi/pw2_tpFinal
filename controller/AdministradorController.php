@@ -64,6 +64,18 @@ class AdministradorController extends BaseController
         }
     }
 
+    public function manejoDeCambioDeFechaPartidasActiva()
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $timeframe2 = $_GET['timeframe2'] ?? 'day';
+            error_log("Timeframe seleccionado: " . $timeframe2);
+            $cantidad_preguntasActivas = $this->model->obtenerPreguntasActivasPorPeriodo($timeframe2);
+            header('Content-Type: application/json');
+            echo json_encode(['cantidad_preguntasActivas' => $cantidad_preguntasActivas]);
+            exit();
+        }
+    }
+
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
