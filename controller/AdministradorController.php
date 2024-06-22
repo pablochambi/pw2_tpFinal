@@ -95,6 +95,28 @@ class AdministradorController extends BaseController
         }
     }
 
+    public function manejoDeCambioDeFechaUsuariosHombres()
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $timeframe = $_GET['timeframe4'] ?? 'day';
+            $cantidad_usuariosHombres = $this->model->obtenerUsuariosHombresRegistradosPorPeriodo($timeframe);
+            header('Content-Type: application/json');
+            echo json_encode(['cantidad_usuarios_masculinos' => $cantidad_usuariosHombres]);
+            exit();
+        }
+    }
+
+    public function manejoDeCambioDeFechaUsuariosMujeres()
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $timeframe = $_GET['timeframe4'] ?? 'day';
+            $cantidad_usuariosMujeres = $this->model->obtenerUsuariosMujeresRegistradosPorPeriodo($timeframe);
+            header('Content-Type: application/json');
+            echo json_encode(['cantidad_usuarios_femeninos' => $cantidad_usuariosMujeres]);
+            exit();
+        }
+    }
+
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
@@ -103,9 +125,9 @@ class AdministradorController extends BaseController
         $cantPreguntas = $this->model->getCantidadDePreguntasActivas();
         $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadasActivas();
         $timeframe = $_GET['timeframe'] ?? 'day';
-
+        $cantidadUsuariosHombres = $this->model->obtenerUsuariosDelDiaRegistrado();
         $cantidad_partidas = $this->model->getCantidadDePartidasJugadasPorPeriodo($timeframe);
-
+        $cantidadUsuariosMujeres = $this->model->obtenerUsuariosDelDiaMujeresRegistrado();
 
         return [
             'rol' => $rol['rol'],
@@ -113,6 +135,8 @@ class AdministradorController extends BaseController
             'cantidad_partidas' => $cantPartidasJugadas,
             'cantidad_preguntas' => $cantPreguntas,
             'cantidad_partidasPeriodo' => $cantidad_partidas,
-            'cantidad_preguntas_creadas' => $cantPreguntasCreadas];
+            'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
+            'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
+            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres];
     }
 }
