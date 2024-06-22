@@ -50,12 +50,10 @@ class GraficoCreator
         $graph->Stroke();
     }
 
-    public function usuariosPorSexo($arrayDeDatos)
+    public function usuariosPorSexo($data)
     {
 
-        $data = $arrayDeDatos;
-        $data1y = array($data[0]['cantidad'],$data[1]['cantidad'],$data[2]['cantidad'],
-            $data[3]['cantidad'],$data[4]['cantidad'],$data[5]['cantidad'],$data[6]['cantidad']);
+        $data1y = array($data[0]['cantidad'],$data[1]['cantidad'],$data[2]['cantidad']);
 
         // Create the graph. These two calls are always required
         $graph = new Graph(500,300,'auto');
@@ -68,8 +66,7 @@ class GraficoCreator
         $graph->SetBox(false);
 
         $graph->ygrid->SetFill(false);
-        $graph->xaxis->SetTickLabels(array($data[0]['fecha'],$data[1]['fecha'],$data[2]['fecha'],
-            $data[3]['fecha'],$data[4]['fecha'],$data[5]['fecha'],$data[6]['fecha']));
+        $graph->xaxis->SetTickLabels(array($data[0]['sexo'],$data[1]['sexo'],$data[2]['sexo']));
         $graph->yaxis->HideLine(false);
         $graph->yaxis->HideTicks(false,false);
 

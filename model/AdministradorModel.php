@@ -26,9 +26,9 @@ class AdministradorModel extends BaseModel
                         
                     ";
         $resultConsulta = $this->database->executeAndReturn($consulta);
-        //$dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
-        //$dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
-        //return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+        $dataSexoCantidad = $this->inicializarSexoCantidad();
+        $dataSexoCantidad = $this->llenarConCantidadesALosSexos($resultConsulta, $dataSexoCantidad);
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorSexo($dataSexoCantidad);
     }
     public function getCantidadDeJugadores()
     {
@@ -151,8 +151,6 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-
-
     public function obtenerPreguntasActivasPorPeriodo($timeframe)
     {
         $currentDate = date('Y-m-d'); // Obtener la fecha actual en formato YYYY-MM-DD
@@ -207,8 +205,6 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de preguntas activas por periodo");
         }
     }
-
-
     public function obtenerPreguntasCreadasPorPeriodo($timeframe)
     {
         switch ($timeframe) {
@@ -239,13 +235,20 @@ class AdministradorModel extends BaseModel
     }
 
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
-    {
+    {//[21-06]= 0
         $dataFechaCantidad = [];
 
         for ($i = 0; $i <= 6; $i++) {
             $dataFechaCantidad[date('d-m', strtotime($fechas[$i]))] = 0;
         }
         return $dataFechaCantidad;
+    }
+    private function inicializarSexoCantidad(): array
+    {
+        $dataSexoCantidad['M'] = 0;
+        $dataSexoCantidad['F'] = 0;
+        $dataSexoCantidad['X'] = 0;
+        return $dataSexoCantidad;
     }
     private function llenarConCantidadesALasFechas($result, $dataFechaCantidad): array
     {
@@ -265,6 +268,30 @@ class AdministradorModel extends BaseModel
             $final_array[] = [
                 'fecha' => $fechaIndex,
                 'cantidad' => $item
+            ];
+        }
+        return $final_array;
+    }
+
+    private function llenarConCantidadesALosSexos($result, $dataSexoCantidad):array
+    {
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $dataSexoCantidad[$row['sexo']] = $row['cantidad'];
+            }
+        } else {
+            die("No hay sexo y cantidad para hacer el grafico");
+        }
+        return $dataSexoCantidad;
+    }
+
+    private function retornarArrayParaQueSeSeVeanLosDatosPorSexo($dataSexoCantidad):array
+    {
+        $final_array = [];
+        foreach ($dataSexoCantidad as $sexoIndex => $itemCantidad) {
+            $final_array[] = [
+                'sexo' => $sexoIndex,
+                'cantidad' => $itemCantidad
             ];
         }
         return $final_array;
