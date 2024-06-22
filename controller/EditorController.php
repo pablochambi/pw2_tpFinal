@@ -222,6 +222,21 @@ class EditorController extends BaseController
         $this->presenter->render('view/vistaEditor/todasLasPreguntas.mustache', $data);
     }
 
+    public function mostrarPreguntasReportadas()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+        $preguntas = $this->model->traerPreguntasReportadas();
+        $data = [
+            'pregunta' => $preguntas,
+            'rol' => $rol['rol'],
+        ];
+
+        $this->presenter->render('view/vistaEditor/preguntasReportadas.mustache', $data);
+    }
+
 
 
 
