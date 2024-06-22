@@ -12,7 +12,7 @@ class PerfilController extends BaseController
         $this->checkSession();
 
         $userId = $_SESSION["username"];
-        $usuario = $this->model->obtenerUsuarioPorUsername($userId['id']);
+        $usuario = $this->model->obtenerUsuarioConNombre($userId['id']);
         $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
 
         $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario, "rol" => $rol['rol']]);
