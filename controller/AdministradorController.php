@@ -13,10 +13,31 @@ class AdministradorController extends BaseController
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
     }
 
-    public function generarGrafico()
+    public function graficoDePreguntasCreadas()
     {
-        $this->model->crearGrafico();
+        $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
+        $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
+        $this->model->crearGrafico($arrayDeDatos);
     }
+    private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy():array
+    {
+        $fechas = array();
+
+        // Establecer la zona horaria
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+
+        // Obtener la marca de tiempo para hoy
+        $hoy = strtotime('today');
+
+        // Generar las fechas de los últimos 6 días hasta hoy
+        for ($i = 6; $i >= 0; $i--) {
+            $fecha = date('Y-m-d', strtotime("-$i days", $hoy));
+            $fechas[] = $fecha;
+        }
+
+        return $fechas;
+    }
+
 
     public function manejoDeCambioDeFechaCantPartida()
     {
@@ -30,9 +51,6 @@ class AdministradorController extends BaseController
             exit();
         }
     }
-
-
-
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
@@ -53,5 +71,6 @@ class AdministradorController extends BaseController
             'cantidad_partidasPeriodo' => $cantidad_partidas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas];
     }
+
 
 }

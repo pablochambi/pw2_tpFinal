@@ -8,9 +8,9 @@ class AdministradorModel extends BaseModel
         $this->grafica = $grafica;
     }
 
-    public function crearGrafico()
+    public function crearGrafico($arrayDeDatos)
     {
-        $this->grafica->graficar();
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function getCantidadDeJugadores()
     {
@@ -92,7 +92,47 @@ class AdministradorModel extends BaseModel
         }
     }
 
+    public function obtenerLasCantidadesDePreguntasCredasPorDia($fechas) :array
+    {
+        $fechas_string = "'" . implode("','", $fechas) . "'";
 
+        $consulta = "SELECT  DATE(fecha_creacion) AS fecha, 
+                            COUNT(*) AS cantidad 
+                        FROM Pregunta 
+                        WHERE DATE(fecha_creacion) IN ($fechas_string)
+                        GROUP BY DATE(fecha_creacion)
+                        ORDER BY fecha;
+                    ";
+        $result = $this->database->executeAndReturn($consulta);
+
+        $dataFechaCantidad = [];
+
+        for ($i = 0; $i <= 6; $i++) {
+            $dataFechaCantidad[date('d-m', strtotime($fechas[$i]))] = 0;
+        }
+
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $dataFechaCantidad[date('d-m', strtotime($row['fecha']))] = $row['cantidad'];
+                }
+            } else {
+                die("No hay fecha y cantidad para hacer el grafico");
+            }
+
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+    }
+
+    private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data):array
+    {
+        $final_array = [];
+        foreach ($data as $index => $item) {
+            $final_array[] = [
+                'fecha' => $index,
+                'cantidad' => $item
+            ];
+        }
+        return $final_array;
+    }
 
 
 }

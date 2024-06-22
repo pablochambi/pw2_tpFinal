@@ -103,7 +103,7 @@ INSERT INTO Rol (id,nombre) VALUES (1,'Administrador'),(2,'Editor'), (3,'Jugador
 
 INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, qr,fecha_registro)
 VALUES
-    (1,'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-19 15:30:00'),
+    (1,'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-18 15:30:00'),
     (2,'Editor', 1990, 'M', 'CABA', 'Argentina', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
     (3,'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00');
 
@@ -123,36 +123,38 @@ INSERT INTO Categoria(id,nombre,color) VALUES
                                            (9, 'Cine', '#e0a24b'),
                                            (10, 'Música', '#4b61e0');
 
-INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,revisada,valida, vecesEntregadas, vecesCorrectas, activa, fecha_comienzoActivo) VALUES
-(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 'MEDIO', NULL, FALSE, TRUE, 10, 5, TRUE, NOW()),
-(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, now()),
-(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 'DIFICIL', NULL, FALSE, TRUE, 10, 2, true, NOW()),
-(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 'DIFICIL', NULL, FALSE, TRUE, 10, 3, TRUE, NOW()),
-(5, '¿En qué año se fundó la empresa Apple?', 5, 'DIFICIL', NULL, FALSE, TRUE, 10, 2, TRUE, NOW()),
-(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICIL', NULL, FALSE, TRUE, 10, 1, TRUE, NOW()),
-(7, '¿Cuál es la capital de Uruguay?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(8, '¿Cuántos lados tiene un triangulo?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(9, '¿Quién escribió "Cien años de soledad"?', 8, 'FACIL', NULL, FALSE, TRUE, 10, 7, TRUE, NOW()),
-(10, '¿Cuál es el país más grande del mundo en términos de superficie?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 9, TRUE, NOW()),
-(11, '¿Qué elemento químico tiene el símbolo "O"?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(12, '¿En qué año terminó la Segunda Guerra Mundial?', 6, 'MEDIO', NULL, FALSE, TRUE, 10, 6, TRUE, NOW()),
-(13, '¿Cuál es el idioma más hablado en el mundo?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(14, '¿Quién es el autor de la teoría de la relatividad?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(15, '¿Cuál es la moneda oficial de Japón?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(16, '¿Cuál es el planeta más cercano al Sol?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 9, TRUE, NOW()),
-(17, '¿Quién fue el primer presidente de los Estados Unidos?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(18, '¿Cuál es el río más largo del mundo?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(19, '¿En qué año se firmó la Declaración de Independencia de los Estados Unidos?', 6, 'MEDIO', NULL, FALSE, TRUE, 10, 6, TRUE, NOW()),
-(20, '¿Quién escribió la obra "Don Quijote de la Mancha"?', 8, 'FACIL', NULL, FALSE, TRUE, 10, 7, TRUE, NOW()),
-(21, '¿Cuál es el océano más grande del mundo?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 9, TRUE, NOW()),
-(22, '¿Cuál es el símbolo químico del oro?', 4, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(23, '¿En qué continente está ubicado el desierto del Sahara?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(24, '¿Quién pintó "La noche estrellada"?', 3, 'MEDIO', NULL, FALSE, TRUE, 10, 5, TRUE, NOW()),
-(25, '¿Cuántos planetas tienen anillos en nuestro sistema solar?', 4, 'MEDIO', NULL, FALSE, TRUE, 10, 7, TRUE, NOW()),
-(26, '¿En qué ciudad se encuentra la Torre Eiffel?', 7, 'FACIL', NULL, FALSE, TRUE, 10, 8, TRUE, NOW()),
-(27, '¿Quién fue el primer ser humano en viajar al espacio exterior?', 6, 'MEDIO', NULL, FALSE, TRUE, 10, 6, TRUE, NOW()),
-(28, '¿Qué famoso inventor desarrolló la bombilla eléctrica?', 4, 'MEDIO', NULL, FALSE, TRUE, 10, 5, TRUE, NOW()),
-(29, '¿Cuál es la montaña más alta del mundo?', 7, 'MEDIO', NULL, FALSE, TRUE, 10, 7, TRUE, now());
+INSERT INTO Pregunta(id,texto, id_categoria,nivel,usuario_creador,fecha_creacion,revisada,valida, vecesEntregadas, vecesCorrectas, activa, fecha_comienzoActivo) VALUES
+(1, '¿Cuál es el nombre del actor que interpreta a Tony Stark/Iron Man en el Universo Cinematográfico de Marvel?', 1, 'MEDIO', NULL,now() ,FALSE, TRUE, 10, 5, TRUE, NOW()),
+(2, '¿Quién es la protagonista de la película "Mujer Maravilla" (2017), basada en el personaje de DC Comics?', 1, 'FACIL', NULL,now() , FALSE, TRUE, 10, 8, TRUE, now()),
+(3, '¿Quién pintó la obra "La Gioconda", también conocida como "La Mona Lisa"?', 3, 'DIFICIL', NULL,now() , FALSE, TRUE, 10, 2, true, NOW()),
+(4, '¿Cuál de las siguientes partículas subatómicas tiene carga positiva?', 4, 'DIFICIL', NULL,now() , FALSE, TRUE, 10, 3, TRUE, NOW()),
+(5, '¿En qué año se fundó la empresa Apple?', 5, 'DIFICIL', NULL,now() , FALSE, TRUE, 10, 2, TRUE, NOW()),
+(6, '¿Cuál es el instrumento musical principal en una orquesta sinfónica?', 10, 'DIFICIL', NULL, now() ,FALSE, TRUE, 10, 1, TRUE, NOW()),
+(7, '¿Cuál es la capital de Uruguay?', 7, 'FACIL', NULL,now() , FALSE, TRUE, 10, 8, TRUE, NOW()),
+
+(8, '¿Cuántos lados tiene un triangulo?', 4, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-17 15:30:00'),
+(9, '¿Quién escribió "Cien años de soledad"?', 8, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 7, TRUE, '2024-06-17 15:30:00'),
+(10, '¿Cuál es el país más grande del mundo en términos de superficie?', 7, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 9, TRUE, '2024-06-17 15:30:00'),
+(11, '¿Qué elemento químico tiene el símbolo "O"?', 4, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-17 15:30:00'),
+(12, '¿En qué año terminó la Segunda Guerra Mundial?', 6, 'MEDIO', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 6, TRUE, '2024-06-17 15:30:00'),
+(13, '¿Cuál es el idioma más hablado en el mundo?', 7, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-17 15:30:00'),
+(14, '¿Quién es el autor de la teoría de la relatividad?', 4, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-17 15:30:00'),
+(15, '¿Cuál es la moneda oficial de Japón?', 7, 'FACIL', 3,'2024-06-17 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-17 15:30:00'),
+(16, '¿Cuál es el planeta más cercano al Sol?', 4, 'FACIL', 3,'2024-06-18 15:30:00', FALSE, TRUE, 10, 9, TRUE, '2024-06-18 15:30:00'),
+(17, '¿Quién fue el primer presidente de los Estados Unidos?', 7, 'FACIL', 3,'2024-06-18 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-18 15:30:00'),
+(18, '¿Cuál es el río más largo del mundo?', 7, 'FACIL', 3,'2024-06-18 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-18 15:30:00'),
+(19, '¿En qué año se firmó la Declaración de Independencia de los Estados Unidos?', 6, 'MEDIO', 3,'2024-06-18 15:30:00', FALSE, TRUE, 10, 6, TRUE, '2024-06-18 15:30:00'),
+(20, '¿Quién escribió la obra "Don Quijote de la Mancha"?', 8, 'FACIL', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 7, TRUE, '2024-06-19 15:30:00'),
+(21, '¿Cuál es el océano más grande del mundo?', 7, 'FACIL', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 9, TRUE, '2024-06-19 15:30:00'),
+(22, '¿Cuál es el símbolo químico del oro?', 4, 'FACIL', 3, '2024-06-19 15:30:00',FALSE, TRUE, 10, 8, TRUE, '2024-06-19 15:30:00'),
+(23, '¿En qué continente está ubicado el desierto del Sahara?', 7, 'FACIL', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-19 15:30:00'),
+(24, '¿Quién pintó "La noche estrellada"?', 3, 'MEDIO', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 5, TRUE, '2024-06-19 15:30:00'),
+(25, '¿Cuántos planetas tienen anillos en nuestro sistema solar?', 4, 'MEDIO', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 7, TRUE, '2024-06-19 15:30:00'),
+(26, '¿En qué ciudad se encuentra la Torre Eiffel?', 7, 'FACIL', 3,'2024-06-19 15:30:00', FALSE, TRUE, 10, 8, TRUE, '2024-06-19 15:30:00'),
+(27, '¿Quién fue el primer ser humano en viajar al espacio exterior?', 6, 'MEDIO', 3,'2024-06-20 15:30:00', FALSE, TRUE, 10, 6, TRUE, '2024-06-20 15:30:00'),
+(28, '¿Qué famoso inventor desarrolló la bombilla eléctrica?', 4, 'MEDIO', 3,'2024-06-20 15:30:00', FALSE, TRUE, 10, 5, TRUE, '2024-06-20 15:30:00'),
+(29, '¿Cuál es la montaña más alta del mundo?', 7, 'MEDIO', 3,'2024-06-20 15:30:00', FALSE, TRUE, 10, 7, TRUE, '2024-06-20 15:30:00');
+
 
 
 INSERT INTO Respuesta(texto, id_pregunta, es_correcta) VALUES
