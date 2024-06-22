@@ -54,10 +54,9 @@ class LoginModel extends BaseModel
         return false;
     }
 
-    public function obtenerUsuarioConNombrePaisPorId($idUsuario) {
-        $consulta = "SELECT u.*, p.nombre AS nombre_pais 
+    public function obtenerUsuarioConNombre($idUsuario) {
+        $consulta = "SELECT u.* 
                      FROM Usuarios u 
-                     INNER JOIN Pais p ON u.id_pais = p.id 
                      WHERE u.id = ?";
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("i", $idUsuario);

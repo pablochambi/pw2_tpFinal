@@ -1,4 +1,3 @@
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>-->
 <div class="container mt-4">
     <div class="card">
         <div class="card-header bg-primary text-white">
@@ -18,7 +17,7 @@
                     <p><strong>Partidas jugadas:</strong> {{usuario.partidas_realizadas}}</p>
                     <p><strong>Nivel:</strong> {{usuario.nivel}}</p>
                     <div class="w-full md:w-1/3 flex justify-center">
-                        <img src="{{qr}}" alt="Foto del código QR" class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
+                        <img src="/{{usuario.qr}}" alt="Código QR" class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
                     </div>
                     <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
                         <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg"></div>

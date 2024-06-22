@@ -12,7 +12,7 @@ class PerfilController extends BaseController
         $this->checkSession();
 
         $userId = $_SESSION["username"];
-        $usuario = $this->model->obtenerUsuarioConNombrePaisPorId($userId['id']);
+        $usuario = $this->model->obtenerUsuarioPorUsername($userId['id']);
         $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
 
         $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario, "rol" => $rol['rol']]);
@@ -39,7 +39,7 @@ class PerfilController extends BaseController
         $usuario['edad'] = $edad;
 
         $urlPerfil = 'http://localhost/perfiles?username=' . $username;
-        $qrPath = 'qrs/' . $username . '.png';
+        $qrPath = 'public/qrs/' . $username . '.png';
 
         // genero el QR si no existe o si la URL cambio
         if (empty($usuario['qr']) || $usuario['qr'] !== $qrPath) {
