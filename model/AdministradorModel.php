@@ -66,7 +66,7 @@ class AdministradorModel extends BaseModel
     public function getCantidadDePreguntasCreadasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
-                    WHERE usuario_creador is not null AND activa = 1 ";
+                    WHERE fecha_creacion >= CURDATE() AND fecha_creacion < CURDATE() + INTERVAL 1 DAY";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -207,7 +207,37 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de preguntas activas por periodo");
         }
     }
-    
+
+
+    public function obtenerPreguntasCreadasPorPeriodo($timeframe)
+    {
+        switch ($timeframe) {
+            case 'day':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntasCreadas FROM Pregunta WHERE fecha_creacion >= CURDATE() AND fecha_creacion < CURDATE() + INTERVAL 1 DAY";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntasCreadas FROM Pregunta WHERE YEARWEEK(fecha_creacion) = YEARWEEK(CURDATE())";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntasCreadas FROM Pregunta WHERE MONTH(fecha_creacion) = MONTH(CURDATE())";
+                break;
+            case 'year':
+                $consulta = "SELECT COUNT(*) AS cantidad_preguntasCreadas FROM Pregunta WHERE YEAR(fecha_creacion) = YEAR(CURDATE())";
+                break;
+            default:
+                die("No se pudo obtener la cantidad de partidas jugadas por periodo");
+
+        }
+        $result = $this->database->executeAndReturn($consulta);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntasCreadas'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {
         $dataFechaCantidad = [];

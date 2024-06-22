@@ -74,14 +74,23 @@ class AdministradorController extends BaseController
         }
     }
 
-    public function manejoDeCambioDeFechaPartidasActiva()
+    public function manejoDeCambioDeFechaPreguntaActiva()
     {
         if($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe2 = $_GET['timeframe2'] ?? 'day';
-            error_log("Timeframe seleccionado: " . $timeframe2);
             $cantidad_preguntasActivas = $this->model->obtenerPreguntasActivasPorPeriodo($timeframe2);
             header('Content-Type: application/json');
             echo json_encode(['cantidad_preguntasActivas' => $cantidad_preguntasActivas]);
+            exit();
+        }
+    }
+    public function manejoDeCambioDeFechaPreguntaCreadas()
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $timeframe = $_GET['timeframe3'] ?? 'day';
+            $cantidad_preguntasCreadas = $this->model->obtenerPreguntasCreadasPorPeriodo($timeframe);
+            header('Content-Type: application/json');
+            echo json_encode(['cantidad_preguntasCreadas' => $cantidad_preguntasCreadas]);
             exit();
         }
     }

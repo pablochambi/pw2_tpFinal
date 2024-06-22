@@ -29,12 +29,33 @@
             console.log('Periodo seleccionado: ' + periodoSeleccionado);
 
             $.ajax({
-                url: '/administrador/manejoDeCambioDeFechaPartidasActiva',
+                url: '/administrador/manejoDeCambioDeFechaPreguntaActiva',
                 method: 'GET',
                 data: { timeframe2: periodoSeleccionado },
                 success: function(response) {
                     console.log(response);
                     $('#cantidad_preguntasActivas').text(response.cantidad_preguntasActivas);
+                },
+                error: function() {
+
+                    alert('Error al obtener los datos del servidor.');
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('#timeframe3').change(function () {
+            var periodoSeleccionado = $(this).val();
+            console.log('Periodo seleccionado: ' + periodoSeleccionado);
+
+            $.ajax({
+                url: '/administrador/manejoDeCambioDeFechaPreguntaCreadas',
+                method: 'GET',
+                data: { timeframe3: periodoSeleccionado },
+                success: function(response) {
+                    console.log(response);
+                    $('#cantidad_preguntasCreadas').text(response.cantidad_preguntasCreadas);
                 },
                 error: function() {
 
