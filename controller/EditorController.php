@@ -1,4 +1,5 @@
 <?php
+
 class EditorController extends BaseController
 {
 
@@ -72,8 +73,6 @@ class EditorController extends BaseController
         $this->presenter->render('view/buscarParaEliminar.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
 
-
-
     public function buscarPregunta()
     {
         $this->checkSession();
@@ -83,30 +82,28 @@ class EditorController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
             $term = $_GET['term'];
             $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
-                if($preguntaEncontrada){
-                    $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
-                    $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
-                    $allCategorias = $this->model->traerTodasLasCategorias();
+            if ($preguntaEncontrada) {
+                $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
+                $categoria = $this->model->traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
+                $allCategorias = $this->model->traerTodasLasCategorias();
 
-                    $this->presenter->render('view/editarPregunta.mustache', [
-                        'rol' => $rol['rol'],
-                        'preguntaEncontrada' => $preguntaEncontrada,
-                        'respuestas' => $respuestas,
-                        'categoria' => $categoria,
-                        'allCategorias' => $allCategorias
+                $this->presenter->render('view/editarPregunta.mustache', [
+                    'rol' => $rol['rol'],
+                    'preguntaEncontrada' => $preguntaEncontrada,
+                    'respuestas' => $respuestas,
+                    'categoria' => $categoria,
+                    'allCategorias' => $allCategorias
 
-                    ]);
-                } else {
+                ]);
+            } else {
 
-                    $this->presenter->render('view/vistasPostAccion/editarPreguntaVistaError.mustache', [
-                        'rol' => $rol['rol'],
+                $this->presenter->render('view/vistasPostAccion/editarPreguntaVistaError.mustache', [
+                    'rol' => $rol['rol'],
 
-                    ]);
-                }
-            }  else {
+                ]);
+            }
+        } else {
             header('Location: /editor/buscarParaEditar');
-
-
         }
     }
 
@@ -117,8 +114,8 @@ class EditorController extends BaseController
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id']) && isset($_POST['nuevo_texto'])
-        && isset($_POST['nueva_categoria']) && isset($_POST['nueva_dificultad']) && isset($_POST['nueva_respuesta'])
-        && isset($_POST['nueva_respuesta_incorrecta3']) && isset($_POST['nueva_respuesta_incorrecta1']) && isset($_POST['nueva_respuesta_incorrecta2'])){
+            && isset($_POST['nueva_categoria']) && isset($_POST['nueva_dificultad']) && isset($_POST['nueva_respuesta'])
+            && isset($_POST['nueva_respuesta_incorrecta3']) && isset($_POST['nueva_respuesta_incorrecta1']) && isset($_POST['nueva_respuesta_incorrecta2'])) {
             $id = $_POST['pregunta_id'];
             $nuevoTexto = $_POST['nuevo_texto'];
             $nuevaCategoria = $_POST['nueva_categoria'];
@@ -138,17 +135,17 @@ class EditorController extends BaseController
             $this->model->actualizarCategoriaDeLaPregunta($id, $nuevaCategoria);
             $this->model->actualizarDificultadDeLaPregunta($id, $nuevaDificultad);
             $this->model->actualizarRespuestaCorrecta($id, $nuevaRespuesta);
-           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta1, $nuevaRespuestaIncorrecta1);
-           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta2, $nuevaRespuestaIncorrecta2);
-           $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta3, $nuevaRespuestaIncorrecta3);
+            $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta1, $nuevaRespuestaIncorrecta1);
+            $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta2, $nuevaRespuestaIncorrecta2);
+            $this->model->actualizarRespuestaIncorrecta($id, $respuestaIncorrecta3, $nuevaRespuestaIncorrecta3);
 
             $this->presenter->render('view/vistasPostAccion/editarPreguntaAviso.mustache', [
                 'rol' => $rol['rol'],
             ]);
         } else {
-             $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
+            $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
                 'rol' => $rol['rol'],
-                 ]);
+            ]);
         }
     }
 
@@ -162,9 +159,9 @@ class EditorController extends BaseController
             $term = $_GET['param'];
             $preguntaEncontrada = $this->model->buscarPreguntasPorIdONombre($term);
 
-            if($preguntaEncontrada){
+            if ($preguntaEncontrada) {
                 $respuestas = $this->model->buscarRespuestaPorIdPregunta($preguntaEncontrada[0]['id']);
-                $categoria = $this->model-> traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
+                $categoria = $this->model->traerCategoriasPorId($preguntaEncontrada[0]['id_categoria']);
                 $allCategorias = $this->model->traerTodasLasCategorias();
 
                 $this->presenter->render('view/eliminarPregunta.mustache', [
@@ -187,7 +184,6 @@ class EditorController extends BaseController
 
     }
 
-
     public function eliminarPregunta()
     {
         $this->checkSession();
@@ -197,7 +193,7 @@ class EditorController extends BaseController
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id'])) {
             $id = $_POST['pregunta_id'];
             $this->model->eliminarLaPregunta($id);
-           $this->presenter->render('view/vistasPostAccion/eliminarExitoso.mustache', [
+            $this->presenter->render('view/vistasPostAccion/eliminarExitoso.mustache', [
                 'rol' => $rol['rol'],
             ]);
         } else {
@@ -236,8 +232,4 @@ class EditorController extends BaseController
 
         $this->presenter->render('view/vistaEditor/preguntasReportadas.mustache', $data);
     }
-
-
-
-
 }

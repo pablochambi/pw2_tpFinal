@@ -60,18 +60,20 @@ class RegistroModel
         return $direccionDestino;
     }
 
-    private function subirFotoAUnaDireccion($direccionOrigen,$direccionDestino) : bool
+    private function subirFotoAUnaDireccion($direccionOrigen, $direccionDestino): bool
     {
         return move_uploaded_file($direccionOrigen, $direccionDestino);
     }
 
-    public function enviarCorreoValidacion($email, $token){
-        $mensaje = 'Por favor, haz clic en el siguiente enlace para validar tu cuenta:' . $email .'<br>';
+    public function enviarCorreoValidacion($email, $token)
+    {
+        $mensaje = 'Por favor, haz clic en el siguiente enlace para validar tu cuenta:' . $email . '<br>';
         $mensaje .= '<a href="/registro/validar?token=' . $token . '">Validar Cuenta</a>';
         return $mensaje;
     }
 
-    public function habilitarCuentaConToken($token){
+    public function habilitarCuentaConToken($token)
+    {
 
         $sql = "SELECT * FROM Usuarios WHERE token='$token' AND habilitado=0";
         $result = $this->database->query($sql);
@@ -79,11 +81,11 @@ class RegistroModel
         if (count($result) == 1) {
             $updateSql = "UPDATE Usuarios SET habilitado=1 WHERE token='$token'";
             if ($this->database->executeAndReturn($updateSql))
-                $mensaje =  "Cuenta validada correctamente.";
+                $mensaje = "Cuenta validada correctamente.";
             else
                 $mensaje = "Error al validar la cuenta.";
         } else {
-            $mensaje =  "Token no válido o cuenta ya validada.";
+            $mensaje = "Token no válido o cuenta ya validada.";
         }
 
         return $mensaje;

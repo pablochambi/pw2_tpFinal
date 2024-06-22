@@ -1,4 +1,5 @@
 <?php
+
 class LoginController extends BaseController
 {
     public function __construct($model, $presenter)
@@ -15,13 +16,14 @@ class LoginController extends BaseController
         $this->presenter->render("view/login.mustache");
     }
 
-    public function procesarLogeo(){
+    public function procesarLogeo()
+    {
 
-        if (isset($_POST["email"]) && isset($_POST["password"])){
+        if (isset($_POST["email"]) && isset($_POST["password"])) {
 
             session_start();
             $email = $_POST["email"];
-            $password= $_POST["password"];
+            $password = $_POST["password"];
 
             // aca llamo a procesarInicioSesion del modelo y guardo el resultado (verdadero si el inicio de sesion fue exitoso)
             $inicioSesionExitoso = $this->model->procesarInicioSesion($email, $password);
@@ -32,9 +34,9 @@ class LoginController extends BaseController
 
                 $_SESSION['username'] = $user;
 
-              header("Location: /homeUsuario");
+                header("Location: /homeUsuario");
 
-            } else{
+            } else {
                 header("Location: /login");
             }
 

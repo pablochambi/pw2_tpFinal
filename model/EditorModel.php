@@ -1,4 +1,5 @@
 <?php
+
 class EditorModel extends BaseModel
 {
     public function __construct($database)
@@ -89,12 +90,12 @@ class EditorModel extends BaseModel
         }
     }
 
-    public function eliminarPreguntaDeLaListaDeReportes($idPregunta,$idUsuario)
+    public function eliminarPreguntaDeLaListaDeReportes($idPregunta, $idUsuario)
     {
         $query = "delete from Reporte_Pregunta
        where id_pregunta = ? and id_usuario = ? ";
         $stmt = $this->database->prepare($query);
-        $stmt->bind_param("ii", $idPregunta,$idUsuario);
+        $stmt->bind_param("ii", $idPregunta, $idUsuario);
 
         if (!$stmt->execute())
             die('Error al eliminar una pregunta de la lista de reportes: ' . $this->database->error);
@@ -192,7 +193,6 @@ class EditorModel extends BaseModel
         $stmt->execute();
 
 
-
     }
 
     public function traerCategoriasPorId($pregunta)
@@ -266,7 +266,7 @@ class EditorModel extends BaseModel
 
             $respuestas[] = [
                 'id' => $row['id'],
-                'texto' =>  $row['texto'],
+                'texto' => $row['texto'],
             ];
 
         }
@@ -290,7 +290,6 @@ class EditorModel extends BaseModel
         $stmt->execute();
 
 
-
     }
 
     public function eliminarLaPregunta($idPregunta)
@@ -306,9 +305,6 @@ class EditorModel extends BaseModel
 
 
     }
-
-
-
 
 
 }

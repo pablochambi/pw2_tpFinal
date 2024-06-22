@@ -10,7 +10,7 @@ class PartidaController extends BaseController
 
     public function get()
     {
-        $id_usuario =$this->checkSessionYTraerIdUsuario();
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
         $this->model->arrancarPartida($id_usuario);
         $pregunta = $this->traerUnaPreguntaYActualizarDatos($id_usuario);
         $this->mostrarPreguntaYRespuestasPosibles($pregunta);
@@ -19,11 +19,12 @@ class PartidaController extends BaseController
     private function traerUnaPreguntaYActualizarDatos($id_usuario)
     {
         $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
-        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'],$id_usuario);
+        $this->model->registrarEnPreguntaVistaPorElUsuario($pregunta[0]['id'], $id_usuario);
         $this->model->updateDatosPregunta($pregunta[0]['id']);//sumar vecesEntregadas
         $this->model->actualizarPreguntasEntregadasAUnUsuario($id_usuario);
         return $pregunta;
     }
+
     private function mostrarPreguntaYRespuestasPosibles($pregunta)
     {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
@@ -33,7 +34,6 @@ class PartidaController extends BaseController
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
 
         $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
-
     }
 
     public function procesarRespuesta()
@@ -41,6 +41,7 @@ class PartidaController extends BaseController
         $this->checkSession();
         $this->manejoDeElProcesoDeRespuesta();
     }
+
     private function manejoDeElProcesoDeRespuesta()
     {
         $user_id = $this->checkSessionYTraerIdUsuario();
@@ -50,19 +51,19 @@ class PartidaController extends BaseController
 
         if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
             $this->handleTimeExpired(); // checkeo si se acabo el timepo
-        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+        } elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
 
             $respuesta = $_POST['respuesta'];
             $idPregunta = $_POST['pregunta'];
             $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
 
-            if($this->model->esRespuestaCorrecta($respuesta, $idPregunta)){
+            if ($this->model->esRespuestaCorrecta($respuesta, $idPregunta)) {
                 $this->respuestaCorrectaPath($idPregunta);
                 $this->model->actualizarNivelDelUsuario($user_id);
                 $this->presenter->render("view/esRespuestaCorrecta.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
-            }else{
-                $puntaje = (string) $this->model->obtenerCantidadDePuntos($user_id);
-                $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
+            } else {
+                $puntaje = (string)$this->model->obtenerCantidadDePuntos($user_id);
+                $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }
         } else {
             echo "No se encontró la respuesta o la pregunta en el formulario.";
@@ -86,54 +87,71 @@ class PartidaController extends BaseController
         $partida = $this->model->obtenerUltimaPartida($id_usuario);
         $this->model->sumarPuntos($id_usuario, $partida);
     }
+
     public function reportarPregunta()
     {
         $idPregunta = isset($_POST['idPregunta']) ? $_POST['idPregunta'] : die("No se trajo el id de pregunta");
-        $perdiste = isset($_POST['perdiste']) ? (string) $_POST['perdiste'] : die("No se sabe si perdiste o no, error 1");
+        $perdiste = isset($_POST['perdiste']) ? (string)$_POST['perdiste'] : die("No se sabe si perdiste o no, error 1");
 
-        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta,'perdiste' => $perdiste]);
+        $this->presenter->render("view/reporteDePregunta.mustache", ['idPregunta' => $idPregunta, 'perdiste' => $perdiste]);
     }
+
     public function cancelarReporte()
     {
-        $perdiste = isset($_GET['perdiste']) ? (string) $_GET['perdiste'] : die("No se sabe si perdiste o no, error 2");
+        $perdiste = isset($_GET['perdiste']) ? (string)$_GET['perdiste'] : die("No se sabe si perdiste o no, error 2");
 
-        if($perdiste == 0){
+        if ($perdiste == 0) {
             header("Location:/partida/siguientePregunta");
-        }elseif($perdiste == 1){
+        } elseif ($perdiste == 1) {
             header("Location:/homeUsuario");
         }
 
     }
+
     public function procesarReporte()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();
-        if( isset($_POST['idPregunta']) && isset($_POST['reason'])
-            && isset($_POST['otherReasonText'])&&isset($_POST['perdiste'])){
+        if (isset($_POST['idPregunta']) && isset($_POST['reason'])
+            && isset($_POST['otherReasonText']) && isset($_POST['perdiste'])) {
             $idPregunta = $_POST['idPregunta'];
             $razonReporteRadio = $_POST['reason'];
             $otraRazonReporteText = $_POST['otherReasonText'];
             $perdiste = $_POST['perdiste'];
-        }else{
+        } else {
             die('No se enviaron los datos del formulario correctamente');
         }
-        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText);
-        $this->model->registrarReporte($idPregunta,$idUsuario,$razon);
-        if($perdiste == 0){
+        $razon = $this->determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText);
+        $this->model->registrarReporte($idPregunta, $idUsuario, $razon);
+        if ($perdiste == 0) {
             header("Location:/partida/siguientePregunta");
-        }elseif($perdiste == 1){
+        } elseif ($perdiste == 1) {
             header("Location:/homeUsuario");
         }
     }
-    private function determinarLaRazonFinalDelReporte($razonReporteRadio,$otraRazonReporteText)
+
+    private function determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText)
     {
-        switch ($razonReporteRadio){
-            CASE '1': $razon = "Contenido ofensivo";break;
-            CASE '2': $razon = "Error ortográfico o gramática";break;
-            CASE '3': $razon = "Respuesta incorrecta";break;
-            CASE '4': $razon = "Pregunta mal formulada";break;
-            CASE '5': $razon = "Categoria incorrecta";break;
-            CASE 'otro': $razon = $otraRazonReporteText;break;
-            default: die("No se envio ninguna razon");
+        switch ($razonReporteRadio) {
+            case '1':
+                $razon = "Contenido ofensivo";
+                break;
+            case '2':
+                $razon = "Error ortográfico o gramática";
+                break;
+            case '3':
+                $razon = "Respuesta incorrecta";
+                break;
+            case '4':
+                $razon = "Pregunta mal formulada";
+                break;
+            case '5':
+                $razon = "Categoria incorrecta";
+                break;
+            case 'otro':
+                $razon = $otraRazonReporteText;
+                break;
+            default:
+                die("No se envio ninguna razon");
         }
         return $razon;
     }
@@ -156,10 +174,8 @@ class PartidaController extends BaseController
         $pregunta = $this->model->getPreguntaPorIdDePregunta($_POST['pregunta']);
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
-        $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje,'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
+        $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
-
-
 
 
 }

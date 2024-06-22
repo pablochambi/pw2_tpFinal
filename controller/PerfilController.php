@@ -1,4 +1,5 @@
 <?php
+
 class PerfilController extends BaseController
 {
     public function __construct($model, $presenter)
@@ -12,7 +13,7 @@ class PerfilController extends BaseController
         $this->checkSession();
 
         $userId = $_SESSION["username"];
-        $usuario = $this->model->obtenerUsuarioPorUsername($userId['id']);
+        $usuario = $this->model->obtenerUsuarioConNombre($userId['id']);
         $rol = $this->verificarDeQueRolEsElUsuario($userId['id']);
 
         $this->presenter->render("view/perfilUsuario.mustache", ["usuario" => $usuario, "rol" => $rol['rol']]);
@@ -29,9 +30,8 @@ class PerfilController extends BaseController
         $username = $_GET['username'];
         $usuario = $this->model->obtenerUsuarioPorUsername($username);
 
-        if ($usuario === null) {
+        if ($usuario === null)
             die('Usuario no encontrado.');
-        }
 
         $anioNacimiento = $usuario['anio_nacimiento'];
         $anioActual = date("Y");

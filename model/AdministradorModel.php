@@ -1,8 +1,10 @@
 <?php
+
 class AdministradorModel extends BaseModel
 {
     protected $grafica;
-    public function __construct($database,$grafica)
+
+    public function __construct($database, $grafica)
     {
         parent::__construct($database);
         $this->grafica = $grafica;
@@ -23,8 +25,8 @@ class AdministradorModel extends BaseModel
         } else {
             die("No se conto la cantidad de jugadores");
         }
-
     }
+
     public function getCantidadDePartidasJugadas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
@@ -35,8 +37,8 @@ class AdministradorModel extends BaseModel
         } else {
             die("No se conto la cantidad de partidas");
         }
-
     }
+
     public function getCantidadDePreguntasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas FROM Pregunta WHERE activa = 1";
@@ -47,8 +49,8 @@ class AdministradorModel extends BaseModel
         } else {
             die("No se conto la cantidad de preguntas");
         }
-
     }
+
     public function getCantidadDePreguntasCreadasActivas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
@@ -60,9 +62,7 @@ class AdministradorModel extends BaseModel
         } else {
             die("No se conto la cantidad de preguntas creadas");
         }
-
     }
-
 
     public function getCantidadDePartidasJugadasPorPeriodo($timeframe)
     {
@@ -76,16 +76,16 @@ class AdministradorModel extends BaseModel
             case 'month':
                 $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE MONTH(fecha) = MONTH(CURDATE())";
                 break;
-             case 'year':
+            case 'year':
                 $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE YEAR(fecha) = YEAR(CURDATE())";
                 break;
-             default:
+            default:
                 die("No se pudo obtener la cantidad de partidas jugadas por periodo");
 
         }
         $result = $this->database->executeAndReturn($consulta);
 
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_partidas'];
         } else {
@@ -93,7 +93,7 @@ class AdministradorModel extends BaseModel
         }
     }
 
-    public function obtenerLasCantidadesDePreguntasCredasPorDia($fechas) :array
+    public function obtenerLasCantidadesDePreguntasCredasPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
 
@@ -109,7 +109,8 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-    public function obtenerLasCantidadesDeUsuariosNuevosPorDia($fechas) :array
+
+    public function obtenerLasCantidadesDeUsuariosNuevosPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
 
@@ -125,7 +126,8 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
-    public function obtenerLasCantidadesDePartidasPorDia($fechas) :array
+
+    public function obtenerLasCantidadesDePartidasPorDia($fechas): array
     {
         $fechas_string = "'" . implode("','", $fechas) . "'";
 
@@ -142,8 +144,7 @@ class AdministradorModel extends BaseModel
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
 
-
-    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas):array
+    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {
         $dataFechaCantidad = [];
 
@@ -153,7 +154,7 @@ class AdministradorModel extends BaseModel
         return $dataFechaCantidad;
     }
 
-    private function llenarConCantidadesALasFechas($result,$dataFechaCantidad):array
+    private function llenarConCantidadesALasFechas($result, $dataFechaCantidad): array
     {
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -165,7 +166,7 @@ class AdministradorModel extends BaseModel
         return $dataFechaCantidad;
     }
 
-    private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data):array
+    private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data): array
     {
         $final_array = [];
         foreach ($data as $fechaIndex => $item) {
@@ -176,6 +177,4 @@ class AdministradorModel extends BaseModel
         }
         return $final_array;
     }
-
-
 }

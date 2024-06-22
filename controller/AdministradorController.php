@@ -1,4 +1,5 @@
 <?php
+
 class AdministradorController extends BaseController
 {
     public function __construct($model, $presenter)
@@ -6,6 +7,7 @@ class AdministradorController extends BaseController
         session_start();
         parent::__construct($model, $presenter);
     }
+
     public function get()
     {
         $idUsuario = $this->checkSessionYTraerIdUsuario();
@@ -19,12 +21,14 @@ class AdministradorController extends BaseController
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
+
     public function graficoDeUsuariosNuevos()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
+
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
@@ -42,7 +46,7 @@ class AdministradorController extends BaseController
 //graficoDeUsuariosPorPais
 //graficoPorcentajeCorrectoUsuarios
 
-    private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy():array
+    private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
     {
         $fechas = array();
         date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -57,10 +61,9 @@ class AdministradorController extends BaseController
         return $fechas;
     }
 
-
     public function manejoDeCambioDeFechaCantPartida()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe'] ?? 'day';
 
             $cantidad_partidas = $this->model->getCantidadDePartidasJugadasPorPeriodo($timeframe);
@@ -70,6 +73,7 @@ class AdministradorController extends BaseController
             exit();
         }
     }
+
     private function datosAEnviarALaVistaAdministrador($idUsuario): array
     {
         $rol = $this->verificarDeQueRolEsElUsuario($idUsuario);
@@ -90,6 +94,4 @@ class AdministradorController extends BaseController
             'cantidad_partidasPeriodo' => $cantidad_partidas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas];
     }
-
-
 }

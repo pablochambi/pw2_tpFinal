@@ -105,9 +105,33 @@ INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, ciudad, pais, em
 VALUES
     (1,'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-18 15:30:00'),
     (2,'Editor', 1990, 'M', 'CABA', 'Argentina', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
-    (3,'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00');
+    (3,'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2024-06-20 15:30:00'),
+    (4,'Mora', 2002, 'F', 'Paris', 'Francia', 'moavalos@gmail.com', '123', 'momo', '1234dfgtdf56', 'foto.jpg', TRUE, 0, 0, 'BAJO', NULL,'2022-06-14 11:20:00'),
+    (5, 'Maria Garcia', 1995, 'F', 'Madrid', 'España', 'maria@gmail.com', 'password123', 'maria_garcia', 'token1223', 'foto_maria.jpg', TRUE, 400, 5, 'DIFICIL', NULL, '2024-06-21 10:45:00'),
+    (6, 'John Smith', 1988, 'M', 'New York', 'Estados Unidos', 'john.smith@gmail.com', 'qwerty456', 'john_smith', 'token456', 'john_photo.jpg', TRUE, 2, 100, 'BAJO', NULL, '2024-06-20 08:15:00'),
+    (7, 'Sophie Dupont', 1993, 'F', 'Paris', 'Francia', 'sophie.dupont@gmail.com', 'pass123', 'sophie_dupont', 'token7889', 'sophie_pic.jpg', TRUE, 1, 5, 'MEDIO', NULL, '2024-06-19 14:20:00'),
+    (8, 'Anna Müller', 1992, 'F', 'Berlín', 'Alemania', 'anna.mueller@gmail.com', 'abc123', 'anna_mueller', 'token789', 'anna_photo.jpg', TRUE, 3, 200, 'DIFICIL', NULL, '2024-06-22 11:00:00'),
+    (9, 'Luca Rossi', 1985, 'M', 'Roma', 'Italia', 'luca.rossi@gmail.com', 'pass456', 'luca_rossi', 'token1011', 'luca_pic.jpg', TRUE, 1, 5, 'DIFICIL', NULL, '2024-06-21 09:30:00'),
+    (10, 'Chen Wei', 1990, 'M', 'Beijing', 'China', 'chen.wei@gmail.com', 'hello123', 'chen_wei', 'token1213', 'chen_pic.jpg', TRUE, 4, 50, 'DIFICIL', NULL, '2024-06-20 13:45:00'),
+    (11, 'Javier Martínez', 1987, 'M', 'Madrid', 'España', 'javier.martinez@gmail.com', 'clave123', 'javier_martinez', 'token14185', 'javier_foto.jpg', TRUE, 7, 400, 'DIFICIL', NULL, '2024-06-19 16:00:00'),
+    (12, 'Emily Johnson', 1994, 'F', 'London', 'Reino Unido', 'emily.johnson@gmail.com', 'password789', 'emily_johnson', 'token1617', 'emily_pic.jpg', TRUE, 6, 350, 'MEDIO', NULL, '2024-06-18 17:30:00'),
+    (13, 'Ahmed Hassan', 1980, 'M', 'Cairo', 'Egipto', 'ahmed.hassan@gmail.com', 'egypt123', 'ahmed_hassan', 'toke3n1819', 'ahmed_photo.jpg', TRUE, 3, 230, 'MEDIO', NULL, '2024-06-17 12:15:00');
 
-
+INSERT INTO Partida(id_usuario, puntaje, fecha)
+VALUES
+    (1, 0, '2024-06-22 14:00:00'),
+    (2, 150, '2024-06-22 13:30:00'),
+    (3, 200, '2024-06-22 12:45:00'),
+    (4, 50, '2024-06-21 18:00:00'),
+    (5, 300, '2024-06-21 17:30:00'),
+    (6, 80, '2024-06-21 16:45:00'),
+    (7, 150, '2024-06-21 16:00:00'),
+    (8, 400, '2024-06-21 15:15:00'),
+    (9, 250, '2024-06-21 14:30:00'),
+    (10, 150, '2024-06-21 13:45:00'),
+    (11, 500, '2024-06-21 13:00:00'),
+    (12, 350, '2024-06-21 12:15:00'),
+    (13, 230, '2024-06-21 11:30:00');
 
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
 

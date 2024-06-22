@@ -4,14 +4,16 @@ class PartidaModel extends BaseModel
 {
     const CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES = 8;
 
-    public function __construct($database){
+    public function __construct($database)
+    {
         parent:: __construct($database);
     }
+
     public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario)
     {
         $preguntasEntregadas = $this->getCantidadDePreguntasEntregadasAUnUsuario($idUsuario);
 
-        if($preguntasEntregadas < self::CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES){
+        if ($preguntasEntregadas < self::CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES) {
             return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeNivelFacil($idUsuario);
         }
 
@@ -19,12 +21,13 @@ class PartidaModel extends BaseModel
 
         if ($totalPreguntasNiveladas > 0) {
             return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario);
-        }else{
+        } else {
             $this->resetearPreguntasVistasDelNivelDelUsuario($idUsuario);
             return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario);
         }
 
     }
+
     public function traerRespuestasDesordenadas($idPregunta)
     {
         $query = "SELECT R.*
@@ -35,6 +38,7 @@ class PartidaModel extends BaseModel
         shuffle($respuestas);
         return $respuestas;
     }
+
     public function esRespuestaCorrecta($textoRespuesta, $idPregunta)
     {
         $query = "Select es_correcta 
@@ -58,10 +62,11 @@ class PartidaModel extends BaseModel
         WHERE p.id = ?;
     ";
 
-        $stmt = $this->ejecutarEnLaBD1($consulta,"i",$idPregunta);
+        $stmt = $this->ejecutarEnLaBD1($consulta, "i", $idPregunta);
         return $this->obtenerResultados($stmt);
 
     }
+
     public function getPreguntaPorIdDePregunta($idPregunta)
     {
         $consulta = "
@@ -69,9 +74,10 @@ class PartidaModel extends BaseModel
         FROM Pregunta p
         WHERE p.id = ?;
     ";
-        $stmt = $this->ejecutarEnLaBD1($consulta,"i",$idPregunta);
+        $stmt = $this->ejecutarEnLaBD1($consulta, "i", $idPregunta);
         return $this->obtenerResultados($stmt);
     }
+
     public function registrarEnPreguntaVistaPorElUsuario($idPregunta, $idUsuario)
     {
         if (!$this->estaVistaLaPregunta($idPregunta, $idUsuario)) {
@@ -80,13 +86,14 @@ class PartidaModel extends BaseModel
             INSERT INTO PreguntaVistas (id_usuario, id_pregunta)
             VALUES (?, ?);
             ";
-            $this->ejecutarEnLaBD2($consulta,'ii', $idUsuario, $idPregunta);
-        }else{
+            $this->ejecutarEnLaBD2($consulta, 'ii', $idUsuario, $idPregunta);
+        } else {
             echo "La pregunta ya esta respondida";
             exit();
         }
 
     }
+
     public function arrancarPartida($usuario)
     {
         date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -97,6 +104,7 @@ class PartidaModel extends BaseModel
 
         return $result;
     }
+
     public function obtenerUltimaPartida($id_usuario)
     {
         $query = "SELECT id FROM Partida WHERE id_usuario = $id_usuario ORDER BY fecha DESC LIMIT 1";
@@ -108,6 +116,7 @@ class PartidaModel extends BaseModel
             return null;
         }
     }
+
     public function sumarPuntos($id_usuario, $idPartida)
     {
         $query = "UPDATE Partida set puntaje = puntaje + 1 where id_usuario = $id_usuario and id = $idPartida";
@@ -125,6 +134,7 @@ class PartidaModel extends BaseModel
             return '0';
         }
     }
+
     public function updateDatosPregunta($idPregunta)
     {
         $query = "UPDATE Pregunta 
@@ -136,6 +146,7 @@ class PartidaModel extends BaseModel
         $result = $this->database->executeAndReturn($query);
         return $result;
     }
+
     public function actualizarPreguntasEntregadasAUnUsuario($id_usuario)
     {
         $query = "UPDATE Usuarios
@@ -146,20 +157,22 @@ class PartidaModel extends BaseModel
 
         $this->database->execute($query);
     }
+
     public function actualizarNivelDelUsuario($id_usuario)
     {
         $query = "SELECT preguntas_acertadas, preguntas_entregadas 
                     From Usuarios 
                     where id = ? ";
 
-        $stmt = $this->ejecutarEnLaBD1($query,"i",$id_usuario);
+        $stmt = $this->ejecutarEnLaBD1($query, "i", $id_usuario);
 
         $fila = $this->obtenerResultados($stmt);
 
-        if ($fila['preguntas_entregadas']!= 0){
-            $this->UpdateNivelDelUsuario($fila['preguntas_acertadas'],$fila['preguntas_entregadas'],$id_usuario);
+        if ($fila['preguntas_entregadas'] != 0) {
+            $this->UpdateNivelDelUsuario($fila['preguntas_acertadas'], $fila['preguntas_entregadas'], $id_usuario);
         }
     }
+
     public function actualizarCantidadDePreguntasCorrectasAUnUsuario($id_usuario)
     {
         $query = "UPDATE Usuarios
@@ -167,12 +180,14 @@ class PartidaModel extends BaseModel
                   where id = $id_usuario ";
         $this->database->execute($query);
     }
+
     public function updatePregBienRespondidas($idPregunta)
     {
         $query = "UPDATE Pregunta set vecesCorrectas = vecesCorrectas + 1 where id = $idPregunta";
         $result = $this->database->executeAndReturn($query);
         return $result;
     }
+
     public function actualizarNivelDePregunta($idPregunta)
     {
         $query = "SELECT vecesEntregadas, vecesCorrectas From Pregunta where id = $idPregunta";
@@ -188,16 +203,16 @@ class PartidaModel extends BaseModel
         }
     }
 
-    public function registrarReporte($idPregunta,$idUsuario,$razon)
+    public function registrarReporte($idPregunta, $idUsuario, $razon)
     {
-        if (!$this->estaRegistradoElReporte($idPregunta,$idUsuario)) {
+        if (!$this->estaRegistradoElReporte($idPregunta, $idUsuario)) {
 
             $registro = " 
             INSERT INTO Reporte_Pregunta (id_pregunta, id_usuario,descripcion)
             VALUES (?,?,?);
             ";
-            $this->ejecutarEnLaBD3Parametros($registro,'iis', $idPregunta,$idUsuario,$razon);
-        }else{
+            $this->ejecutarEnLaBD3Parametros($registro, 'iis', $idPregunta, $idUsuario, $razon);
+        } else {
             $actualizacion = "UPDATE Reporte_Pregunta
                  SET descripcion = '$razon'
                   WHERE id_usuario = $idUsuario AND id_pregunta = $idPregunta ";
@@ -218,6 +233,7 @@ class PartidaModel extends BaseModel
             $nivel = "DIFICIL";
         return $nivel;
     }
+
     private function retornarNivel($vecesEntregadas, $vecesCorrectas, $idPregunta): string
     {
         $nivelActual = $this->obtenerNivelActualDesdeBD($idPregunta);
@@ -234,12 +250,13 @@ class PartidaModel extends BaseModel
                 $nuevoNivel = "DIFICIL";
         }
 
-        if ($nuevoNivel !== $nivelActual){
+        if ($nuevoNivel !== $nivelActual) {
             $this->actualizarNivelDePreguntaEnBD($idPregunta, $nuevoNivel);
-         }
+        }
 
-    return $nuevoNivel;
+        return $nuevoNivel;
     }
+
     private function obtenerNivelActualDesdeBD($idPregunta)
     {
         $query = "SELECT nivel FROM Pregunta WHERE id = $idPregunta";
@@ -251,11 +268,13 @@ class PartidaModel extends BaseModel
             return null;
         }
     }
+
     private function actualizarNivelDePreguntaEnBd($idPregunta, $nuevoNivel)
     {
         $query = "UPDATE Pregunta SET nivel = '$nuevoNivel' WHERE id = $idPregunta";
         $this->database->execute($query);
     }
+
     private function contarCantidadDePreguntasVistas($cant_veces_vistas, $idUsuario)
     {
         $consultaVerificar = "SELECT COUNT(*) AS total
@@ -268,6 +287,7 @@ class PartidaModel extends BaseModel
         return $this->retornarCantidadTotalDePreguntas($resultado);
 
     }
+
     private function retornarCantidadTotalDePreguntas($resultado)
     {
         if (isset($resultado) && !empty($resultado)) {
@@ -278,6 +298,7 @@ class PartidaModel extends BaseModel
         }
         return $totalPreguntasDisponibles;
     }
+
     private function contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeSuNivel($idUsuario)
     {
         $nivelDePregunta = $this->retornarNivelDePreguntaParaUnUsuario($idUsuario);
@@ -292,6 +313,7 @@ class PartidaModel extends BaseModel
 
         return $this->retornarCantidadTotalDePreguntas($resultado);
     }
+
     private function obtenerPuntajeDeUnaPartida($idPartida)
     {
         $consultarPuntaje = "SELECT puntaje
@@ -300,23 +322,25 @@ class PartidaModel extends BaseModel
 
         return $this->database->query($consultarPuntaje);
     }
+
     private function estaVistaLaPregunta($idPregunta, $idUsuario)
     {
         // Consulta para verificar si ya existe un registro en la tabla PreguntaVistas para la pregunta y el usuario especificados
         $consulta = "SELECT COUNT(*) AS total FROM PreguntaVistas 
                     WHERE id_pregunta = ? AND id_usuario = ?";
 
-        $stmt = $this->ejecutarEnLaBD2($consulta,'ii',$idPregunta, $idUsuario);
+        $stmt = $this->ejecutarEnLaBD2($consulta, 'ii', $idPregunta, $idUsuario);
 
         $total_registros = $stmt->get_result()->fetch_assoc()['total'];
 
         return ($total_registros > 0);
     }
+
     private function retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario)
     {
         $nivelDePregunta = $this->retornarNivelDePreguntaParaUnUsuario($idUsuario);
 
-        $pregunta = $this->retornarPregunta($idUsuario,$nivelDePregunta);
+        $pregunta = $this->retornarPregunta($idUsuario, $nivelDePregunta);
 
         if (!isset($pregunta) || empty($pregunta)) {
             die("No hay una pregunta del nivel $nivelDePregunta ");
@@ -325,12 +349,14 @@ class PartidaModel extends BaseModel
             return $pregunta;
         }
     }
+
     private function resetearPreguntasVistas($idUsuario)
     {
         $consulta = "DELETE FROM Preguntavistas
                       WHERE id_usuario = ? ";
-        $this->ejecutarEnLaBD1($consulta,"i",$idUsuario);
+        $this->ejecutarEnLaBD1($consulta, "i", $idUsuario);
     }
+
     private function resetearPreguntasVistasDelNivelDelUsuario($idUsuario)
     {
         $nivelDePregunta = $this->retornarNivelDePreguntaParaUnUsuario($idUsuario);
@@ -339,33 +365,42 @@ class PartidaModel extends BaseModel
                         JOIN Pregunta P ON PV.id_pregunta = P.id
                         JOIN Usuarios U ON PV.id_usuario = U.id
                         WHERE U.id = ? AND P.nivel = ? ";
-        $this->ejecutarEnLaBD2($consulta,"is",$idUsuario,$nivelDePregunta);
+        $this->ejecutarEnLaBD2($consulta, "is", $idUsuario, $nivelDePregunta);
     }
+
     private function retornarNivelDePreguntaParaUnUsuario($idUsuario): string
     {
         $consulta = "SELECT nivel
                      FROM Usuarios 
                      WHERE id = ? ";
-        $stmt = $this->ejecutarEnLaBD1($consulta,"i",$idUsuario);
+        $stmt = $this->ejecutarEnLaBD1($consulta, "i", $idUsuario);
 
         $nivelDelUsuario = $stmt->get_result()->fetch_assoc()['nivel'];
 
-        switch ($nivelDelUsuario){
-            CASE 'BAJO': $nivelPregunta = 'FACIL';break;
-            CASE 'MEDIO': $nivelPregunta = 'MEDIO';break;
-            CASE 'ALTO': $nivelPregunta = 'DIFICIL';break;
-            default: $nivelPregunta = 'DESCONOCIDO';
+        switch ($nivelDelUsuario) {
+            case 'BAJO':
+                $nivelPregunta = 'FACIL';
+                break;
+            case 'MEDIO':
+                $nivelPregunta = 'MEDIO';
+                break;
+            case 'ALTO':
+                $nivelPregunta = 'DIFICIL';
+                break;
+            default:
+                $nivelPregunta = 'DESCONOCIDO';
                 break;
         }
         return $nivelPregunta;
     }
+
     private function UpdateNivelDelUsuario($preguntasAcertadas, $preguntasEntregadas, $id_usuario)
     {
         $porcentaje = ($preguntasAcertadas / $preguntasEntregadas) * 100;
 
         if ($porcentaje >= 70.0)
             $nuevoNivel = 'ALTO';
-        elseif($porcentaje >= 40.0)
+        elseif ($porcentaje >= 40.0)
             $nuevoNivel = 'MEDIO';
         else
             $nuevoNivel = 'BAJO';
@@ -376,6 +411,7 @@ class PartidaModel extends BaseModel
         $this->ejecutarEnLaBD2($query, "si", $nuevoNivel, $id_usuario);
 
     }
+
     private function retornarPregunta($idUsuario, string $nivelDePregunta)
     {
         $consulta = "SELECT P.*
@@ -385,8 +421,9 @@ class PartidaModel extends BaseModel
                      ORDER BY RAND()
                      LIMIT 1";
 
-        return  $this->database->query($consulta);
+        return $this->database->query($consulta);
     }
+
     private function retornarPreguntaNoVistaSinImportarElNivelDeUsuario($idUsuario)
     {
         $consulta = "SELECT P.*
@@ -396,7 +433,7 @@ class PartidaModel extends BaseModel
                      ORDER BY RAND()
                      LIMIT 1";
 
-        return  $this->database->query($consulta);
+        return $this->database->query($consulta);
     }
 
     private function retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeNivelFacil($idUsuario)
@@ -405,7 +442,7 @@ class PartidaModel extends BaseModel
 
         if ($totalPreguntasFaciles > 0) {
             return $this->retornarPreguntaNivelFacil($idUsuario);
-        }else{
+        } else {
             $this->resetearPreguntasFacilesVistasPorElUsuario($idUsuario);
             return $this->retornarPreguntaNivelFacil($idUsuario);
         }
@@ -426,7 +463,7 @@ class PartidaModel extends BaseModel
     private function retornarPreguntaNivelFacil($idUsuario)
     {
         $nivelDePregunta = 'FACIL';
-        $pregunta = $this->retornarPregunta($idUsuario,$nivelDePregunta);
+        $pregunta = $this->retornarPregunta($idUsuario, $nivelDePregunta);
 
         if (!isset($pregunta) || empty($pregunta)) {
             die("No hay una pregunta del nivel $nivelDePregunta ");
@@ -444,16 +481,16 @@ class PartidaModel extends BaseModel
                         JOIN Pregunta P ON PV.id_pregunta = P.id
                         JOIN Usuarios U ON PV.id_usuario = U.id
                         WHERE U.id = ? AND P.nivel = ? ";
-        $this->ejecutarEnLaBD2($consulta,"is",$idUsuario,$nivelDePregunta);
+        $this->ejecutarEnLaBD2($consulta, "is", $idUsuario, $nivelDePregunta);
     }
 
     private function getCantidadDePreguntasEntregadasAUnUsuario($idUsuario)
     {
         $consulta = "SELECT preguntas_entregadas
                      FROM Usuarios u
-                        WHERE u.id = $idUsuario " ;
+                        WHERE u.id = $idUsuario ";
 
-        $resultado =   $this->database->query($consulta);
+        $resultado = $this->database->query($consulta);
 
         if (isset($resultado) && !empty($resultado)) {
             $primerResultado = $resultado[0];
@@ -464,13 +501,13 @@ class PartidaModel extends BaseModel
         return $totalPreguntasEntregadas;
     }
 
-    private function estaRegistradoElReporte($idPregunta,$idUsuario)
+    private function estaRegistradoElReporte($idPregunta, $idUsuario)
     {
         // Consulta para verificar si ya existe un registro en la tabla PreguntaVistas para la pregunta y el usuario especificados
         $consulta = "SELECT COUNT(*) AS total FROM Reporte_Pregunta 
                     WHERE id_pregunta = ? AND id_usuario = ?";
 
-        $stmt = $this->ejecutarEnLaBD2($consulta,'ii',$idPregunta,$idUsuario);
+        $stmt = $this->ejecutarEnLaBD2($consulta, 'ii', $idPregunta, $idUsuario);
 
         $total_registros = $stmt->get_result()->fetch_assoc()['total'];
 
