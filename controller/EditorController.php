@@ -232,4 +232,52 @@ class EditorController extends BaseController
 
         $this->presenter->render('view/vistaEditor/preguntasReportadas.mustache', $data);
     }
+
+    public function eliminarPreguntaReportada()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+
+        if (isset($_GET['id'])) {
+            $pregunta_id = $_GET['id'];
+            if ($this->model->eliminarPreguntaReportada($pregunta_id)) {
+                $this->presenter->render('view/vistasPostAccion/eliminarExitoso.mustache', [
+                    'rol' => $rol['rol'],
+                ]);
+                exit;
+            } else {
+                $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
+                    'rol' => $rol['rol'],
+                ]);
+                exit;
+            }
+        }
+
+    }
+
+    public function aceptarPreguntaReportada()
+    {
+        $this->checkSession();
+        $user = $_SESSION['username'];
+        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+
+
+        if (isset($_GET['id'])) {
+            $pregunta_id = $_GET['id'];
+            if ($this->model->aceptarPreguntaReportada($pregunta_id)) {
+                $this->presenter->render('view/vistasPostAccion/aceptarExitoso.mustache', [
+                    'rol' => $rol['rol'],
+                ]);
+                exit;
+            } else {
+                $this->presenter->render('view/vistasPostAccion/manejarErrorGeneral.mustache', [
+                    'rol' => $rol['rol'],
+                ]);
+                exit;
+            }
+        }
+
+    }
 }
