@@ -117,6 +117,21 @@ VALUES
     (12, 'Emily Johnson', 1994, 'F', 'London', 'Reino Unido', 'emily.johnson@gmail.com', 'password789', 'emily_johnson', 'token1617', 'emily_pic.jpg', TRUE, 6, 350, 'MEDIO', NULL, '2024-06-18 17:30:00'),
     (13, 'Ahmed Hassan', 1980, 'M', 'Cairo', 'Egipto', 'ahmed.hassan@gmail.com', 'egypt123', 'ahmed_hassan', 'toke3n1819', 'ahmed_photo.jpg', TRUE, 3, 230, 'MEDIO', NULL, '2024-06-17 12:15:00');
 
+INSERT INTO Partida(id_usuario, puntaje, fecha)
+VALUES
+    (1, 0, '2024-06-22 14:00:00'),
+    (2, 150, '2024-06-22 13:30:00'),
+    (3, 200, '2024-06-22 12:45:00'),
+    (4, 50, '2024-06-21 18:00:00'),
+    (5, 300, '2024-06-21 17:30:00'),
+    (6, 80, '2024-06-21 16:45:00'),
+    (7, 150, '2024-06-21 16:00:00'),
+    (8, 400, '2024-06-21 15:15:00'),
+    (9, 250, '2024-06-21 14:30:00'),
+    (10, 150, '2024-06-21 13:45:00'),
+    (11, 500, '2024-06-21 13:00:00'),
+    (12, 350, '2024-06-21 12:15:00'),
+    (13, 230, '2024-06-21 11:30:00');
 
 INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
 
