@@ -19,6 +19,19 @@ class AdministradorController extends BaseController
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
+    public function graficoDeUsuariosNuevos()
+    {
+        $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
+        $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
+        $this->model->crearGrafico($arrayDeDatos);
+    }
+    public function graficoDePartidas()
+    {
+        $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
+        $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
+        $this->model->crearGrafico($arrayDeDatos);
+    }
+
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy():array
     {
         $fechas = array();

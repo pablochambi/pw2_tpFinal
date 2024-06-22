@@ -12,6 +12,7 @@ class AdministradorModel extends BaseModel
     {
         $this->grafica->graficar($arrayDeDatos);
     }
+
     public function getCantidadDeJugadores()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
@@ -111,8 +112,47 @@ class AdministradorModel extends BaseModel
 
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
     }
+    public function obtenerLasCantidadesDeUsuariosNuevosPorDia($fechas) :array
+    {
+        $fechas_string = "'" . implode("','", $fechas) . "'";
 
-    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas)
+        $consulta = "SELECT  DATE(fecha_registro) AS fecha, 
+                            COUNT(*) AS cantidad 
+                        FROM Usuarios 
+                        WHERE DATE(fecha_registro) IN ($fechas_string)
+                        GROUP BY DATE(fecha_registro)
+                        ORDER BY fecha;
+                    ";
+        $resultConsulta = $this->database->executeAndReturn($consulta);
+
+        $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
+
+        $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
+
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+    }
+    public function obtenerLasCantidadesDePartidasPorDia($fechas) :array
+    {
+        $fechas_string = "'" . implode("','", $fechas) . "'";
+
+        $consulta = "SELECT  DATE(fecha) AS fecha, 
+                            COUNT(*) AS cantidad 
+                        FROM Partida 
+                        WHERE DATE(fecha) IN ($fechas_string)
+                        GROUP BY DATE(fecha)
+                        ORDER BY fecha;
+                    ";
+        $resultConsulta = $this->database->executeAndReturn($consulta);
+
+        $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
+
+        $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
+
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+    }
+
+
+    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas):array
     {
         $dataFechaCantidad = [];
 
@@ -122,7 +162,7 @@ class AdministradorModel extends BaseModel
         return $dataFechaCantidad;
     }
 
-    private function llenarConCantidadesALasFechas($result,$dataFechaCantidad)
+    private function llenarConCantidadesALasFechas($result,$dataFechaCantidad):array
     {
         if ($result && $result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {

@@ -46,7 +46,7 @@ class GraficoCreator
         $b1plot->SetFillColor("#ADD8E6");
 
 
-        $graph->title->Set("Cantidad de preguntas creadas");
+        //$graph->title->Set("Cantidad de preguntas creadas");
 
 // Display the graph
         $graph->Stroke();
