@@ -76,10 +76,10 @@
                     <tbody>
                     <tr>
                         <td>Cantidad de preguntas activas</td>
-                        <td>{{{cantidad_preguntas}}}</td>
+                        <td><span id="cantidad_preguntasActivas">{{cantidad_preguntas}}</td>
                         <td>
-                            <label for="timeframe"></label>
-                            <select id="timeframe" name="timeframe">
+                            <label for="timeframe2"></label>
+                            <select id="timeframe2" name="timeframe2">
                                 <option value="day">Día</option>
                                 <option value="week">Semana</option>
                                 <option value="month">Mes</option>
@@ -105,11 +105,11 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>Cantidad de preguntas creadas activas</td>
-                        <td>{{{cantidad_preguntas_creadas}}}</td>
+                        <td>Cantidad de preguntas creadas</td>
+                        <td><span id="cantidad_preguntasCreadas">{{cantidad_preguntas_creadas}}</span></td>
                         <td>
-                            <label for="timeframe"></label>
-                            <select id="timeframe" name="timeframe">
+                            <label for="timeframe3"></label>
+                            <select id="timeframe3" name="timeframe3">
                                 <option value="day">Día</option>
                                 <option value="week">Semana</option>
                                 <option value="month">Mes</option>
@@ -163,8 +163,8 @@
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por sexo</h3>
-                <label for="timeframe">Filtrar Por: </label>
-                <select id="timeframe" name="timeframe">
+                <label for="timeframe4">Filtrar Por: </label>
+                <select id="timeframe4" name="timeframe4">
                     <option value="day">Día</option>
                     <option value="week">Semana</option>
                     <option value="month">Mes</option>
@@ -180,11 +180,11 @@
                     <tbody>
                     <tr>
                         <td>Masculino</td>
-                        <td>100</td>
+                        <td><span id="cantidad_usuarios_masculinos">{{cantidad_usuarios_masculinos}}</span></td>
                     </tr>
                     <tr>
                         <td>Femenino</td>
-                        <td>80</td>
+                        <td><span id="cantidad_usuarios_femeninos">{{cantidad_usuarios_femeninos}}</span></td>
                     </tr>
                     <tr>
                         <td>Prefiero no decirlo</td>
@@ -277,9 +277,23 @@
         <h2>Cantidad de Partidas jugadas</h2>
         <img src="/administrador/graficoDePartidas"/>
     </div>
+    <div>
+        <h2>Usuarios por sexo</h2>
+        <img src="/administrador/graficoDeUsuariosPorSexo"/>
+    </div>
+    <div>
+        <h2>Usuarios por grupo</h2>
+        <img src="/administrador/graficoDeUsuariosPorGrupo"/>
+    </div>
+    <div>
+        <h2>Usuarios por pais</h2>
+        <img src="/administrador/graficoDeUsuariosPorPais"/>
+    </div>
+    <div>
+        <h2>Porcentaje de preguntas respondidas correctamente por usuario</h2>
+        <img src="/administrador/graficoPorcentajeCorrectoUsuarios"/>
+    </div>
 </div>
-
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/public/js/tiempoSelect.js"></script>
