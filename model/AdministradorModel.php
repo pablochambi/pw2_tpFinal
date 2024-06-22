@@ -103,31 +103,43 @@ class AdministradorModel extends BaseModel
                         GROUP BY DATE(fecha_creacion)
                         ORDER BY fecha;
                     ";
-        $result = $this->database->executeAndReturn($consulta);
+        $resultConsulta = $this->database->executeAndReturn($consulta);
 
+        $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
+
+        $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
+
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+    }
+
+    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas)
+    {
         $dataFechaCantidad = [];
 
         for ($i = 0; $i <= 6; $i++) {
             $dataFechaCantidad[date('d-m', strtotime($fechas[$i]))] = 0;
         }
+        return $dataFechaCantidad;
+    }
 
-            if ($result && $result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $dataFechaCantidad[date('d-m', strtotime($row['fecha']))] = $row['cantidad'];
-                }
-            } else {
-                die("No hay fecha y cantidad para hacer el grafico");
+    private function llenarConCantidadesALasFechas($result,$dataFechaCantidad)
+    {
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $dataFechaCantidad[date('d-m', strtotime($row['fecha']))] = $row['cantidad'];
             }
-
-        return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+        } else {
+            die("No hay fecha y cantidad para hacer el grafico");
+        }
+        return $dataFechaCantidad;
     }
 
     private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data):array
     {
         $final_array = [];
-        foreach ($data as $index => $item) {
+        foreach ($data as $fechaIndex => $item) {
             $final_array[] = [
-                'fecha' => $index,
+                'fecha' => $fechaIndex,
                 'cantidad' => $item
             ];
         }

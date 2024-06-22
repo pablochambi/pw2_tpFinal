@@ -22,11 +22,7 @@ class AdministradorController extends BaseController
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy():array
     {
         $fechas = array();
-
-        // Establecer la zona horaria
         date_default_timezone_set('America/Argentina/Buenos_Aires');
-
-        // Obtener la marca de tiempo para hoy
         $hoy = strtotime('today');
 
         // Generar las fechas de los últimos 6 días hasta hoy
