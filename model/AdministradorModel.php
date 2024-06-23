@@ -16,6 +16,8 @@ class AdministradorModel extends BaseModel
     public function graficarCantidadDeUsuariosPorPais($datos) { $this->grafica->usuariosPorPais($datos); }
     public function graficarPorcentajeDeCorrectasPorUsuarios($datos) { $this->grafica->porcentajeUsuarioCorrectas($datos); }
     public function graf() { $this->grafica->graficoNuevo(); }
+    public function pdf() { $this->pdfCreator->crear(); }
+
     public function getCantidadesDeUsuariosPorPais()
     {
         $consulta = "SELECT pais, COUNT(*) AS cantidad_usuarios
@@ -62,7 +64,26 @@ class AdministradorModel extends BaseModel
     }
     public function getCantidadDeJugadores()
     {
-        $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
+        $consulta = "SELECT COUNT(*) AS cantidad_jugadores
+                        FROM Usuarios
+                        INNER JOIN Usuario_Rol ON Usuarios.id = Usuario_Rol.id_usuario
+                        INNER JOIN Rol ON Usuario_Rol.id_rol = Rol.id
+                        WHERE Rol.nombre = 'Jugador'  ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_jugadores'];
+        } else {
+            die("No se conto la cantidad de jugadores");
+        }
+    }
+    public function getCantidadDeJugadoresPdf()
+    {//Cuento solo a los jugadores que no sean admin y editor
+        $consulta = "SELECT COUNT(*) AS cantidad_jugadores
+                        FROM Usuarios
+                        INNER JOIN Usuario_Rol ON Usuarios.id = Usuario_Rol.id_usuario
+                        INNER JOIN Rol ON Usuario_Rol.id_rol = Rol.id
+                        WHERE Rol.nombre = 'Jugador' ";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -74,6 +95,17 @@ class AdministradorModel extends BaseModel
     public function getCantidadDePartidasJugadas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_partidas'];
+        } else {
+            die("No se conto la cantidad de partidas");
+        }
+    }
+    public function getCantidadDePartidasJugadasPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -97,6 +129,18 @@ class AdministradorModel extends BaseModel
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
                     WHERE fecha_creacion >= CURDATE() AND fecha_creacion < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntas_creadas'];
+        } else {
+            die("No se conto la cantidad de preguntas creadas");
+        }
+    }
+    public function getCantidadDePreguntasCreadasActivasPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
+                    WHERE activa = 1 AND usuario_creador is not null";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -264,8 +308,7 @@ class AdministradorModel extends BaseModel
         }
     }
 
-<<<<<<< Updated upstream
-=======
+
     public function obtenerUsuariosHombresRegistradosPorPeriodo($timeframe)
     {
         switch ($timeframe) {
@@ -358,10 +401,6 @@ class AdministradorModel extends BaseModel
         }
     }
 
-
-
-
->>>>>>> Stashed changes
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {//[21-06]= 0
         $dataFechaCantidad = [];

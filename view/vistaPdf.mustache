@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>Estadisticas</title>
+    <style>
+        .styled-table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 18px;
+            text-align: left;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Estadisticas</h1>
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>Metrica</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Jugadores</td>
+            <td>{{cant_jugadores}}</td>
+        </tr>
+        <tr>
+            <td>Partidas jugadas</td>
+            <td>{{cantidad_partidas}}</td>
+        </tr>
+        <tr>
+            <td>Preguntas en el juego</td>
+            <td>{{cantidad_preguntas}}</td>
+        </tr>
+        <tr>
+            <td>Preguntas creadas (activas)</td>
+            <td>{{cantidad_preguntas_creadas}}</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
