@@ -35,15 +35,23 @@ class AdministradorController extends BaseController
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
-//graficoDeUsuariosPorSexo
     public function graficoDeUsuariosPorSexo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
         $this->model->graficarCantidadDeUsuariosPorSexo($arrayDeDatos);
     }
+    public function graficoDeUsuariosPorGrupo()
+    {
+        $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
+        $this->model->graficarCantidadDeUsuariosPorGrupo($arrayDeDatos);
+    }
+    public function graficoDeUsuariosPorPais()
+    {
+        $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorPais();
+        $this->model->graficarCantidadDeUsuariosPorPais($arrayDeDatos);
+    }
 
-//graficoDeUsuariosPorGrupo
-//graficoDeUsuariosPorPais
+
 //graficoPorcentajeCorrectoUsuarios
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
