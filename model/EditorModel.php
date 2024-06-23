@@ -90,16 +90,58 @@ class EditorModel extends BaseModel
         }
     }
 
-    public function eliminarPreguntaDeLaListaDeReportes($idPregunta, $idUsuario)
+    public function aceptarPreguntaReportada($idPregunta)
     {
-        $query = "delete from Reporte_Pregunta
+        //beginTransaction
+
+        try {
+
+            $stmt1 = $this->database->prepare("DELETE FROM reporte_pregunta WHERE id_pregunta = ?");
+            $stmt1->bind_Param('i', $idPregunta);
+            $stmt1->execute();
+
+            // Eliminar de PREGUNTAS
+            $stmt2 = $this->database->prepare("UPDATE pregunta SET revisada =+1  WHERE id = ?");
+            $stmt2->bind_Param('i', $idPregunta);
+            $stmt2->execute();
+            //commitTransaction()
+            return true;
+
+        } catch (PDOException $e) {
+            echo "Error al eliminar pregunta: " . $e->getMessage();
+            //rollbackTransaction()
+        }
+    }
+
+    public function eliminarPreguntaReportada($idPregunta)
+    {
+        //beginTransaction
+
+        try {
+            // Eliminar de reporte_preguntas
+            $stmt1 = $this->database->prepare("DELETE FROM reporte_pregunta WHERE id_pregunta = ?");
+            $stmt1->bind_Param('i', $idPregunta);
+            $stmt1->execute();
+
+            // Eliminar de PREGUNTAS
+            $stmt2 = $this->database->prepare("UPDATE pregunta SET activa = 0 WHERE id = ? AND SET revisada =+ 1");
+            $stmt2->bind_Param('i', $idPregunta);
+            $stmt2->execute();
+            //commitTransaction()
+            return true;
+
+        } catch (PDOException $e) {
+            echo "Error al eliminar pregunta: " . $e->getMessage();
+            //rollbackTransaction()
+        }
+    }
+        /*$query = "delete from Reporte_Pregunta
        where id_pregunta = ? and id_usuario = ? ";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("ii", $idPregunta, $idUsuario);
 
         if (!$stmt->execute())
-            die('Error al eliminar una pregunta de la lista de reportes: ' . $this->database->error);
-    }
+            die('Error al eliminar una pregunta de la lista de reportes: ' . $this->database->error);*/
 
     private function eliminarLasReferenciasEnPreguntasVistas($idPregunta)
     {

@@ -264,6 +264,104 @@ class AdministradorModel extends BaseModel
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    public function obtenerUsuariosHombresRegistradosPorPeriodo($timeframe)
+    {
+        switch ($timeframe) {
+            case 'day':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres 
+                 FROM Usuarios  WHERE sexo = 'M' 
+                 AND fecha_registro >= CURDATE() 
+                 AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres 
+                 FROM Usuarios 
+                 WHERE sexo = 'M' 
+                 AND YEARWEEK(fecha_registro) = YEARWEEK(CURDATE())";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres FROM Usuarios WHERE sexo = 'M' AND YEAR(fecha_registro) = YEAR(CURDATE()) AND MONTH(fecha_registro) = MONTH(CURDATE())";
+                break;
+            case 'year':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres FROM Usuarios WHERE sexo = 'M' AND YEAR(fecha_registro) = YEAR(CURDATE())";
+                break;
+            default:
+                die("No se pudo obtener la cantidad de usuarios hombres registrados por periodo");
+        }
+        $result = $this->database->executeAndReturn($consulta);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_hombres'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+        public function obtenerUsuariosMujeresRegistradosPorPeriodo($timeframe)
+    {
+        switch($timeframe) {
+            case 'day':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres FROM Usuarios WHERE sexo = 'F' AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres FROM Usuarios WHERE sexo = 'F' AND YEARWEEK(fecha_registro) = YEARWEEK(CURDATE())";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres 
+                 FROM Usuarios 
+                 WHERE sexo = 'F' 
+                AND YEAR(fecha_registro) = YEAR(CURDATE())          
+                 AND MONTH(fecha_registro) = MONTH(CURDATE())";
+                break;
+            case 'year':
+                $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres 
+                 FROM Usuarios 
+                 WHERE sexo = 'F' 
+                 AND YEAR(fecha_registro) = YEAR(CURDATE())";
+                break;
+            default:
+                die("No se pudo obtener la cantidad de usuarios mujeres registrados por periodo");
+        }
+        $result = $this->database->executeAndReturn($consulta);
+        if($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_mujeres'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+
+    }
+
+    public function obtenerUsuariosDelDiaRegistrado()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres FROM Usuarios WHERE fecha_registro >= CURDATE() AND sexo = 'M' AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_hombres'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+
+    public function obtenerUsuariosDelDiaMujeresRegistrado()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres FROM Usuarios WHERE fecha_registro >= CURDATE() AND sexo = 'F' AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_mujeres'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+
+
+
+
+>>>>>>> Stashed changes
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {//[21-06]= 0
         $dataFechaCantidad = [];

@@ -163,8 +163,8 @@
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por sexo</h3>
-                <label for="timeframe">Filtrar Por: </label>
-                <select id="timeframe" name="timeframe">
+                <label for="timeframe4">Filtrar Por: </label>
+                <select id="timeframe4" name="timeframe4">
                     <option value="day">Día</option>
                     <option value="week">Semana</option>
                     <option value="month">Mes</option>
@@ -180,11 +180,11 @@
                     <tbody>
                     <tr>
                         <td>Masculino</td>
-                        <td>100</td>
+                        <td><span id="cantidad_usuarios_masculinos">{{cantidad_usuarios_masculinos}}</span></td>
                     </tr>
                     <tr>
                         <td>Femenino</td>
-                        <td>80</td>
+                        <td><span id="cantidad_usuarios_femeninos">{{cantidad_usuarios_femeninos}}</span></td>
                     </tr>
                     <tr>
                         <td>Prefiero no decirlo</td>
