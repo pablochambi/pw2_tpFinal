@@ -2,10 +2,14 @@
 
 class AdministradorController extends BaseController
 {
-    public function __construct($model, $presenter)
+    protected $pdfCreator;
+    protected $mustache;
+    public function __construct($model, $presenter,$pdfCreator,$mustache)
     {
         session_start();
         parent::__construct($model, $presenter);
+        $this->pdfCreator = $pdfCreator;
+        $this->mustache = $mustache;
     }
 
     public function get()
@@ -13,37 +17,49 @@ class AdministradorController extends BaseController
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
-    }
 
+    }
     public function graficoDePreguntasCreadas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
-
     public function graficoDeUsuariosNuevos()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
-
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
         $this->model->crearGrafico($arrayDeDatos);
     }
-//graficoDeUsuariosPorSexo
     public function graficoDeUsuariosPorSexo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
         $this->model->graficarCantidadDeUsuariosPorSexo($arrayDeDatos);
     }
+    public function graficoDeUsuariosPorGrupo()
+    {
+        $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
+        $this->model->graficarCantidadDeUsuariosPorGrupo($arrayDeDatos);
+    }
+    public function graficoDeUsuariosPorPais()
+    {
+        $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorPais();
+        $this->model->graficarCantidadDeUsuariosPorPais($arrayDeDatos);
+    }
+    public function pdf()
+    {
+        $datos = $this->datosAEnviarALaVistaPdf();
+        $html = $this->mustache->generateHtmlSimple('view/vistaPdf.mustache', $datos);
+        $this->pdfCreator->crear($html);
+    }
 
-//graficoDeUsuariosPorGrupo
-//graficoDeUsuariosPorPais
+
 //graficoPorcentajeCorrectoUsuarios
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
@@ -139,4 +155,27 @@ class AdministradorController extends BaseController
             'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
             'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres];
     }
+
+    private function datosAEnviarALaVistaPdf():array
+    {
+        $cantJugadores = $this->model->getCantidadDeJugadoresPdf();
+        $cantPartidasJugadas = $this->model->getCantidadDePartidasJugadasPdf();
+        $cantPreguntas = $this->model->getCantidadDePreguntasActivas();
+        $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadasActivasPdf();
+        $timeframe = $_GET['timeframe'] ?? 'day';
+        $cantidadUsuariosHombres = $this->model->obtenerUsuariosDelDiaRegistrado();
+
+        $cantidadUsuariosMujeres = $this->model->obtenerUsuariosDelDiaMujeresRegistrado();
+
+        return [
+            'cant_jugadores' => $cantJugadores,
+            'cantidad_partidas' => $cantPartidasJugadas,
+            'cantidad_preguntas' => $cantPreguntas,
+            'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
+            'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
+            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres];
+    }
+
+
+
 }

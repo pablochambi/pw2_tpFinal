@@ -47,7 +47,7 @@ class Configuration
     }
     public static function getAdministradorController()
     {
-        return new AdministradorController(self::getAdministradorModel(), self::getPresenter());
+        return new AdministradorController(self::getAdministradorModel(), self::getPresenter(),self::getPdfCreator(),self::getMustache());
     }
 
     public static function getEditorController()
@@ -164,6 +164,10 @@ class Configuration
     private static function getPresenter()
     {
         return new MustachePresenter("view/template");
+    }
+    private static function getMustache()
+    {
+        return new MustachePresenter();
     }
 
     public static function getPdfCreator()

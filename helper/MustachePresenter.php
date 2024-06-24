@@ -4,12 +4,15 @@ class MustachePresenter{
     private $mustache;
     private $partialsPathLoader;
 
-    public function __construct($partialsPathLoader){
+    public function __construct($partialsPathLoader = null){
         Mustache_Autoloader::register();
-        $this->mustache = new Mustache_Engine(
-            array(
-            'partials_loader' => new Mustache_Loader_FilesystemLoader( $partialsPathLoader )
-        ));
+
+        $options = array();
+        if ($partialsPathLoader) {
+            $options['partials_loader'] = new Mustache_Loader_FilesystemLoader($partialsPathLoader);
+        }
+
+        $this->mustache = new Mustache_Engine($options);
         $this->partialsPathLoader = $partialsPathLoader;
     }
 
@@ -33,6 +36,15 @@ class MustachePresenter{
         // Renderizar el contenido usando Mustache
         return $this->mustache->render($contentAsString, $data);
     }
+
+    public function generateHtmlSimple($contentFile, $data = array()) {
+
+        // Leer el contenido de los archivos
+        $contentAsString = file_get_contents($contentFile);
+        // Renderizar el contenido usando Mustache
+        return $this->mustache->render($contentAsString, $data);
+    }
+
 
 
 }

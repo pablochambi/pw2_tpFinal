@@ -133,7 +133,9 @@ VALUES
     (12, 350, '2024-06-20 12:15:00'),
     (13, 230, '2024-06-20 11:30:00');
 
-INSERT INTO Usuario_Rol (id_usuario,id_rol) VALUES (1,3), (2,2), (3,1);
+INSERT INTO Usuario_Rol (id_usuario,id_rol)
+VALUES (1,3), (2,2), (3,1),(4,3), (5,3), (6,3),(7,3),
+        (8,3), (9,3),(10,3), (11,3), (12,3),(13,3);
 
 INSERT INTO Categoria(id,nombre,color) VALUES
                                            (1,'Espectaculo','#b39606'),

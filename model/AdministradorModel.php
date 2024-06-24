@@ -15,7 +15,39 @@ class AdministradorModel extends BaseModel
     public function graficarCantidadDeUsuariosPorGrupo($datos) { $this->grafica->usuariosPorGrupo($datos); }
     public function graficarCantidadDeUsuariosPorPais($datos) { $this->grafica->usuariosPorPais($datos); }
     public function graficarPorcentajeDeCorrectasPorUsuarios($datos) { $this->grafica->porcentajeUsuarioCorrectas($datos); }
+    public function graf() { $this->grafica->graficoNuevo(); }
+    public function pdf() { $this->pdfCreator->crear(); }
 
+    public function getCantidadesDeUsuariosPorPais()
+    {
+        $consulta = "SELECT pais, COUNT(*) AS cantidad_usuarios
+                        FROM usuarios
+                        WHERE habilitado = 1
+                        GROUP BY pais
+                        ORDER BY cantidad_usuarios DESC;
+                    ";
+        $resultConsulta = $this->database->executeAndReturn($consulta);
+        //$dataSexoCantidad = $this->inicializarSexoCantidad();
+        $dataPaisCantidad = $this->llenarConCantidadesALosPaises($resultConsulta);
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorPais($dataPaisCantidad);
+    }
+    public function getCantidadesDeUsuariosPorGrupoDeEdad()
+    {
+        $consulta = "SELECT 
+                        CASE
+                            WHEN YEAR(CURDATE()) - anio_nacimiento < 18 THEN 'menores'
+                            WHEN YEAR(CURDATE()) - anio_nacimiento BETWEEN 18 AND 59 THEN 'medio'
+                            ELSE 'jubilados'
+                        END AS grupo_edad,
+                        COUNT(*) AS cantidad
+                    FROM Usuarios
+                    GROUP BY grupo_edad;";
+
+        $resultConsulta = $this->database->executeAndReturn($consulta);
+        $dataGrupoCantidad = $this->inicializarGrupoCantidad();
+        $dataGrupoCantidad = $this->llenarConCantidadesALosGrupos($resultConsulta, $dataGrupoCantidad);
+        return $this->retornarArrayParaQueSeSeVeanLosDatosPorGrupos($dataGrupoCantidad);
+    }
     public function getCantidadesDeUsuariosPorSexo()
     {
         $consulta = "SELECT  sexo , 
@@ -32,7 +64,26 @@ class AdministradorModel extends BaseModel
     }
     public function getCantidadDeJugadores()
     {
-        $consulta = "SELECT COUNT(*) AS cantidad_jugadores FROM Usuarios ";
+        $consulta = "SELECT COUNT(*) AS cantidad_jugadores
+                        FROM Usuarios
+                        INNER JOIN Usuario_Rol ON Usuarios.id = Usuario_Rol.id_usuario
+                        INNER JOIN Rol ON Usuario_Rol.id_rol = Rol.id
+                        WHERE Rol.nombre = 'Jugador'  ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_jugadores'];
+        } else {
+            die("No se conto la cantidad de jugadores");
+        }
+    }
+    public function getCantidadDeJugadoresPdf()
+    {//Cuento solo a los jugadores que no sean admin y editor
+        $consulta = "SELECT COUNT(*) AS cantidad_jugadores
+                        FROM Usuarios
+                        INNER JOIN Usuario_Rol ON Usuarios.id = Usuario_Rol.id_usuario
+                        INNER JOIN Rol ON Usuario_Rol.id_rol = Rol.id
+                        WHERE Rol.nombre = 'Jugador' ";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -44,6 +95,17 @@ class AdministradorModel extends BaseModel
     public function getCantidadDePartidasJugadas()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida WHERE fecha >= CURDATE() AND fecha < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_partidas'];
+        } else {
+            die("No se conto la cantidad de partidas");
+        }
+    }
+    public function getCantidadDePartidasJugadasPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_partidas FROM Partida";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -67,6 +129,18 @@ class AdministradorModel extends BaseModel
     {
         $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
                     WHERE fecha_creacion >= CURDATE() AND fecha_creacion < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_preguntas_creadas'];
+        } else {
+            die("No se conto la cantidad de preguntas creadas");
+        }
+    }
+    public function getCantidadDePreguntasCreadasActivasPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_preguntas_creadas FROM Pregunta 
+                    WHERE activa = 1 AND usuario_creador is not null";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
@@ -377,6 +451,27 @@ class AdministradorModel extends BaseModel
         return $dataSexoCantidad;
     }
 
+
+
+    private function inicializarGrupoCantidad(): array
+    {
+        $dataGrupoCantidad['menores'] = 0;
+        $dataGrupoCantidad['medio'] = 0;
+        $dataGrupoCantidad['jubilados'] = 0;
+        return $dataGrupoCantidad;
+    }
+
+    private function llenarConCantidadesALosGrupos($result,  $dataGrupoCantidad):array
+    {
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $dataGrupoCantidad[$row['grupo_edad']] = $row['cantidad'];
+            }
+        } else {
+            die("No hay grupoEdad y cantidad para hacer el grafico");
+        }
+        return $dataGrupoCantidad;
+    }
     private function retornarArrayParaQueSeSeVeanLosDatosPorSexo($dataSexoCantidad):array
     {
         $final_array = [];
@@ -388,4 +483,42 @@ class AdministradorModel extends BaseModel
         }
         return $final_array;
     }
+    private function retornarArrayParaQueSeSeVeanLosDatosPorGrupos($dataGrupoCantidad):array
+    {
+        $final_array = [];
+        foreach ($dataGrupoCantidad as $grupoIndex => $itemCantidad) {
+            $final_array[] = [
+                'grupo_edad' => $grupoIndex,
+                'cantidad' => $itemCantidad
+            ];
+        }
+        return $final_array;
+    }
+
+    private function llenarConCantidadesALosPaises($result):array
+    {
+        $dataPaisCantidad = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $dataPaisCantidad[$row['pais']] = $row['cantidad_usuarios'];
+            }
+        } else {
+            die("No hay pais y cantidad para hacer el grafico");
+        }
+        return $dataPaisCantidad;
+    }
+
+    private function retornarArrayParaQueSeSeVeanLosDatosPorPais($dataPaisCantidad)
+    {
+        $final_array = [];
+        foreach ($dataPaisCantidad as $paisIndex => $itemCantidad) {
+            $final_array[] = [
+                'pais' => $paisIndex,
+                'cant_usuarios' => $itemCantidad
+            ];
+        }
+        return $final_array;
+    }
+
+
 }
