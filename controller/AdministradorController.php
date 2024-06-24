@@ -4,6 +4,7 @@ class AdministradorController extends BaseController
 {
     protected $pdfCreator;
     protected $mustache;
+
     public function __construct($model, $presenter,$pdfCreator,$mustache)
     {
         session_start();
@@ -59,8 +60,11 @@ class AdministradorController extends BaseController
         $this->pdfCreator->crear($html);
     }
 
-
-//graficoPorcentajeCorrectoUsuarios
+    public function graficoPorcentajeCorrectoUsuarios()
+    {
+        $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
+        $this->model->graficarPorcentajeCorrectoUsuarios($datosPorcentajeCorrectas);
+    }
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
     {
@@ -144,6 +148,7 @@ class AdministradorController extends BaseController
         $cantidadUsuariosHombres = $this->model->obtenerUsuariosDelDiaRegistrado();
         $cantidad_partidas = $this->model->getCantidadDePartidasJugadasPorPeriodo($timeframe);
         $cantidadUsuariosMujeres = $this->model->obtenerUsuariosDelDiaMujeresRegistrado();
+        $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
 
         return [
             'rol' => $rol['rol'],
@@ -153,7 +158,8 @@ class AdministradorController extends BaseController
             'cantidad_partidasPeriodo' => $cantidad_partidas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
             'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
-            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres];
+            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
+            'porcentaje_correctas' => $datosPorcentajeCorrectas,];
     }
 
     private function datosAEnviarALaVistaPdf():array
@@ -166,6 +172,7 @@ class AdministradorController extends BaseController
         $cantidadUsuariosHombres = $this->model->obtenerUsuariosDelDiaRegistrado();
 
         $cantidadUsuariosMujeres = $this->model->obtenerUsuariosDelDiaMujeresRegistrado();
+        $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
 
         return [
             'cant_jugadores' => $cantJugadores,
@@ -173,7 +180,8 @@ class AdministradorController extends BaseController
             'cantidad_preguntas' => $cantPreguntas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
             'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
-            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres];
+            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
+            'porcentaje_correctas' => $datosPorcentajeCorrectas,];
     }
 
 

@@ -85,6 +85,7 @@ CREATE TABLE Respuesta (
                            texto VARCHAR(255) NOT NULL,
                            es_correcta BOOLEAN DEFAULT FALSE,
                            id_pregunta INT,
+                           fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
                            FOREIGN KEY (id_pregunta) REFERENCES Pregunta(id) ON DELETE CASCADE
 );
 
