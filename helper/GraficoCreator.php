@@ -9,9 +9,51 @@ class GraficoCreator
     {
     }
 
-    public function porcentajeUsuarioCorrectas()
+    public function porcentajeUsuarioCorrectas($dato)
     {
+        $datay = array();
+        $datosUsuarios = array();
 
+        foreach ($dato as $item) {
+            $datay[] = $item['porcentaje'];
+            $datosUsuarios[] = $item['username'];
+        }
+
+        // Create the graph. These two calls are always required
+        $graph = new Graph(400,400,'auto');
+        $graph->SetScale("textlin");
+
+        $theme_class=new UniversalTheme;
+        $graph->SetTheme($theme_class);
+
+        $graph->Set90AndMargin(150,40,40,40);
+        $graph->img->SetAngle(90);
+
+// set major and minor tick positions manually
+        $graph->SetBox(false);
+
+//$graph->ygrid->SetColor('gray');
+        $graph->ygrid->Show(false);
+        $graph->ygrid->SetFill(false);
+        $graph->xaxis->SetTickLabels($datosUsuarios);
+        $graph->yaxis->HideLine(false);
+        $graph->yaxis->HideTicks(false,false);
+
+// For background to be gradient, setfill is needed first.
+        $graph->SetBackgroundGradient('#00CED1', '#FFFFFF', GRAD_HOR, BGRAD_PLOT);
+
+// Create the bar plots
+        $b1plot = new BarPlot($datay);
+
+// ...and add it to the graPH
+        $graph->Add($b1plot);
+
+        $b1plot->SetWeight(0);
+        $b1plot->SetFillGradient("#808000","#90EE90",GRAD_HOR);
+        $b1plot->SetWidth(17);
+
+// Display the graph
+        $graph->Stroke();
     }
 
     public function graficar($data)

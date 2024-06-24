@@ -62,8 +62,8 @@ class AdministradorController extends BaseController
 
     public function graficoPorcentajeCorrectoUsuarios()
     {
-        $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
-        $this->model->graficarPorcentajeCorrectoUsuarios($datosPorcentajeCorrectas);
+        $arrayDeDatos = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
+        $this->model->graficarPorcentajeDeCorrectasPorUsuarios($arrayDeDatos);
     }
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
@@ -146,8 +146,6 @@ class AdministradorController extends BaseController
             echo json_encode(['cantidad_usuarios_nodecididos' => $cantidad_usuariosNoDecididos]);
             exit();
         }
-
-
     }
 
     public function manejoDeCambioDeFechaUsuariosArgentinos()
@@ -216,7 +214,6 @@ class AdministradorController extends BaseController
             'cantidad_partidasPeriodo' => $cantidad_partidas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
             'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
-            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
             'cantidad_usuarios_nodecididos' => $cantidadUsuariosNodecididos,
             'cantidad_usuarios_argentinos' => $cantidadUsuariosArgentinos,
             'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
@@ -244,7 +241,4 @@ class AdministradorController extends BaseController
             'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
             'porcentaje_correctas' => $datosPorcentajeCorrectas,];
     }
-
-
-
 }
