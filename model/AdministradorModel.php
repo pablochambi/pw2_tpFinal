@@ -234,8 +234,6 @@ class AdministradorModel extends BaseModel
         }
     }
 
-<<<<<<< Updated upstream
-=======
     public function obtenerUsuariosHombresRegistradosPorPeriodo($timeframe)
     {
         switch ($timeframe) {
@@ -328,10 +326,6 @@ class AdministradorModel extends BaseModel
         }
     }
 
-
-
-
->>>>>>> Stashed changes
     private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {//[21-06]= 0
         $dataFechaCantidad = [];
