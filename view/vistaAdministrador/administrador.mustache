@@ -125,8 +125,8 @@
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por pais</h3>
-                <label for="timeframe">Filtrar Por: </label>
-                <select id="timeframe" name="timeframe">
+                <label for="timeframe5">Filtrar Por: </label>
+                <select id="timeframe5" name="timeframe5">
                     <option value="day">Día</option>
                     <option value="week">Semana</option>
                     <option value="month">Mes</option>
@@ -142,7 +142,7 @@
                     <tbody>
                     <tr>
                         <td>Argentina</td>
-                        <td>100</td>
+                        <td id="cantidad_usuarios_argentinos">{{cantidad_usuarios_argentinos}}</td>
                     </tr>
                     <tr>
                         <td>Uruguay</td>
@@ -188,7 +188,7 @@
                     </tr>
                     <tr>
                         <td>Prefiero no decirlo</td>
-                        <td>10</td>
+                        <td> <span id="cantidad_usuarios_nodecididos">{{cantidad_usuarios_nodecididos}}</span></td>
                     </tr>
                     </tbody>
                 </table>
@@ -197,8 +197,8 @@
         <div class="card-header bg-warning text-black">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por grupo</h3>
-                <label for="timeframe">Filtrar Por:</label>
-                <select id="timeframe" name="timeframe">
+                <label for="timeframe6">Filtrar Por:</label>
+                <select id="timeframe6" name="timeframe6">
                     <option value="day">Día</option>
                     <option value="week">Semana</option>
                     <option value="month">Mes</option>
@@ -214,15 +214,15 @@
                     <tbody>
                         <tr>
                             <td>Menores de 18</td>
-                            <td>100</td>
+                            <td><span id="cantidad_usuarios_menores">{{cantidad_usuarios_menores}}</span></td>
                         </tr>
                         <tr>
                             <td>Medio (entre 18 y 60)</td>
-                            <td>100</td>
+                            <td><span id="cantidad_usuarios_medio">{{cantidad_usuarios_medio}}</span></td>
                         </tr>
                         <tr>
                             <td>Jubilados (>60)</td>
-                            <td>10</td>
+                            <td><span id="cantidad_usuarios_mayores">{{cantidad_usuarios-mayores}}</span></td>
                         </tr>
                     </tbody>
                 </table>
