@@ -20,24 +20,26 @@
                         <img src="/{{usuario.qr}}" alt="Código QR" class="w-24 h-24 border border-[2px] border-gray-700 shadow-lg">
                     </div>
                     <div class="w-full md:w-4/5 lg:w-1/2 flex flex-col items-center justify-center mt-6">
-                        <div id="map" class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg"></div>
+                        <div id="map"
+                             class="w-[350px] md:w-[500px] lg:w-[600px] h-[350px] rounded-lg border border-[2px] border-gray-700 shadow-lg">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk&libraries=places&callback=initMap"></script>
 <script>
-    var map;
-
-    async function initMap() {
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
         var lat = {{ usuario.latitud }};
         var lng = {{ usuario.longitud }};
-        var myLatLng = { lat: lat, lng: lng };
 
+        var myLatLng = {lat: lat, lng: lng};
         console.log("COORDENADAS: " + myLatLng.lat + " y " + myLatLng.lng);
 
-        map = new google.maps.Map(document.getElementById('map'), {
+        var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 14,
             center: myLatLng,
             disableDefaultUI: true,
@@ -45,15 +47,16 @@
             gestureHandling: 'cooperative'
         });
 
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-        new AdvancedMarkerElement({
-            map: map,
+        var marker = new google.maps.Marker({
             position: myLatLng,
+            map: map,
             title: 'Marcador'
         });
     }
 
-    window.initMap = initMap;
+    // inicializo el mapa cuando la página haya cargado
+    window.onload = function() {
+        initMap();
+    };
+
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDaeWicvigtP9xPv919E-RNoxfvC-Hqik&callback=initMap"></script>

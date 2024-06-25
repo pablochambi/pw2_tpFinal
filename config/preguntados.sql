@@ -102,21 +102,21 @@ CREATE TABLE PreguntaVistas (
 -- Datos iniciales
 INSERT INTO Rol (id,nombre) VALUES (1,'Administrador'),(2,'Editor'), (3,'Jugador');
 
-INSERT INTO Usuarios(id,nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel,preguntas_acertadas,preguntas_entregadas, qr,fecha_registro)
+INSERT INTO Usuarios(id, nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, preguntas_acertadas, preguntas_entregadas, qr, fecha_registro, latitud, longitud)
 VALUES
-    (1,'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO',1,3, NULL,'2024-06-18 15:30:00'),
-    (2,'Editor', 1990, 'M', 'CABA', 'Argentina', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO',1,3, NULL,'2024-06-20 15:30:00'),
-    (3,'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'MEDIO',2,3, NULL,'2024-06-20 15:30:00'),
-    (4,'Mora', 2002, 'F', 'Paris', 'Francia', 'moavalos@gmail.com', '123', 'momo', '1234dfgtdf56', 'foto.jpg', TRUE, 0, 0, 'ALTO',3,4, NULL,'2022-06-14 11:20:00'),
-    (5, 'Maria Garcia', 1995, 'F', 'Madrid', 'España', 'maria@gmail.com', 'password123', 'maria_garcia', 'token1223', 'foto_maria.jpg', TRUE, 400, 5, 'ALTO',4,5, NULL, '2024-06-21 10:45:00'),
-    (6, 'John Smith', 1988, 'M', 'New York', 'Estados Unidos', 'john.smith@gmail.com', 'qwerty456', 'john_smith', 'token456', 'john_photo.jpg', TRUE, 2, 100, 'ALTO',8,10, NULL, '2024-06-20 08:15:00'),
-    (7, 'Sophie Dupont', 1993, 'F', 'Paris', 'Francia', 'sophie.dupont@gmail.com', 'pass123', 'sophie_dupont', 'token7889', 'sophie_pic.jpg', TRUE, 1, 5, 'ALTO', 9,10,NULL, '2024-06-19 14:20:00'),
-    (8, 'Anna Müller', 1992, 'F', 'Berlín', 'Alemania', 'anna.mueller@gmail.com', 'abc123', 'anna_mueller', 'token789', 'anna_photo.jpg', TRUE, 3, 20, 'MEDIO',5,10, NULL, '2024-06-22 11:00:00'),
-    (9, 'Luca Rossi', 1985, 'M', 'Roma', 'Italia', 'luca.rossi@gmail.com', 'pass456', 'luca_rossi', 'token1011', 'luca_pic.jpg', TRUE, 1, 5, 'MEDIO',6,10, NULL, '2024-06-21 09:30:00'),
-    (10, 'Chen Wei', 1990, 'M', 'Beijing', 'China', 'chen.wei@gmail.com', 'hello123', 'chen_wei', 'token1213', 'chen_pic.jpg', TRUE, 4, 50, 'MEDIO',6,10, NULL, '2024-06-20 13:45:00'),
-    (11, 'Javier Martínez', 1987, 'M', 'Madrid', 'España', 'javier.martinez@gmail.com', 'clave123', 'javier_martinez', 'token14185', 'javier_foto.jpg', TRUE, 7, 4, 'MEDIO',6,10, NULL, '2024-06-19 16:00:00'),
-    (12, 'Emily Johnson', 1994, 'F', 'London', 'Reino Unido', 'emily.johnson@gmail.com', 'password789', 'emily_johnson', 'token1617', 'emily_pic.jpg', TRUE, 6, 3, 'MEDIO',5,10, NULL, '2024-06-18 17:30:00'),
-    (13, 'Ahmed Hassan', 1980, 'M', 'Cairo', 'Egipto', 'ahmed.hassan@gmail.com', 'egypt123', 'ahmed_hassan', 'toke3n1819', 'ahmed_photo.jpg', TRUE, 3, 2, 'BAJO',2,10, NULL, '2024-06-17 12:15:00');
+    (1, 'ignacio', 1990, 'M', 'CABA', 'Argentina', 'ignacio@gmail.com', '123456', 'ignacio', '123456', 'foto.jpg', TRUE, 0, 0, 'BAJO', 1, 3, 'public/qrs/ignacio.png', '2024-06-18 15:30:00', -34.603722, -58.381592),
+    (2, 'Editor', 1990, 'M', 'CABA', 'Argentina', 'editor@gmail.com', '123', 'usurioeditor', '12fdgdf', 'foto.jpg', TRUE, 0, 0, 'BAJO', 1, 3, 'public/qrs/usurioeditor.png', '2024-06-20 15:30:00', -34.603722, -58.381592),
+    (3, 'Admin', 1990, 'M', 'CABA', 'Argentina', 'admin@gmail.com', '123', 'usurioadmin', '1234dfgdf56', 'foto.jpg', TRUE, 0, 0, 'MEDIO', 2, 3, 'public/qrs/usurioadmin.png', '2024-06-20 15:30:00', -34.603722, -58.381592),
+    (4, 'Mora', 2002, 'F', 'Paris', 'Francia', 'moavalos@gmail.com', '123', 'momo', '1234dfgtdf56', 'foto.jpg', TRUE, 0, 0, 'ALTO', 3, 4, 'public/qrs/momo.png', '2022-06-14 11:20:00', 48.856613, 2.352222),
+    (5, 'Maria Garcia', 1995, 'F', 'Madrid', 'España', 'maria@gmail.com', 'password123', 'maria_garcia', 'token1223', 'foto_maria.jpg', TRUE, 400, 5, 'ALTO', 4, 5, 'public/qrs/maria_garcia.png', '2024-06-21 10:45:00', 40.416775, -3.703790),
+    (6, 'John Smith', 1988, 'M', 'New York', 'Estados Unidos', 'john.smith@gmail.com', 'qwerty456', 'john_smith', 'token456', 'john_photo.jpg', TRUE, 2, 100, 'ALTO', 8, 10, 'public/qrs/john_smith.png', '2024-06-20 08:15:00', 40.712776, -74.005974),
+    (7, 'Sophie Dupont', 1993, 'F', 'Paris', 'Francia', 'sophie.dupont@gmail.com', 'pass123', 'sophie_dupont', 'token7889', 'sophie_pic.jpg', TRUE, 1, 5, 'ALTO', 9, 10, 'public/qrs/sophie_dupont.png', '2024-06-19 14:20:00', 48.856613, 2.352222),
+    (8, 'Anna Müller', 1992, 'F', 'Berlín', 'Alemania', 'anna.mueller@gmail.com', 'abc123', 'anna_mueller', 'token789', 'anna_photo.jpg', TRUE, 3, 20, 'MEDIO', 5, 10, 'public/qrs/anna_mueller.png', '2024-06-22 11:00:00', 52.520008, 13.404954),
+    (9, 'Luca Rossi', 1985, 'M', 'Roma', 'Italia', 'luca.rossi@gmail.com', 'pass456', 'luca_rossi', 'token1011', 'luca_pic.jpg', TRUE, 1, 5, 'MEDIO', 6, 10, 'public/qrs/luca_rossi.png', '2024-06-21 09:30:00', 41.902782, 12.496366),
+    (10, 'Chen Wei', 1990, 'M', 'Beijing', 'China', 'chen.wei@gmail.com', 'hello123', 'chen_wei', 'token1213', 'chen_pic.jpg', TRUE, 4, 50, 'MEDIO', 6, 10, 'public/qrs/chen_wei.png', '2024-06-20 13:45:00', 39.904202, 116.407394),
+    (11, 'Javier Martínez', 1987, 'M', 'Madrid', 'España', 'javier.martinez@gmail.com', 'clave123', 'javier_martinez', 'token14185', 'javier_foto.jpg', TRUE, 7, 4, 'MEDIO', 6, 10, 'public/qrs/javier_martinez.png', '2024-06-19 16:00:00', 40.416775, -3.703790),
+    (12, 'Emily Johnson', 1994, 'F', 'London', 'Reino Unido', 'emily.johnson@gmail.com', 'password789', 'emily_johnson', 'token1617', 'emily_pic.jpg', TRUE, 6, 3, 'MEDIO', 5, 10, 'public/qrs/javier_martinez.png', '2024-06-18 17:30:00', 51.507351, -0.127758),
+    (13, 'Ahmed Hassan', 1980, 'M', 'Cairo', 'Egipto', 'ahmed.hassan@gmail.com', 'egypt123', 'ahmed_hassan', 'toke3n1819', 'ahmed_photo.jpg', TRUE, 3, 2, 'BAJO', 2, 10, NULL, '2024-06-17 12:15:00', 30.044420, 31.235712);
 
 INSERT INTO Partida(id_usuario, puntaje, fecha)
 VALUES
