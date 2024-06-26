@@ -26,9 +26,9 @@ class AdministradorController extends BaseController
         $idGraf = $_GET['id'] ?? "";
 
         switch ($idGraf){
-            CASE 1: $this->graficoDePreguntasCreadas();break;
+            CASE 1: $this->graficoDePreguntasCreadas();break;//
             CASE 2: $this->graficoDeUsuariosNuevos();break;
-            CASE 3: $this->graficoDePartidas();break;
+            CASE 3: $this->graficoDePartidas();break;//
             CASE 4: $this->graficoDeUsuariosPorSexo();break;
             CASE 5: $this->graficoDeUsuariosPorGrupo();break;
             CASE 6: $this->graficoDeUsuariosPorPais();break;
@@ -41,19 +41,19 @@ class AdministradorController extends BaseController
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
-        $this->grafica->graficar($arrayDeDatos);
+        $this->grafica->preguntasCreadasPorDia($arrayDeDatos);
     }
     public function graficoDeUsuariosNuevos()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
-        $this->grafica->graficar($arrayDeDatos);
+        $this->grafica->usuariosNuevosPorDia($arrayDeDatos);
     }
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
-        $this->grafica->graficar($arrayDeDatos);
+        $this->grafica->partidasPorDia($arrayDeDatos);
     }
     public function graficoDeUsuariosPorSexo()
     {
@@ -244,9 +244,11 @@ class AdministradorController extends BaseController
         $cantPreguntas = $this->model->getCantidadDePreguntasActivas();
         $cantPreguntasCreadas = $this->model->getCantidadDePreguntasCreadasActivasPdf();
         $timeframe = $_GET['timeframe'] ?? 'day';
-        $cantidadUsuariosHombres = $this->model->obtenerUsuariosDelDiaRegistrado();
 
-        $cantidadUsuariosMujeres = $this->model->obtenerUsuariosDelDiaMujeresRegistrado();
+        $usuariosPorSexo = $this->model->getCantidadesDeUsuariosPorSexo();
+        $usuariosPorGrupo = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
+        $usuariosPorPais = $this->model->getCantidadesDeUsuariosPorPais();
+
         $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
 
         return [
@@ -254,8 +256,10 @@ class AdministradorController extends BaseController
             'cantidad_partidas' => $cantPartidasJugadas,
             'cantidad_preguntas' => $cantPreguntas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
-            'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
-            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
-            'porcentaje_correctas' => $datosPorcentajeCorrectas,];
+            'usuarios_por_sexo' => $usuariosPorSexo,
+            'usuarios_por_grupoEdad' => $usuariosPorGrupo,
+            'usuarios_por_Pais' => $usuariosPorPais,
+            'porcentaje_correctas' => $datosPorcentajeCorrectas,
+            ];
     }
 }

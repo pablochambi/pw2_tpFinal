@@ -1,15 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadisticas</title>
     <style>
         .styled-table {
             border-collapse: collapse;
-            margin: 25px 0;
             font-size: 18px;
             text-align: left;
             width: 80%;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 25px auto;
         }
         .styled-table th, .styled-table td {
             padding: 12px 15px;
@@ -23,12 +24,25 @@
         .styled-table tbody tr {
             border-bottom: 1px solid #ddd;
         }
+        .subTitulo{
+            text-align: center;
+            padding: 15px 1px;
+        }
+        #imagen {
+            background-image: url('http://localhost/public/imagenes/graficos/preguntasCreadasPorDia.png');
+            background-size: cover;
+            height: 200px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            line-height: 200px; /* Center text vertically */
+            font-size: 24px;
+        }
     </style>
-
 </head>
 <body>
 
-<h1>Estadisticas</h1>
+<h2 class="subTitulo" >Estadisticas del juego</h2>
 <table class="styled-table">
     <thead>
     <tr>
@@ -55,6 +69,66 @@
         </tr>
     </tbody>
 </table>
+
+<h2 class="subTitulo">Cantidad de usuarios por sexo</h2>
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>Sexo</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#usuarios_por_sexo}}
+            <tr>
+                <td>{{sexo}}</td>
+                <td>{{cantidad}}</td>
+            </tr>
+        {{/usuarios_por_sexo}}
+    </tbody>
+</table>
+
+<h2 class="subTitulo">Cantidad de usuarios por Grupo de edad</h2>
+
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>Grupo edad</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+        {{#usuarios_por_grupoEdad}}
+            <tr>
+                <td>{{grupo_edad}}</td>
+                <td>{{cantidad}}</td>
+            </tr>
+        {{/usuarios_por_grupoEdad}}
+    </tbody>
+</table>
+
+<h2 class="subTitulo">Cantidad de usuarios por pais</h2>
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>Pais</th>
+        <th>Cantidad</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#usuarios_por_Pais}}
+        <tr>
+            <td>{{pais}}</td>
+            <td>{{cant_usuarios}}</td>
+        </tr>
+    {{/usuarios_por_Pais}}
+    </tbody>
+</table>
+
+<h2 class="subTitulo" >Graficos</h2>
+<div >
+    <img src="/public/imagenes/graficos/usuariosPorPais.png" alt="Imagen de ejemplo"/>
+</div>
 
 </body>
 </html>

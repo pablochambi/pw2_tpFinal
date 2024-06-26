@@ -31,7 +31,7 @@ include_once ("helper/GraficoCreator.php");
 include_once ("helper/PdfCreator.php");
 
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
-require_once('third-party/dompdf-example/dompdf/autoload.inc.php');
+//require_once('third-party/dompdf-example/dompdf/autoload.inc.php');
 require_once('third-party/jpgraph-example/jpgraph/src/jpgraph.php');
 require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_bar.php');
 require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_line.php');
@@ -165,7 +165,7 @@ class Configuration
     {
         return new MustachePresenter("view/template");
     }
-    private static function getMustache()
+    public static function getMustache()
     {
         return new MustachePresenter();
     }

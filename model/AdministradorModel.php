@@ -433,10 +433,33 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de preguntas activas por periodo");
         }
     }
+    public function obtenerCantidadDeUsuariosMasculinosRegistradosYValidadosPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres FROM Usuarios WHERE sexo = 'M' ";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_hombres'];
+        } else {
+            die("No se pudo obtener la cantidad de usuarios hombres");
+        }
+    }
 
     public function obtenerUsuariosDelDiaMujeresRegistrado()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres FROM Usuarios WHERE fecha_registro >= CURDATE() AND sexo = 'F' AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
+        $result = $this->database->executeAndReturn($consulta);
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['cantidad_usuarios_mujeres'];
+        } else {
+            die("No se pudo obtener la cantidad de preguntas activas por periodo");
+        }
+    }
+
+    public function obtenerUsuariosMujeresRegistradosYValidadosPdf()
+    {
+        $consulta = "SELECT COUNT(*) AS cantidad_usuarios_mujeres FROM Usuarios WHERE sexo = 'F' ";
         $result = $this->database->executeAndReturn($consulta);
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
