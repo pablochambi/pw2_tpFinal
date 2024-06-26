@@ -47,7 +47,7 @@ class Configuration
     }
     public static function getAdministradorController()
     {
-        return new AdministradorController(self::getAdministradorModel(), self::getPresenter(),self::getPdfCreator(),self::getMustache());
+        return new AdministradorController(self::getAdministradorModel(), self::getPresenter(),self::getPdfCreator(),self::getMustache(),self::getGraficoCreator());
     }
 
     public static function getEditorController()
@@ -104,7 +104,7 @@ class Configuration
     }
     private static function getAdministradorModel()
     {
-        return new AdministradorModel(self::getDatabase(),self::getGraficoCreator());
+        return new AdministradorModel(self::getDatabase());
     }
     private static function getEditorModel()
     {

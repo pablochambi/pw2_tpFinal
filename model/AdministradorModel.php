@@ -2,47 +2,9 @@
 
 class AdministradorModel extends BaseModel
 {
-    protected $grafica;
-
-    public function __construct($database, $grafica)
+    public function __construct($database)
     {
         parent::__construct($database);
-        $this->grafica = $grafica;
-    }
-
-    public function crearGrafico($datos)
-    {
-        $this->grafica->graficar($datos);
-    }
-
-    public function graficarCantidadDeUsuariosPorSexo($datos)
-    {
-        $this->grafica->usuariosPorSexo($datos);
-    }
-
-    public function graficarCantidadDeUsuariosPorGrupo($datos)
-    {
-        $this->grafica->usuariosPorGrupo($datos);
-    }
-
-    public function graficarCantidadDeUsuariosPorPais($datos)
-    {
-        $this->grafica->usuariosPorPais($datos);
-    }
-
-    public function graficarPorcentajeDeCorrectasPorUsuarios($datos)
-    {
-        $this->grafica->porcentajeUsuarioCorrectas($datos);
-    }
-
-    public function graf()
-    {
-        $this->grafica->graficoNuevo();
-    }
-
-    public function pdf()
-    {
-        $this->pdfCreator->crear();
     }
 
     public function getPorcentajeRespuestasCorrectasPorUsuario()

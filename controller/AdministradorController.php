@@ -4,13 +4,15 @@ class AdministradorController extends BaseController
 {
     protected $pdfCreator;
     protected $mustache;
+    protected $grafica;
 
-    public function __construct($model, $presenter,$pdfCreator,$mustache)
+    public function __construct($model, $presenter,$pdfCreator,$mustache,$grafica)
     {
         session_start();
         parent::__construct($model, $presenter);
         $this->pdfCreator = $pdfCreator;
         $this->mustache = $mustache;
+        $this->grafica = $grafica;
     }
 
     public function get()
@@ -18,40 +20,55 @@ class AdministradorController extends BaseController
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
-
     }
+    public function grafico()
+    {
+        $idGraf = $_GET['id'] ?? "";
+
+        switch ($idGraf){
+            CASE 1: $this->graficoDePreguntasCreadas();break;
+            CASE 2: $this->graficoDeUsuariosNuevos();break;
+            CASE 3: $this->graficoDePartidas();break;
+            CASE 4: $this->graficoDeUsuariosPorSexo();break;
+            CASE 5: $this->graficoDeUsuariosPorGrupo();break;
+            CASE 6: $this->graficoDeUsuariosPorPais();break;
+            CASE 7: $this->graficoPorcentajeCorrectoUsuarios();break;
+            default:  die("No se envio un id reconocido");
+        }
+    }
+
     public function graficoDePreguntasCreadas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDeUsuariosNuevos()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDeUsuariosPorSexo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
-        $this->model->graficarCantidadDeUsuariosPorSexo($arrayDeDatos);
+        $this->grafica->usuariosPorSexo($arrayDeDatos);
     }
     public function graficoDeUsuariosPorGrupo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
-        $this->model->graficarCantidadDeUsuariosPorGrupo($arrayDeDatos);
+        $this->grafica->usuariosPorGrupo($arrayDeDatos);
     }
     public function graficoDeUsuariosPorPais()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorPais();
-        $this->model->graficarCantidadDeUsuariosPorPais($arrayDeDatos);
+        $this->grafica->usuariosPorPais($arrayDeDatos);
     }
     public function pdf()
     {
@@ -62,8 +79,8 @@ class AdministradorController extends BaseController
 
     public function graficoPorcentajeCorrectoUsuarios()
     {
-        $datosPorcentajeCorrectas = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
-        $this->model->graficarPorcentajeCorrectoUsuarios($datosPorcentajeCorrectas);
+        $arrayDeDatos = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
+        $this->grafica->porcentajeUsuarioCorrectas($arrayDeDatos);
     }
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array
@@ -146,8 +163,6 @@ class AdministradorController extends BaseController
             echo json_encode(['cantidad_usuarios_nodecididos' => $cantidad_usuariosNoDecididos]);
             exit();
         }
-
-
     }
 
     public function manejoDeCambioDeFechaUsuariosArgentinos()
@@ -216,7 +231,6 @@ class AdministradorController extends BaseController
             'cantidad_partidasPeriodo' => $cantidad_partidas,
             'cantidad_preguntas_creadas' => $cantPreguntasCreadas,
             'cantidad_usuarios_masculinos' => $cantidadUsuariosHombres,
-            'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
             'cantidad_usuarios_nodecididos' => $cantidadUsuariosNodecididos,
             'cantidad_usuarios_argentinos' => $cantidadUsuariosArgentinos,
             'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
@@ -244,7 +258,4 @@ class AdministradorController extends BaseController
             'cantidad_usuarios_femeninos' => $cantidadUsuariosMujeres,
             'porcentaje_correctas' => $datosPorcentajeCorrectas,];
     }
-
-
-
 }
