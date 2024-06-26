@@ -8,6 +8,12 @@ class GraficoCreator
     public function __construct()
     {
     }
+
+    public function porcentajeUsuarioCorrectas()
+    {
+
+    }
+
     public function graficar($data)
     {
         $data1y=array($data[0]['cantidad'],$data[1]['cantidad'],$data[2]['cantidad'],
