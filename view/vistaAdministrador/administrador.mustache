@@ -1,18 +1,50 @@
 <style>
     .card_wrap{
-        flex-direction: row;
-        justify-content: space-between;
         flex-wrap: wrap;
         gap: 20px;
+    }
+    .nav-stats {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .nav-stats a {
+        margin: 0 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .nav-stats button:hover {
+        background-color: #0056b3;
+    }
+    .estadisticas-section{
+        display: none;
     }
 </style>
 <div>
     <h2 class="text-center" >Estadisticas de Administrador</h2>
 </div>
 
+<div class="nav-stats">
+    <button id="btn_jugadores">Cantidad de jugadores</button>
+    <button id="btn_partidasJug">Partidas jugadas</button>
+    <button id="btn_preguntas_juegO">Preguntas en el juego</button>
+    <button id="btn_preguntas_creadas">Preguntas creadas</button>
+    <button id="btn_usuarios_pais">Usuarios por país</button>
+    <button id="btn_usuarios_sexo">Usuarios por sexo</button>
+    <button id="btn_usuarios_edad">Usuarios por edad</button>
+    <button id="btn_usuarios_nuevos">Usuarios nuevos</button>
+</div>
+
 <div class="container mt-4">
     <div class="card card_wrap">
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad_jugadores">
             <div class="container mt-3">
                 <h3 class="text-center">Cantidad de jugadores</h3>
                 <table class="table table-striped">
@@ -31,7 +63,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="btn_partidas">
             <div class="container mt-3">
                 <h3 class="text-center">Partidas jugadas</h3>
 
@@ -61,7 +93,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="btn_preguntas_juego">
             <div class="container mt-3">
                 <h3 class="text-center">Preguntas en el juego</h3>
 
@@ -91,7 +123,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="btn_preguntas-creadas">
             <div class="container mt-3">
                 <h3 class="text-center">Preguntas creadas</h3>
 
@@ -122,7 +154,7 @@
             </div>
         </div>
 
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-pais">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por pais</h3>
                 <label for="timeframe5">Filtrar Por: </label>
@@ -160,7 +192,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-sexo">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por sexo</h3>
                 <label for="timeframe4">Filtrar Por: </label>
@@ -194,7 +226,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-edad">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por grupo</h3>
                 <label for="timeframe6">Filtrar Por:</label>
@@ -228,7 +260,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-nuevos">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios nuevos</h3>
 
@@ -259,7 +291,7 @@
             </div>
         </div>
 
-        <div class="card-header bg-warning text-black">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-resp-correctas">
             <div class="container mt-3">
                 <h3 class="text-center">Porcentaje de respuestas correctas por usuario</h3>
                 <table class="table table-striped table-hover">
@@ -298,31 +330,31 @@
     flex-wrap: wrap;
     justify-content: space-around;
 ">
-    <div>
+    <div id="btn-preguntas" class="estadisticas-section">
         <h2>Cantidad de preguntas creadas</h2>
         <img src="/administrador/graficoDePreguntasCreadas"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-user-new">
         <h2>Cantidad de Usuarios nuevos</h2>
         <img src="/administrador/graficoDeUsuariosNuevos"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-partidas">
         <h2>Cantidad de Partidas jugadas</h2>
         <img src="/administrador/graficoDePartidas"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-graficosex">
         <h2>Usuarios por sexo</h2>
         <img src="/administrador/graficoDeUsuariosPorSexo"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-edad">
         <h2>Usuarios por grupo de edad</h2>
         <img src="/administrador/graficoDeUsuariosPorGrupo"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-pais">
         <h2>Usuarios por pais</h2>
         <img src="/administrador/graficoDeUsuariosPorPais"/>
     </div>
-    <div>
+    <div class="estadisticas-section" id="btn-porcentajeUser">
         <h2>Porcentaje de preguntas respondidas correctamente por usuario</h2>
         <img src="/administrador/graficoPorcentajeCorrectoUsuarios"/>
     </div>
@@ -330,3 +362,58 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/public/js/tiempoSelect.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $('#btn_jugadores').click(function() {
+            $('.estadisticas-section').hide();
+            $('#btn-preguntas').show();
+            $('#cantidad_jugadores').show();
+        });
+
+        $('#btn_partidasJug').click(function() {
+            $('.estadisticas-section').hide();
+            $('#btn-partidas').show();
+            $('#btn_partidas').show();
+        });
+        $('#btn_usuarios_nuevos').click(function() {
+            $('.estadisticas-section').hide();
+            $('#btn-user-new').show();
+            $('#cantidad-usuarios-nuevos').show();
+        });
+
+        $('#btn_preguntas_juegO').click(function() {
+            $('.estadisticas-section').hide();
+          //  $('#btn-user-new').show();
+            $('#btn_preguntas_juego').show();
+        });
+
+        $('#btn_preguntas_creadas').click(function() {
+            $('.estadisticas-section').hide();
+            $('#btn-preguntas').show();
+            $('#btn_preguntas-creadas').show();
+        });
+
+        $('#btn_usuarios_pais').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-pais').show();
+            $('#btn-pais').show();
+        });
+
+        $('#btn_usuarios_sexo').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-sexo').show();
+            $('#btn-graficosex').show();
+        });
+        $('#btn_usuarios_edad').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-edad').show();
+            $('#btn-edad').show();
+        });
+        $('#btn_usuarios_edad').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-edad').show();
+            $('#btn-edad').show();
+        });
+    });
+</script>
