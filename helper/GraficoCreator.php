@@ -54,6 +54,7 @@ class GraficoCreator
 
 // Display the graph
         $graph->Stroke();
+        $graph->Stroke('public/imagenes/graficos/porcentajeUsuariosCorrectas.png');
     }
 
     public function graficar($data)
@@ -79,8 +80,6 @@ class GraficoCreator
 
 // Create the bar plots
         $b1plot = new BarPlot($data1y);
-        //$b2plot = new BarPlot($data2y);
-        //$b3plot = new BarPlot($data3y);
 
 // Create the grouped bar plot
         $gbplot = new GroupBarPlot(array($b1plot));
@@ -96,6 +95,9 @@ class GraficoCreator
 
 // Display the graph
         $graph->Stroke();
+        $graph->Stroke('public/imagenes/graficos/preguntasCreadas.png');
+        $graph->Stroke('public/imagenes/graficos/usuariosNuevos.png');//
+        $graph->Stroke('public/imagenes/graficos/partidas.png');
     }
 
     public function usuariosPorSexo($data)
@@ -129,8 +131,8 @@ class GraficoCreator
         $b1plot->SetFillColor("#ADD8E6");
 
         //$graph->title->Set("Cantidad de preguntas creadas");
-
         $graph->Stroke();
+        $graph->Stroke('public/imagenes/graficos/usuariosPorSexo.png');
     }
     public function usuariosPorGrupo($data)
     {
@@ -165,6 +167,8 @@ class GraficoCreator
         //$graph->title->Set("Cantidad de preguntas creadas");
 
         $graph->Stroke();
+
+        $graph->Stroke('public/imagenes/graficos/usuariosPorGrupoEdad.png');
     }
 
     public function usuariosPorPais($dato)
@@ -213,6 +217,7 @@ class GraficoCreator
 
 // Display the graph
         $graph->Stroke();
+        $graph->Stroke('public/imagenes/graficos/usuariosPorPais.png');
     }
 
 

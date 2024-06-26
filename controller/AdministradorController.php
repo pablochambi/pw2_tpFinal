@@ -4,13 +4,15 @@ class AdministradorController extends BaseController
 {
     protected $pdfCreator;
     protected $mustache;
+    protected $grafica;
 
-    public function __construct($model, $presenter,$pdfCreator,$mustache)
+    public function __construct($model, $presenter,$pdfCreator,$mustache,$grafica)
     {
         session_start();
         parent::__construct($model, $presenter);
         $this->pdfCreator = $pdfCreator;
         $this->mustache = $mustache;
+        $this->grafica = $grafica;
     }
 
     public function get()
@@ -18,40 +20,40 @@ class AdministradorController extends BaseController
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
-
     }
+    
     public function graficoDePreguntasCreadas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDeUsuariosNuevos()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
-        $this->model->crearGrafico($arrayDeDatos);
+        $this->grafica->graficar($arrayDeDatos);
     }
     public function graficoDeUsuariosPorSexo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
-        $this->model->graficarCantidadDeUsuariosPorSexo($arrayDeDatos);
+        $this->grafica->usuariosPorSexo($arrayDeDatos);
     }
     public function graficoDeUsuariosPorGrupo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
-        $this->model->graficarCantidadDeUsuariosPorGrupo($arrayDeDatos);
+        $this->grafica->usuariosPorGrupo($arrayDeDatos);
     }
     public function graficoDeUsuariosPorPais()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorPais();
-        $this->model->graficarCantidadDeUsuariosPorPais($arrayDeDatos);
+        $this->grafica->usuariosPorPais($arrayDeDatos);
     }
     public function pdf()
     {
@@ -63,7 +65,7 @@ class AdministradorController extends BaseController
     public function graficoPorcentajeCorrectoUsuarios()
     {
         $arrayDeDatos = $this->model->getPorcentajeRespuestasCorrectasPorUsuario();
-        $this->model->graficarPorcentajeDeCorrectasPorUsuarios($arrayDeDatos);
+        $this->grafica->porcentajeUsuarioCorrectas($arrayDeDatos);
     }
 
     private function obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy(): array

@@ -39,7 +39,7 @@ class MustachePresenter{
 
     public function generateHtmlSimple($contentFile, $data = array()) {
 
-        // Leer el contenido de los archivos
+        // Leer el contenido del archivo
         $contentAsString = file_get_contents($contentFile);
         // Renderizar el contenido usando Mustache
         return $this->mustache->render($contentAsString, $data);
