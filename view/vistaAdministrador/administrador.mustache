@@ -1,6 +1,5 @@
 <style>
     .card_wrap{
-        flex-direction: row;
         flex-wrap: wrap;
         gap: 20px;
     }
@@ -35,7 +34,7 @@
 <div class="nav-stats">
     <button id="btn_jugadores">Cantidad de jugadores</button>
     <button id="btn_partidasJug">Partidas jugadas</button>
-    <button id="btn_preguntas_juego">Preguntas en el juego</button>
+    <button id="btn_preguntas_juegO">Preguntas en el juego</button>
     <button id="btn_preguntas_creadas">Preguntas creadas</button>
     <button id="btn_usuarios_pais">Usuarios por país</button>
     <button id="btn_usuarios_sexo">Usuarios por sexo</button>
@@ -124,7 +123,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black estadisticas-section" id="btn_preguntas_creadas">
+        <div class="card-header bg-warning text-black estadisticas-section" id="btn_preguntas-creadas">
             <div class="container mt-3">
                 <h3 class="text-center">Preguntas creadas</h3>
 
@@ -155,7 +154,7 @@
             </div>
         </div>
 
-        <div class="card-header bg-warning text-black estadisticas-section" >
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-pais">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por pais</h3>
                 <label for="timeframe5">Filtrar Por: </label>
@@ -193,7 +192,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black estadisticas-section">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-sexo">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por sexo</h3>
                 <label for="timeframe4">Filtrar Por: </label>
@@ -227,7 +226,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black estadisticas-section">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-edad">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios por grupo</h3>
                 <label for="timeframe6">Filtrar Por:</label>
@@ -261,7 +260,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-header bg-warning text-black estadisticas-section">
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-usuarios-nuevos">
             <div class="container mt-3">
                 <h3 class="text-center">Usuarios nuevos</h3>
 
@@ -292,7 +291,7 @@
             </div>
         </div>
 
-        <div class="card-header bg-warning text-black estadisticas-section" >
+        <div class="card-header bg-warning text-black estadisticas-section" id="cantidad-resp-correctas">
             <div class="container mt-3">
                 <h3 class="text-center">Porcentaje de respuestas correctas por usuario</h3>
                 <table class="table table-striped table-hover">
@@ -380,25 +379,41 @@
         $('#btn_usuarios_nuevos').click(function() {
             $('.estadisticas-section').hide();
             $('#btn-user-new').show();
-            $('#user_news').show();
+            $('#cantidad-usuarios-nuevos').show();
         });
 
-        $('#btn_preguntas_juego').click(function() {
+        $('#btn_preguntas_juegO').click(function() {
             $('.estadisticas-section').hide();
-            ('#btn-user-new').show();
-            $('#preguntas_juego').show();
+          //  $('#btn-user-new').show();
+            $('#btn_preguntas_juego').show();
         });
 
         $('#btn_preguntas_creadas').click(function() {
             $('.estadisticas-section').hide();
-            ('#btn-user-new').show();
-            $('#grafico_preguntas_creadas').show();
+            $('#btn-preguntas').show();
+            $('#btn_preguntas-creadas').show();
         });
 
         $('#btn_usuarios_pais').click(function() {
             $('.estadisticas-section').hide();
-            ('#btn-user-new').show();
-            $('#grafico_usuarios_pais').show();
+            $('#cantidad-usuarios-pais').show();
+            $('#btn-pais').show();
+        });
+
+        $('#btn_usuarios_sexo').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-sexo').show();
+            $('#btn-graficosex').show();
+        });
+        $('#btn_usuarios_edad').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-edad').show();
+            $('#btn-edad').show();
+        });
+        $('#btn_usuarios_edad').click(function() {
+            $('.estadisticas-section').hide();
+            $('#cantidad-usuarios-edad').show();
+            $('#btn-edad').show();
         });
     });
 </script>
