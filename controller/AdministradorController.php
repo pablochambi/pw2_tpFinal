@@ -21,7 +21,22 @@ class AdministradorController extends BaseController
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
     }
-    
+    public function grafico()
+    {
+        $idGraf = $_GET['id'] ?? "";
+
+        switch ($idGraf){
+            CASE 1: $this->graficoDePreguntasCreadas();break;
+            CASE 2: $this->graficoDeUsuariosNuevos();break;
+            CASE 3: $this->graficoDePartidas();break;
+            CASE 4: $this->graficoDeUsuariosPorSexo();break;
+            CASE 5: $this->graficoDeUsuariosPorGrupo();break;
+            CASE 6: $this->graficoDeUsuariosPorPais();break;
+            CASE 7: $this->graficoPorcentajeCorrectoUsuarios();break;
+            default:  die("No se envio un id reconocido");
+        }
+    }
+
     public function graficoDePreguntasCreadas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
