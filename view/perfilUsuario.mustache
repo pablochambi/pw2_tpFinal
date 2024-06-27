@@ -25,13 +25,13 @@
         </div>
     </div>
 </div>
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT9cX6gfdXf0u_Ynzpdoj3pc7lsgMLozE&callback=initMap&libraries=marker"></script>
 <script>
     var map, AdvancedMarkerElement;
 
-    async function initMap() {
-        var lat = {{usuario.latitud}};
-        var lng = {{usuario.longitud}};
+    function initMap() {
+        var lat = -34.66 ;
+        var lng = -36.44;
 
         var myLatLng = { lat: lat, lng: lng };
 
@@ -56,4 +56,4 @@
         initMap();
     };
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKsOyLppGoYEHhTvwny8xDgKj96ZzSIFU&callback=initMap&libraries=places,marker" async defer></script>
+
