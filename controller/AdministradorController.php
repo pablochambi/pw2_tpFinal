@@ -17,6 +17,11 @@ class AdministradorController extends BaseController
 
     public function get()
     {
+        $this->checkSession();
+        $rol = $this->verificarDeQueRolEsElUsuario($_SESSION["username"]['id']);
+        if($rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);

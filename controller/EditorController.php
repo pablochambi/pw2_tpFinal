@@ -12,8 +12,13 @@ class EditorController extends BaseController
     public function get()
     {
         $this->checkSession();
+        $rol = $this->verificarDeQueRolEsElUsuario($_SESSION["username"]['id']);
+
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
+
         $user = $_SESSION['username'];
-        $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
         $this->presenter->render('view/menu-editor.mustache', ['rol' => $rol['rol']]);
 
     }
@@ -21,9 +26,13 @@ class EditorController extends BaseController
     public function verSugeridas()
     {
         $this->checkSession();
+
         $user = $_SESSION['username'];
 
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
         $pregunta = $this->model->traerPreguntasSugeridas();
         $data = [
             'pregunta' => $pregunta,
@@ -60,6 +69,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
         $preguntas = $this->model->traerTodasLasPreguntas();
         $this->presenter->render('view/buscarPregunta.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
@@ -69,6 +81,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
         $preguntas = $this->model->traerTodasLasPreguntas();
         $this->presenter->render('view/buscarParaEliminar.mustache', ['rol' => $rol['rol'], 'preguntas' => $preguntas]);
     }
@@ -78,6 +93,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['term'])) {
             $term = $_GET['term'];
@@ -112,6 +130,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id']) && isset($_POST['nuevo_texto'])
             && isset($_POST['nueva_categoria']) && isset($_POST['nueva_dificultad']) && isset($_POST['nueva_respuesta'])
@@ -154,6 +175,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['param'])) {
             $term = $_GET['param'];
@@ -189,6 +213,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pregunta_id'])) {
             $id = $_POST['pregunta_id'];
@@ -208,6 +235,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         $preguntas = $this->model->traerTodasLasPreguntas();
         $data = [
@@ -223,6 +253,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
         $preguntas = $this->model->traerPreguntasReportadas();
         $data = [
@@ -238,6 +271,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
 
         if (isset($_GET['id'])) {
@@ -262,6 +298,9 @@ class EditorController extends BaseController
         $this->checkSession();
         $user = $_SESSION['username'];
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
+        if($rol['rol'] != 'Editor' && $rol['rol'] != 'Administrador'){
+            header('Location: /homeUsuario');
+        }
 
 
         if (isset($_GET['id'])) {
