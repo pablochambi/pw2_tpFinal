@@ -163,6 +163,8 @@ class PartidaController extends BaseController
             "valor_respuesta" => $valor_respuesta == 1 ? "Correcta" : "Incorrecta",
             "pregunta" => $pregunta['texto'],
             "id_pregunta" => $pregunta['id']
+
+
         ];
         return $datos;
     }
