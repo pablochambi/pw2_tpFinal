@@ -37,6 +37,10 @@ require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_bar.php');
 require_once('third-party/jpgraph-example/jpgraph/src/jpgraph_line.php');
 include_once("third-party/phpqrcode-2010100721_1.1.4/phpqrcode/qrlib.php");
 
+require 'third-party/PHPMailer/src/Exception.php';
+require 'third-party/PHPMailer/src/PHPMailer.php';
+require 'third-party/PHPMailer/src/SMTP.php';
+
 class Configuration
 {
     // CONTROLLERS
