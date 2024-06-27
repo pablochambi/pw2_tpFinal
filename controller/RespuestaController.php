@@ -40,7 +40,7 @@ class RespuestaController extends BaseController
                 $resultado = $this->model->crearRespuestasSugeridas($texto, $id_pregunta, $es_correcta);
 
             }
-            header("location: /pregunta");
+            header("location: /homeUsuario");
         } else {
             header("location: /homeUsuario");
 

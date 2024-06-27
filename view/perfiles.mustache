@@ -31,14 +31,15 @@
 </div>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvZj61EiOcl1RlGGo3dt9u2OpyqqYkohk&callback=initMap&v=weekly&libraries=marker"></script>
 <script>
-    function initMap() {
+    let map: google.maps.Map;
+    async function initMap(): Promise<void> {
         const lat = {{ usuario.latitud }};
         const lng = {{ usuario.longitud }};
 
         const myLatLng = {lat: lat, lng: lng};
         console.log("COORDENADAS: " + myLatLng.lat + " y " + myLatLng.lng);
 
-        const map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
             zoom: 14,
             center: myLatLng,
             disableDefaultUI: true,
