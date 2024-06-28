@@ -15,6 +15,7 @@ class AdministradorController extends BaseController
         $this->grafica = $grafica;
     }
 
+    /*Obtiene los datos necesarios para la vista del administrador y los envía al presenter para renderizar la vista.*/
     public function get()
     {
         $this->checkSession();
@@ -29,7 +30,7 @@ class AdministradorController extends BaseController
     public function grafico()
     {
         $idGraf = $_GET['id'] ?? "";
-
+        // Controla qué gráfico se debe generar según el valor del parámetro id en la URL.
         switch ($idGraf){
             CASE 1: $this->graficoDePreguntasCreadas();break;//
             CASE 2: $this->graficoDeUsuariosNuevos();break;
@@ -49,7 +50,7 @@ class AdministradorController extends BaseController
         $this->grafica->preguntasCreadasPorDia($arrayDeDatos);
     }
     public function graficoDeUsuariosNuevos()
-    {
+    { // envia los ultimos 6 dias y muestra los usuarios registrados esos dias
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
         $this->grafica->usuariosNuevosPorDia($arrayDeDatos);
@@ -105,6 +106,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaCantPartida()
     {
+        /*obtener la cantidad de partidas jugadas durante un período específico. Devuelve los datos en formato JSON*/
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe'] ?? 'day';
 
