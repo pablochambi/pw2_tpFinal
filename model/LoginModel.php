@@ -57,18 +57,25 @@ class LoginModel extends BaseModel
 
     public function obtenerUsuarioConNombre($idUsuario)
     {
-        $consulta = "SELECT u.* 
-                     FROM Usuarios u 
-                     WHERE u.id = ?";
+        $consulta = "
+    SELECT u.*, 
+           COALESCE(SUM(p.puntaje), 0) as puntaje_acumulado,
+           COALESCE(COUNT(p.id), 0) as partidas_realizadas
+    FROM Usuarios u
+    LEFT JOIN Partida p ON u.id = p.id_usuario
+    WHERE u.id = ?
+    GROUP BY u.id
+    ";
         $stmt = $this->database->prepare($consulta);
         $stmt->bind_param("i", $idUsuario);
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        if ($resultado && $resultado->num_rows > 0)
+        if ($resultado && $resultado->num_rows > 0) {
             return $resultado->fetch_assoc();
-        else
+        } else {
             return null;
+        }
     }
 
     public function obtenerUsuarioPorUsername($username)
