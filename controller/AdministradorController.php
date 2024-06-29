@@ -6,7 +6,7 @@ class AdministradorController extends BaseController
     protected $mustache;
     protected $grafica;
 
-    public function __construct($model, $presenter,$pdfCreator,$mustache,$grafica)
+    public function __construct($model, $presenter, $pdfCreator, $mustache, $grafica)
     {
         session_start();
         parent::__construct($model, $presenter);
@@ -20,13 +20,14 @@ class AdministradorController extends BaseController
     {
         $this->checkSession();
         $rol = $this->verificarDeQueRolEsElUsuario($_SESSION["username"]['id']);
-        if($rol['rol'] != 'Administrador'){
+        if ($rol['rol'] != 'Administrador') {
             header('Location: /homeUsuario');
         }
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
     }
+
     public function grafico()
     {
         $idGraf = $_GET['id'] ?? "";
@@ -49,33 +50,39 @@ class AdministradorController extends BaseController
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePreguntasCredasPorDia($arrayDefechas);
         $this->grafica->preguntasCreadasPorDia($arrayDeDatos);
     }
+
     public function graficoDeUsuariosNuevos()
     { // envia los ultimos 6 dias y muestra los usuarios registrados esos dias
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDeUsuariosNuevosPorDia($arrayDefechas);
         $this->grafica->usuariosNuevosPorDia($arrayDeDatos);
     }
+
     public function graficoDePartidas()
     {
         $arrayDefechas = $this->obtenerLosUltimosSieteDiasDeLaSemanaHastaHoy();
         $arrayDeDatos = $this->model->obtenerLasCantidadesDePartidasPorDia($arrayDefechas);
         $this->grafica->partidasPorDia($arrayDeDatos);
     }
+
     public function graficoDeUsuariosPorSexo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorSexo();
         $this->grafica->usuariosPorSexo($arrayDeDatos);
     }
+
     public function graficoDeUsuariosPorGrupo()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorGrupoDeEdad();
         $this->grafica->usuariosPorGrupo($arrayDeDatos);
     }
+
     public function graficoDeUsuariosPorPais()
     {
         $arrayDeDatos = $this->model->getCantidadesDeUsuariosPorPais();
         $this->grafica->usuariosPorPais($arrayDeDatos);
     }
+
     public function pdf()
     {
         $datos = $this->datosAEnviarALaVistaPdf();
@@ -120,7 +127,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaPreguntaActiva()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe2 = $_GET['timeframe2'] ?? 'day';
             $cantidad_preguntasActivas = $this->model->obtenerPreguntasActivasPorPeriodo($timeframe2);
             header('Content-Type: application/json');
@@ -128,9 +135,10 @@ class AdministradorController extends BaseController
             exit();
         }
     }
+
     public function manejoDeCambioDeFechaPreguntaCreadas()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe3'] ?? 'day';
             $cantidad_preguntasCreadas = $this->model->obtenerPreguntasCreadasPorPeriodo($timeframe);
             header('Content-Type: application/json');
@@ -141,7 +149,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaUsuariosHombres()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe4'] ?? 'day';
             $cantidad_usuariosHombres = $this->model->obtenerUsuariosHombresRegistradosPorPeriodo($timeframe);
             header('Content-Type: application/json');
@@ -152,7 +160,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaUsuariosMujeres()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe4'] ?? 'day';
             $cantidad_usuariosMujeres = $this->model->obtenerUsuariosMujeresRegistradosPorPeriodo($timeframe);
             header('Content-Type: application/json');
@@ -163,7 +171,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaUsuariosNoDecididos()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET' ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe4'] ?? 'day';
             $cantidad_usuariosNoDecididos = $this->model->obtenerResultadosDeUsuariosNoDecididosPorPeriodo($timeframe);
             header('Content-Type: application/json');
@@ -174,7 +182,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaUsuariosArgentinos()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET' ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe5'] ?? 'day';
             $cantidad_usuariosArgentinos = $this->model->obtenerUsuariosDeArgentinaPorPeriodo($timeframe);
             header('Content-Type: application/json');
@@ -185,7 +193,7 @@ class AdministradorController extends BaseController
 
     public function manejoDeCambioDeFechaUsuariosMayores()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET' ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe6'] ?? 'day';
             $cantidad_usuariosMayores = $this->model->obtenerUsuariosPorRangoDeEdadPeriodoMayores($timeframe);
             header('Content-Type: application/json');
@@ -193,9 +201,10 @@ class AdministradorController extends BaseController
             exit();
         }
     }
+
     public function manejoDeCambioDeFechaUsuariosMedio()
     {
-        if($_SERVER['REQUEST_METHOD'] === 'GET' ) {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $timeframe = $_GET['timeframe6'] ?? 'day';
             $cantidad_usuariosMayores = $this->model->obtenerUsuariosPorRangoDeEdadPeriodoMedio($timeframe);
             header('Content-Type: application/json');
@@ -244,7 +253,7 @@ class AdministradorController extends BaseController
             'porcentaje_correctas' => $datosPorcentajeCorrectas,];
     }
 
-    private function datosAEnviarALaVistaPdf():array
+    private function datosAEnviarALaVistaPdf(): array
     {
         $cantJugadores = $this->model->getCantidadDeJugadoresPdf();
         $cantPartidasJugadas = $this->model->getCantidadDePartidasJugadasPdf();
@@ -267,6 +276,6 @@ class AdministradorController extends BaseController
             'usuarios_por_grupoEdad' => $usuariosPorGrupo,
             'usuarios_por_Pais' => $usuariosPorPais,
             'porcentaje_correctas' => $datosPorcentajeCorrectas,
-            ];
+        ];
     }
 }

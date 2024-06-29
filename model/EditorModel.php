@@ -135,13 +135,14 @@ class EditorModel extends BaseModel
             //rollbackTransaction()
         }
     }
-        /*$query = "delete from Reporte_Pregunta
-       where id_pregunta = ? and id_usuario = ? ";
-        $stmt = $this->database->prepare($query);
-        $stmt->bind_param("ii", $idPregunta, $idUsuario);
 
-        if (!$stmt->execute())
-            die('Error al eliminar una pregunta de la lista de reportes: ' . $this->database->error);*/
+    /*$query = "delete from Reporte_Pregunta
+   where id_pregunta = ? and id_usuario = ? ";
+    $stmt = $this->database->prepare($query);
+    $stmt->bind_param("ii", $idPregunta, $idUsuario);
+
+    if (!$stmt->execute())
+        die('Error al eliminar una pregunta de la lista de reportes: ' . $this->database->error);*/
 
     private function eliminarLasReferenciasEnPreguntasVistas($idPregunta)
     {

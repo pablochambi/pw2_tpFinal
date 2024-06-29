@@ -11,7 +11,7 @@ class RankingController extends BaseController
 
     public function get()
     {
-        $this -> checkSession();
+        $this->checkSession();
         $user = $_SESSION['username'];
 
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);

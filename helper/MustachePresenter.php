@@ -1,10 +1,12 @@
 <?php
 
-class MustachePresenter{
+class MustachePresenter
+{
     private $mustache;
     private $partialsPathLoader;
 
-    public function __construct($partialsPathLoader = null){
+    public function __construct($partialsPathLoader = null)
+    {
         Mustache_Autoloader::register();
 
         $options = array();
@@ -16,11 +18,13 @@ class MustachePresenter{
         $this->partialsPathLoader = $partialsPathLoader;
     }
 
-    public function render($contentFile , $data = array() ){
-        echo  $this->generateHtml($contentFile, $data);
+    public function render($contentFile, $data = array())
+    {
+        echo $this->generateHtml($contentFile, $data);
     }
 
-    public function generateHtml($contentFile, $data = array()) {
+    public function generateHtml($contentFile, $data = array())
+    {
         // Comprobación de sesión para seleccionar el header correcto
         if (isset($_SESSION) && !empty($_SESSION)) {
             $headerFile = $this->partialsPathLoader . '/headerLoged.mustache';
@@ -37,14 +41,14 @@ class MustachePresenter{
         return $this->mustache->render($contentAsString, $data);
     }
 
-    public function generateHtmlSimple($contentFile, $data = array()) {
+    public function generateHtmlSimple($contentFile, $data = array())
+    {
 
         // Leer el contenido del archivo
         $contentAsString = file_get_contents($contentFile);
         // Renderizar el contenido usando Mustache
         return $this->mustache->render($contentAsString, $data);
     }
-
 
 
 }

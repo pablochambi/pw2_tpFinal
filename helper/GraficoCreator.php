@@ -8,6 +8,7 @@ class GraficoCreator
     public function __construct()
     {
     }
+
     public function preguntasCreadasPorDia($data)
     {
         $cantidades = array();
@@ -17,11 +18,12 @@ class GraficoCreator
             $cantidades[] = $item['cantidad'];
             $fechas[] = $item['fecha'];
         }
-        $grafico = $this->crearGrafico($fechas,$cantidades);
+        $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
         $grafico->Stroke('public/imagenes/graficos/preguntasCreadasPorDia.png');
     }
+
     public function usuariosNuevosPorDia($data)
     {
         $cantidades = array();
@@ -31,11 +33,12 @@ class GraficoCreator
             $cantidades[] = $item['cantidad'];
             $fechas[] = $item['fecha'];
         }
-        $grafico = $this->crearGrafico($fechas,$cantidades);
+        $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
         $grafico->Stroke('public/imagenes/graficos/usuariosNuevosPorDia.png');
     }
+
     public function partidasPorDia($data)
     {
         $cantidades = array();
@@ -45,7 +48,7 @@ class GraficoCreator
             $cantidades[] = $item['cantidad'];
             $fechas[] = $item['fecha'];
         }
-        $grafico = $this->crearGrafico($fechas,$cantidades);
+        $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
         $grafico->Stroke('public/imagenes/graficos/partidasPorDia.png');
@@ -61,11 +64,12 @@ class GraficoCreator
             $cantidades[] = $item['cantidad'];
             $sexos[] = $item['sexo'];
         }
-        $graph = $this->crearGrafico($sexos,$cantidades);
+        $graph = $this->crearGrafico($sexos, $cantidades);
         //$graph->title->Set("Cantidad de preguntas creadas");
         $graph->Stroke();
         $graph->Stroke('public/imagenes/graficos/usuariosPorSexo.png');
     }
+
     public function usuariosPorGrupo($data)
     {
         $cantidades = array();
@@ -75,7 +79,7 @@ class GraficoCreator
             $cantidades[] = $item['cantidad'];
             $grupoEdad[] = $item['grupo_edad'];
         }
-        $graph = $this->crearGrafico($grupoEdad,$cantidades);
+        $graph = $this->crearGrafico($grupoEdad, $cantidades);
 
         //$graph->title->Set("Cantidad de preguntas creadas");
         $graph->Stroke();
@@ -94,13 +98,13 @@ class GraficoCreator
         }
 
 // Create the graph. These two calls are always required
-        $graph = new Graph(400,400,'auto');
+        $graph = new Graph(400, 400, 'auto');
         $graph->SetScale("textlin");
 
-        $theme_class=new UniversalTheme;
+        $theme_class = new UniversalTheme;
         $graph->SetTheme($theme_class);
 
-        $graph->Set90AndMargin(150,40,40,40);
+        $graph->Set90AndMargin(150, 40, 40, 40);
         $graph->img->SetAngle(90);
 
 // set major and minor tick positions manually
@@ -111,7 +115,7 @@ class GraficoCreator
         $graph->ygrid->SetFill(false);
         $graph->xaxis->SetTickLabels($datosPaises);
         $graph->yaxis->HideLine(false);
-        $graph->yaxis->HideTicks(false,false);
+        $graph->yaxis->HideTicks(false, false);
 
 // For background to be gradient, setfill is needed first.
         $graph->SetBackgroundGradient('#00CED1', '#FFFFFF', GRAD_HOR, BGRAD_PLOT);
@@ -123,7 +127,7 @@ class GraficoCreator
         $graph->Add($b1plot);
 
         $b1plot->SetWeight(0);
-        $b1plot->SetFillGradient("#808000","#90EE90",GRAD_HOR);
+        $b1plot->SetFillGradient("#808000", "#90EE90", GRAD_HOR);
         $b1plot->SetWidth(17);
 
 // Display the graph
@@ -142,13 +146,13 @@ class GraficoCreator
         }
 
         // Create the graph. These two calls are always required
-        $graph = new Graph(400,400,'auto');
+        $graph = new Graph(400, 400, 'auto');
         $graph->SetScale("textlin");
 
-        $theme_class=new UniversalTheme;
+        $theme_class = new UniversalTheme;
         $graph->SetTheme($theme_class);
 
-        $graph->Set90AndMargin(150,40,40,40);
+        $graph->Set90AndMargin(150, 40, 40, 40);
         $graph->img->SetAngle(90);
 
 // set major and minor tick positions manually
@@ -159,7 +163,7 @@ class GraficoCreator
         $graph->ygrid->SetFill(false);
         $graph->xaxis->SetTickLabels($datosUsuarios);
         $graph->yaxis->HideLine(false);
-        $graph->yaxis->HideTicks(false,false);
+        $graph->yaxis->HideTicks(false, false);
 
 // For background to be gradient, setfill is needed first.
         $graph->SetBackgroundGradient('#00CED1', '#FFFFFF', GRAD_HOR, BGRAD_PLOT);
@@ -171,7 +175,7 @@ class GraficoCreator
         $graph->Add($b1plot);
 
         $b1plot->SetWeight(0);
-        $b1plot->SetFillGradient("#808000","#90EE90",GRAD_HOR);
+        $b1plot->SetFillGradient("#808000", "#90EE90", GRAD_HOR);
         $b1plot->SetWidth(17);
 
 // Display the graph
@@ -179,25 +183,25 @@ class GraficoCreator
         $graph->Stroke('public/imagenes/graficos/porcentajeUsuariosCorrectas.png');
     }
 
-    public function crearGrafico($datosEjeX,$datosEjeY): Graph
+    public function crearGrafico($datosEjeX, $datosEjeY): Graph
     {
         //$datosEjeX = fechas, grupoEdad, sexos
         //$datosEjeY = cantidades
 
 // Create the graph. These two calls are always required
-        $graph = new Graph(500,300,'auto');
+        $graph = new Graph(500, 300, 'auto');
         $graph->SetScale("textlin");
 
-        $theme_class=new UniversalTheme;
+        $theme_class = new UniversalTheme;
         $graph->SetTheme($theme_class);
 
-        $graph->yaxis->SetTickPositions(array(0,2,4,6,8,10,12,14,16,18,20,22));//, array(5,15,25,35,45)
+        $graph->yaxis->SetTickPositions(array(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22));//, array(5,15,25,35,45)
         $graph->SetBox(false);
 
         $graph->ygrid->SetFill(false);
         $graph->xaxis->SetTickLabels($datosEjeX);
         $graph->yaxis->HideLine(false);
-        $graph->yaxis->HideTicks(false,false);
+        $graph->yaxis->HideTicks(false, false);
 
 // Create the bar plots
         $b1plot = new BarPlot($datosEjeY);
@@ -215,7 +219,6 @@ class GraficoCreator
 
         return $graph;
     }
-
 
 
 }

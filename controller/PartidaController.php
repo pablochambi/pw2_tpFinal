@@ -100,11 +100,10 @@ class PartidaController extends BaseController
     {
         $perdiste = isset($_GET['perdiste']) ? (string)$_GET['perdiste'] : die("No se sabe si perdiste o no, error 2");
 
-        if ($perdiste == 0) {
+        if ($perdiste == 0)
             header("Location:/partida/siguientePregunta");
-        } elseif ($perdiste == 1) {
+        elseif ($perdiste == 1)
             header("Location:/homeUsuario");
-        }
 
     }
 
@@ -178,6 +177,4 @@ class PartidaController extends BaseController
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
         $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
-
-
 }
