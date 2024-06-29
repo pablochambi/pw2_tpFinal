@@ -32,7 +32,8 @@ class AdministradorModel extends BaseModel
         return $dataPorcentajeCorrectas;
     }
 
-    public function getPorcentajeRespuestasCorrectasPorUsuarioPorDia($userId) {
+    public function getPorcentajeRespuestasCorrectasPorUsuarioPorDia($userId)
+    {
         $sql = "
             SELECT 
                 DATE(r.fecha) as dia,
@@ -433,6 +434,7 @@ class AdministradorModel extends BaseModel
             die("No se pudo obtener la cantidad de preguntas activas por periodo");
         }
     }
+
     public function obtenerCantidadDeUsuariosMasculinosRegistradosYValidadosPdf()
     {
         $consulta = "SELECT COUNT(*) AS cantidad_usuarios_hombres FROM Usuarios WHERE sexo = 'M' ";
@@ -471,7 +473,7 @@ class AdministradorModel extends BaseModel
 
     public function obtenerResultadosDeUsuariosNoDecididosPorPeriodo($timeframe)
     {
-        switch($timeframe) {
+        switch ($timeframe) {
             case 'day':
                 $consulta = "SELECT COUNT(*) AS cantidad_usuarios_nodecididos FROM Usuarios WHERE sexo = 'X' AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
                 break;
@@ -495,7 +497,7 @@ class AdministradorModel extends BaseModel
                 die("No se pudo obtener la cantidad de usuarios mujeres registrados por periodo");
         }
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_nodecididos'];
         } else {
@@ -507,7 +509,7 @@ class AdministradorModel extends BaseModel
     {
         $consulta = "SELECT COUNT(*) AS cantidad_usuarios_nodecididos from Usuarios where fecha_registro >= CURDATE() AND sexo = 'X' AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_nodecididos'];
         } else {
@@ -517,7 +519,7 @@ class AdministradorModel extends BaseModel
 
     public function obtenerUsuariosDeArgentinaPorPeriodo($timeframe)
     {
-        switch ($timeframe){
+        switch ($timeframe) {
             case 'day':
                 $consulta = "SELECT COUNT(*) AS cantidad_usuarios_argentinos FROM Usuarios WHERE pais = 'Argentina' AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
                 break;
@@ -539,7 +541,7 @@ class AdministradorModel extends BaseModel
                 break;
         }
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_argentinos'];
         } else {
@@ -551,7 +553,7 @@ class AdministradorModel extends BaseModel
     {
         $consulta = "SELECT COUNT(*) AS cantidad_usuarios_argentinos FROM Usuarios WHERE pais = 'Argentina' AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY";
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_argentinos'];
         } else {
@@ -563,7 +565,7 @@ class AdministradorModel extends BaseModel
     {
         $consulta = "SELECT COUNT(*) as cantidad_usaurios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND fecha_registro < CURDATE() + INTERVAL 1 DAY ";
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usaurios_menores'];
         } else {
@@ -573,23 +575,23 @@ class AdministradorModel extends BaseModel
 
     public function obtenerUsuariosPorRangoDeEdadPeriodoMenores($timeframe)
     {
-        switch($timeframe) {
+        switch ($timeframe) {
             case 'day':
-            $consulta = "SELECT COUNT(*) as cantidad_usaurios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY ";
-        break;
-        case 'week':
-            $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEARWEEK(fecha_registro) = YEARWEEK(CURDATE())";
-        break;
-        case 'month':
-            $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEAR(fecha_registro) = YEAR(CURDATE()) AND MONTH(fecha_registro) = MONTH(CURDATE())";
-        break;
-        case 'year':
-            $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEAR(fecha_registro) = YEAR(CURDATE())";
-            break;
+                $consulta = "SELECT COUNT(*) as cantidad_usaurios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY ";
+                break;
+            case 'week':
+                $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEARWEEK(fecha_registro) = YEARWEEK(CURDATE())";
+                break;
+            case 'month':
+                $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEAR(fecha_registro) = YEAR(CURDATE()) AND MONTH(fecha_registro) = MONTH(CURDATE())";
+                break;
+            case 'year':
+                $consulta = "SELECT COUNT(*) as cantidad_usuarios_menores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento < 18 AND YEAR(fecha_registro) = YEAR(CURDATE())";
+                break;
 
         }
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_menores'];
         } else {
@@ -600,7 +602,7 @@ class AdministradorModel extends BaseModel
 
     public function obtenerUsuariosPorRangoDeEdadPeriodoMedio($timeframe)
     {
-        switch($timeframe) {
+        switch ($timeframe) {
             case 'day':
                 $consulta = "SELECT COUNT(*) as cantidad_usuarios_medio From Usuarios WHERE YEAR(NOW()) - anio_nacimiento > 18 AND YEAR(NOW()) - anio_nacimiento < 60 AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY ";
                 break;
@@ -616,7 +618,7 @@ class AdministradorModel extends BaseModel
 
         }
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_medio'];
         } else {
@@ -627,7 +629,7 @@ class AdministradorModel extends BaseModel
 
     public function obtenerUsuariosPorRangoDeEdadPeriodoMayores($timeframe)
     {
-        switch($timeframe) {
+        switch ($timeframe) {
             case 'day':
                 $consulta = "SELECT COUNT(*) as cantidad_usuarios_mayores From Usuarios WHERE YEAR(NOW()) - anio_nacimiento > 60 AND fecha_registro >= CURDATE() AND fecha_registro < CURDATE() + INTERVAL 1 DAY ";
                 break;
@@ -643,7 +645,7 @@ class AdministradorModel extends BaseModel
 
         }
         $result = $this->database->executeAndReturn($consulta);
-        if($result && $result->num_rows > 0) {
+        if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['cantidad_usuarios_mayores'];
         } else {

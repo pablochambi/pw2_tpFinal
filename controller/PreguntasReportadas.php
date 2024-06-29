@@ -15,6 +15,5 @@ class PreguntasReportadas extends BaseController
         $categorias = $this->model->getCategorias();
 
         $this->presenter->render("view/crearPregunta.mustache", ['categorias' => $categorias, "rol" => $rol['rol']]);
-
     }
 }

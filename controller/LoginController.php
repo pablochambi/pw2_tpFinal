@@ -31,18 +31,14 @@ class LoginController extends BaseController
             if ($inicioSesionExitoso) {
 
                 $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
-
                 $_SESSION['username'] = $user;
-
                 header("Location: /homeUsuario");
 
-            } else {
+            } else
                 header("Location: /login");
-            }
 
-        } else {
+        } else
             header("Location: /login");
-        }
 
     }
 }
