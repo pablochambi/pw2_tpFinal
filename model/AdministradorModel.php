@@ -655,7 +655,8 @@ class AdministradorModel extends BaseModel
     }
 
 
-    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
+    private function
+    inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {//[21-06]= 0
         $dataFechaCantidad = [];
 
