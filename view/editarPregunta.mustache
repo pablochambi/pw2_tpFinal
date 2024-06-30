@@ -31,11 +31,11 @@
                 <form action="/editor/editarPregunta" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nuevo_texto">Nuevo texto:</label>
-                        <input type="text" id="nuevo_texto" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese la nueva pregunta">
+                        <input type="text" id="nuevo_texto" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese la nueva pregunta" required>
                     </div>
                     <div class="form-group">
                         <label for="nueva_categoria">Nueva categoría:</label>
-                        <select id="nueva_categoria" name="nueva_categoria" class="form-control mb-2">
+                        <select id="nueva_categoria" name="nueva_categoria" class="form-control mb-2" required>
                             {{#allCategorias}}
                                 <option value="{{id}}">{{nombre}}</option>
                             {{/allCategorias}}
@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group">
                         <label for="nueva_dificultad">Nueva dificultad:</label>
-                        <select id="nueva_dificultad" name="nueva_dificultad" class="form-control mb-2">
+                        <select id="nueva_dificultad" name="nueva_dificultad" class="form-control mb-2" required>
                             <option value="FACIL">Fácil</option>
                             <option value="MEDIO">Intermedio</option>
                             <option value="DIFICIL">Difícil</option>
@@ -51,19 +51,19 @@
                     </div>
                     <div class="form-group">
                         <label for="nueva_respuesta">Nueva respuesta correcta:</label>
-                        <input type="text" id="nueva_respuesta" name="nueva_respuesta" class="form-control mb-2" placeholder="Ingrese la nueva respuesta">
+                        <input type="text" id="nueva_respuesta" name="nueva_respuesta" class="form-control mb-2" placeholder="Ingrese la nueva respuesta" required>
                     </div>
                     <div class="form-group">
                         <label for="nueva_respuesta_incorrecta1">Nueva respuesta incorrecta 1:</label>
-                        <input type="text" id="nueva_respuesta_incorrecta1" name="nueva_respuesta_incorrecta1" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 1">
+                        <input type="text" id="nueva_respuesta_incorrecta1" name="nueva_respuesta_incorrecta1" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 1" required>
                     </div>
                     <div class="form-group">
                         <label for="nueva_respuesta_incorrecta2">Nueva respuesta incorrecta 2:</label>
-                        <input type="text" id="nueva_respuesta_incorrecta2" name="nueva_respuesta_incorrecta2" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 2">
+                        <input type="text" id="nueva_respuesta_incorrecta2" name="nueva_respuesta_incorrecta2" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 2" required>
                     </div>
                     <div class="form-group">
                         <label for="nueva_respuesta_incorrecta3">Nueva respuesta incorrecta 3:</label>
-                        <input type="text" id="nueva_respuesta_incorrecta3" name="nueva_respuesta_incorrecta3" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 3">
+                        <input type="text" id="nueva_respuesta_incorrecta3" name="nueva_respuesta_incorrecta3" class="form-control mb-2" placeholder="Ingrese la nueva respuesta incorrecta 3" required>
                     </div>
                     <button type="submit" class="btn btn-success">Actualizar pregunta</button>
                     <input type="hidden" name="pregunta_id" value="{{id}}">

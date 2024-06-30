@@ -66,7 +66,7 @@ class EditorModel extends BaseModel
 
     public function aceptarPreguntaSugerida($idPregunta)
     {
-        $query = "UPDATE Pregunta SET activa = 1 WHERE id = ? ";
+        $query = "UPDATE Pregunta SET activa = 1, valida = 1 WHERE id = ?";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param("i", $idPregunta);
         $stmt->execute();
