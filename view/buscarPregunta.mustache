@@ -16,7 +16,7 @@
                     <p class="card-text">Texto actual: {{texto}}</p>
                     <form action="/editor/editarPregunta" method="GET">
                         <label for="nuevo_texto_{{id}}">Nuevo texto:</label>
-                        <input type="text" id="nuevo_texto_{{id}}" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese el nuevo texto">
+                        <input type="text" id="nuevo_texto_{{id}}" name="nuevo_texto" class="form-control mb-2" placeholder="Ingrese el nuevo texto" >
                         <button type="submit" class="btn btn-success">Actualizar pregunta</button>
                         <input type="hidden" name="pregunta_id" value="{{id}}">
                     </form>
