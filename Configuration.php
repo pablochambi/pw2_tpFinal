@@ -151,7 +151,7 @@ class Configuration
     public static function getDatabase()
     {
         $config = self::getConfig();
-        return new Database($config["servername"] . ":" . $config["port"], $config["username"], $config["password"], $config["dbname"]);
+        return new Database($config["servername"], $config["username"], $config["password"], $config["dbname"]);
     }
 
     private static function getConfig()
