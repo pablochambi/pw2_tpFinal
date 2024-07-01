@@ -23,7 +23,7 @@ class RegistroController
     public function procesarRegistro()
     {
         if (isset($_POST['nombre']) && isset($_POST['sexo']) && isset($_POST['anio_nacimiento'])
-             && isset($_POST['ciudad']) && isset($_POST['username'])
+            && isset($_POST['ciudad']) && isset($_POST['username'])
             && isset($_POST['email']) && isset($_POST['password'])) {
 
             $nombre = $_POST['nombre'];
@@ -41,10 +41,10 @@ class RegistroController
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
 
-           $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $password, $username, $direccionDestino, $latitud, $longitud);
+            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $password, $username, $direccionDestino, $latitud, $longitud);
 
             error_log("Token enviado por correo: " . $token);
-            if($token) {
+            if ($token) {
                 $enviado = $this->emailHelper->enviarCorreo($email, $token);
 
 

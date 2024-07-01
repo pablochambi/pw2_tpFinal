@@ -1,4 +1,5 @@
 <?php
+
 class HomeUsuarioController extends BaseController
 {
     public function __construct($model, $presenter)

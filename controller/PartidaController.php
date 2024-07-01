@@ -14,11 +14,7 @@ class PartidaController extends BaseController
         $this->model->arrancarPartida($id_usuario);
         $pregunta = $this->traerUnaPreguntaYActualizarDatos($id_usuario);
         $this->mostrarPreguntaYRespuestasPosibles($pregunta);
-
-
     }
-
-
 
     public function procesarRespuesta()
     {
@@ -26,16 +22,12 @@ class PartidaController extends BaseController
         $this->manejoDeElProcesoDeRespuesta();
     }
 
-
     public function siguientePregunta()
     {
         $user_id = $this->checkSessionYTraerIdUsuario();
         $pregunta = $this->traerUnaPreguntaYActualizarDatos($user_id);
         $this->mostrarPreguntaYRespuestasPosibles($pregunta);
-
     }
-
-
 
     public function reportarPregunta()
     {
@@ -55,7 +47,6 @@ class PartidaController extends BaseController
             header("Location:/partida/siguientePregunta");
         elseif ($perdiste == 1)
             header("Location:/homeUsuario");
-
     }
 
     public function procesarReporte()
@@ -79,22 +70,22 @@ class PartidaController extends BaseController
         }
     }
 
-  /*  public function usarTrampa($idPregunta)
-    {
+    /*  public function usarTrampa($idPregunta)
+      {
 
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $trampas_disponibles = $this->model->obtenerCantidadDeTrampas($idUsuario);
+          $idUsuario = $this->checkSessionYTraerIdUsuario();
+          $trampas_disponibles = $this->model->obtenerCantidadDeTrampas($idUsuario);
 
-        if($trampas_disponibles > 0) {
+          if($trampas_disponibles > 0) {
 
-            $respuestasIncorrectas = $this->model->traerRespuestasIncorrectas($idUsuario);
-            echo json_encode(['success' => true,  'respuestasIncorrectas' => $respuestasIncorrectas]);
-        } else {
-            echo json_encode(['success' => false]);
-        }
+              $respuestasIncorrectas = $this->model->traerRespuestasIncorrectas($idUsuario);
+              echo json_encode(['success' => true,  'respuestasIncorrectas' => $respuestasIncorrectas]);
+          } else {
+              echo json_encode(['success' => false]);
+          }
 
 
-    }*/
+      }*/
 
     private function determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText)
     {
@@ -131,7 +122,6 @@ class PartidaController extends BaseController
             "pregunta" => $pregunta['texto'],
             "id_pregunta" => $pregunta['id']
 
-
         ];
         return $datos;
     }
@@ -145,6 +135,7 @@ class PartidaController extends BaseController
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
         $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
+
     private function traerUnaPreguntaYActualizarDatos($id_usuario)
     {
         $pregunta = $this->model->traerPreguntaAleatoriaSinRepeticionDePregunta($id_usuario);
@@ -162,7 +153,7 @@ class PartidaController extends BaseController
         $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
         $trampitas = $this->model->obtenerCantidadDeTrampas($id_usuario);
-        var_dump($trampitas);
+        //var_dump($trampitas);
         $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol'], "trampitas" => $trampitas]);
     }
 
@@ -177,6 +168,7 @@ class PartidaController extends BaseController
         $partida = $this->model->obtenerUltimaPartida($id_usuario);
         $this->model->sumarPuntos($id_usuario, $partida);
     }
+
     private function manejoDeElProcesoDeRespuesta()
     {
         $user_id = $this->checkSessionYTraerIdUsuario();
