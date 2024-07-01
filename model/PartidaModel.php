@@ -231,10 +231,10 @@ class PartidaModel extends BaseModel
 
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
-            if ($result['trampita'] > 0)
+            if ($result['trampita'] > 0) {
                 return $result['trampita'];
-            else
-                return 0;
+            }else{
+                return 0; }
         } else
             return 0;
     }
