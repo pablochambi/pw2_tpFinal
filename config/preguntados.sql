@@ -22,7 +22,8 @@ CREATE TABLE Usuarios (
                     latitud FLOAT,
                     longitud FLOAT,
                     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    qr VARCHAR(255)
+                    qr VARCHAR(255),
+                    trampita INT
 );
 
 CREATE TABLE Partida (

@@ -15,6 +15,7 @@ class PartidaController extends BaseController
         $pregunta = $this->traerUnaPreguntaYActualizarDatos($id_usuario);
         $this->mostrarPreguntaYRespuestasPosibles($pregunta);
 
+
     }
 
 
@@ -31,6 +32,7 @@ class PartidaController extends BaseController
         $user_id = $this->checkSessionYTraerIdUsuario();
         $pregunta = $this->traerUnaPreguntaYActualizarDatos($user_id);
         $this->mostrarPreguntaYRespuestasPosibles($pregunta);
+
     }
 
 
@@ -76,6 +78,23 @@ class PartidaController extends BaseController
             header("Location:/homeUsuario");
         }
     }
+
+  /*  public function usarTrampa($idPregunta)
+    {
+
+        $idUsuario = $this->checkSessionYTraerIdUsuario();
+        $trampas_disponibles = $this->model->obtenerCantidadDeTrampas($idUsuario);
+
+        if($trampas_disponibles > 0) {
+
+            $respuestasIncorrectas = $this->model->traerRespuestasIncorrectas($idUsuario);
+            echo json_encode(['success' => true,  'respuestasIncorrectas' => $respuestasIncorrectas]);
+        } else {
+            echo json_encode(['success' => false]);
+        }
+
+
+    }*/
 
     private function determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText)
     {
@@ -140,13 +159,14 @@ class PartidaController extends BaseController
         $id_usuario = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
 
-
-
         $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-
-        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol']]);
+        $trampitas = $this->model->obtenerCantidadDeTrampas($id_usuario);
+        var_dump($trampitas);
+        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol'], "trampitas" => $trampitas]);
     }
+
+
     private function respuestaCorrectaPath($id_pregunta)
     {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
