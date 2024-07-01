@@ -36,7 +36,7 @@ class PartidaModel extends BaseModel
                   WHERE id_pregunta = $idPregunta";
         $respuestas = $this->database->query($query);
 
-        shuffle($respuestas);
+        shuffle($respuestas); // tira un array aleatorio
         return $respuestas;
     }
 
