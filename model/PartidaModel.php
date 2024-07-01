@@ -11,15 +11,16 @@ class PartidaModel extends BaseModel
 
     public function traerPreguntaAleatoriaSinRepeticionDePregunta($idUsuario)
     {
-        $preguntasEntregadas = $this->getCantidadDePreguntasEntregadasAUnUsuario($idUsuario);
+        $preguntasEntregadas = $this->getCantidadDePreguntasEntregadasAUnUsuario($idUsuario); // guarda la cantidad de preguntas que respondió el usuario
 
         if ($preguntasEntregadas < self::CANTIDAD_DE_PREGUNTAS_FACILES_INICIALES) {
             return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeNivelFacil($idUsuario);
-        }
+        } // se devuelve una pregunta aleatoria de nivel fácil que el usuario no haya visto antes
 
         $totalPreguntasNiveladas = $this->contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeSuNivel($idUsuario);
 
         if ($totalPreguntasNiveladas > 0) {
+            // Si hay preguntas no vistas disponibles en el nivel del usuario, se devuelve una pregunta aleatoria de ese nivel
             return $this->retornarPreguntaAleatoriaQueNoSeHayaVistoYSeaDeSuNivel($idUsuario);
         } else {
             $this->resetearPreguntasVistasDelNivelDelUsuario($idUsuario);
@@ -291,7 +292,7 @@ class PartidaModel extends BaseModel
     private function retornarCantidadTotalDePreguntas($resultado)
     {
         if (isset($resultado) && !empty($resultado)) {
-            $primerResultado = $resultado[0];
+            $primerResultado = $resultado[0]; // primer resultado
             $totalPreguntasDisponibles = $primerResultado["total"];
         } else {
             die ("No se conto la cantidad de preguntas que faltan verse");
@@ -450,6 +451,7 @@ class PartidaModel extends BaseModel
 
     private function contarCantidadDePreguntasNoVistasPorUnUsuarioYSeaDeNivelFacil($idUsuario)
     {
+        // las preguntas no vistas no tienen idUsuario en la tabla PreguntasVistas
         $consulta = "SELECT COUNT(*) AS total
                           FROM Pregunta P
                           LEFT JOIN PreguntaVistas PV ON P.id = PV.id_pregunta
@@ -457,7 +459,7 @@ class PartidaModel extends BaseModel
                           WHERE PV.id_usuario IS NULL AND P.nivel = 'FACIL' ";
 
         $resultado = $this->database->query($consulta);
-        return $this->retornarCantidadTotalDePreguntas($resultado);
+        return $this->retornarCantidadTotalDePreguntas($resultado); // cantidad total de preguntas que faltan por verse
     }
 
     private function retornarPreguntaNivelFacil($idUsuario)
