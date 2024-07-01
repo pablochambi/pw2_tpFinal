@@ -221,6 +221,53 @@ class PartidaModel extends BaseModel
         }
     }
 
+    public function obtenerCantidadDeTrampas($idUsuario)
+    {
+        $query = "select trampita from usuarios where id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+           $result = $result->fetch_assoc();
+           if($result['trampita'] > 0){
+               return $result['trampita'];
+           } else {
+               return 0;
+           }
+
+        }else {
+            return 0;
+
+        }
+    }
+
+    public function restarUnaTrampaSiEsUsada($idUsuario)
+    {
+        $query = "UPDATE Usuarios
+                 set trampita = trampita - 1
+                  where id = $idUsuario ";
+        $result = $this->database->executeAndReturn($query);
+        return $result;
+    }
+
+    public function obtenerDosRespuestasAleatorias($idPregunta)
+    {
+        $query = "SELECT *
+                  FROM Respuesta 
+                  WHERE id_pregunta = $idPregunta and es_correcta = 0
+                  ORDER BY RAND()
+                  LIMIT 2";
+        $respuestas = $this->database->executeAndReturn($query);
+
+        return $respuestas;
+    }
+
+
+
+
     private function verificarCantidadPuntos($resultadoDePuntaje): string
     {
         if (!empty($resultadoDePuntaje))

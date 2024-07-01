@@ -40,6 +40,7 @@ include_once("third-party/phpqrcode-2010100721_1.1.4/phpqrcode/qrlib.php");
 require 'third-party/PHPMailer/src/Exception.php';
 require 'third-party/PHPMailer/src/PHPMailer.php';
 require 'third-party/PHPMailer/src/SMTP.php';
+require 'helper/EmailHelper.php';
 
 class Configuration
 {
@@ -80,7 +81,7 @@ class Configuration
     }
     public static function getRegistroController()
     {
-        return new RegistroController(self::getRegistroModel(),self::getPresenter());
+        return new RegistroController(self::getRegistroModel(),self::getPresenter() , self::getEmailHelper());
     }
 
     public static function getPerfilController()
@@ -150,7 +151,7 @@ class Configuration
     public static function getDatabase()
     {
         $config = self::getConfig();
-        return new Database($config["servername"], $config["username"], $config["password"], $config["dbname"]);
+        return new Database($config["servername"] . ":" . $config["port"], $config["username"], $config["password"], $config["dbname"]);
     }
 
     private static function getConfig()
@@ -181,6 +182,10 @@ class Configuration
     public static function getGraficoCreator()
     {
         return new GraficoCreator();
+    }
+    public static function getEmailHelper ()
+    {
+        return new EmailHelper();
     }
 
 

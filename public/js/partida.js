@@ -40,6 +40,8 @@ function checkAnswer(button) {
         }
     });
 
+
+
     setTimeout(function() {
         button.closest('form').submit();
     }, 5000);
@@ -61,3 +63,39 @@ document.addEventListener('DOMContentLoaded', function () {
         music.pause();
     });
 });
+
+ /* document.addEventListener('DOMContentLoaded', function () {
+    const usarTrampaBoton = document.getElementById('usarTrampa');
+
+    usarTrampaBoton.addEventListener('click', function () {
+        fetch('/partida/usarTrampa', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log('Trampa utilizada correctamente');
+
+                    data.respuestasIncorrectas.forEach(respuesta => {
+                        const respuestaIncorrectaElement = document.querySelector(`button[data-respuesta="${respuesta}"]`);
+                        if (respuestaIncorrectaElement) {
+                            respuestaIncorrectaElement.style.display = 'none'; // Oculta la respuesta incorrecta
+                        }
+                    });
+
+
+                } else {
+                    console.error('Error al usar la trampa:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error en la petición para usar la trampa:', error);
+            });
+    });
+
+    })  */
+
