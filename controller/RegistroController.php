@@ -5,11 +5,15 @@ class RegistroController
     private $presenter;
     private $model;
 
-    public function __construct($model, $presenter)
+    private $emailHelper;
+
+    public function __construct($model, $presenter, $emailHelper)
     {
         $this->presenter = $presenter;
         $this->model = $model;
+        $this->emailHelper = $emailHelper;
     }
+
 
     public function get()
     {
@@ -19,7 +23,7 @@ class RegistroController
     public function procesarRegistro()
     {
         if (isset($_POST['nombre']) && isset($_POST['sexo']) && isset($_POST['anio_nacimiento'])
-            && isset($_POST['pais']) && isset($_POST['ciudad']) && isset($_POST['username'])
+             && isset($_POST['ciudad']) && isset($_POST['username'])
             && isset($_POST['email']) && isset($_POST['password'])) {
 
             $nombre = $_POST['nombre'];
@@ -36,11 +40,18 @@ class RegistroController
 
             $direccionDestino = $this->model->verificarYSubirLaFotoDePerfil($foto);
 
-            $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $password, $username, $direccionDestino, $latitud, $longitud);
 
-            $this->model->enviarEmail($token, $email);
+           $token = $this->model->registrarUsuarioAlaBD($nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $password, $username, $direccionDestino, $latitud, $longitud);
 
-            $this->presenter->render("view/confirmarMail.mustache");
+            error_log("Token enviado por correo: " . $token);
+            if($token) {
+                $enviado = $this->emailHelper->enviarCorreo($email, $token);
+
+
+                $this->verificarElEnvio($enviado);
+            } else {
+                die("Error al registrar el usuario");
+            }
 
         } else {
             die("No se recibieron datos del formulario de registro");
@@ -49,8 +60,13 @@ class RegistroController
 
     public function validar()
     {
-        $this->model->validarCorreo();
-        $this->presenter->render("view/bienvenida.mustache");
+        if (isset($_GET['token'])) {
+            $token = $_GET['token'];
+            $this->model->validarCorreo($token);
+            $this->presenter->render("view/vistasPostAccion/bienvenido.mustache");
+        } else {
+            echo "No se proporcionó un token de validación.";
+        }
     }
 
     public function confirmarValidacion()
@@ -60,6 +76,20 @@ class RegistroController
 
     public function confirmarMail()
     {
+
+
         $this->presenter->render("view/confirmarMail.mustache");
     }
+
+
+    private function verificarElEnvio($enviado)
+    {
+        if ($enviado) {
+            $this->presenter->render("view/vistasPostAccion/confirmarMail.mustache");
+        } else {
+            die("Error al enviar el email de confirmación");
+        }
+    }
+
+
 }

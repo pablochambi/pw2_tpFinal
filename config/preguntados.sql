@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS preguntados;
 USE preguntados;
 
 CREATE TABLE Usuarios (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
+                    id INT AUTO_INCREMENT PRIMARY KEY ,
                     nombre_completo VARCHAR(100) NOT NULL,
                     anio_nacimiento YEAR NOT NULL,
                     sexo CHAR(1) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE Usuario_Rol (
                              id_usuario INT,
                              id_rol INT,
                              PRIMARY KEY (id_usuario, id_rol),
-                             FOREIGN KEY (id_usuario) REFERENCES Usuarios(id),
+                             FOREIGN KEY (id_usuario) REFERENCES Usuarios(id) ON DELETE CASCADE,
                              FOREIGN KEY (id_rol) REFERENCES Rol(id)
 );
 
