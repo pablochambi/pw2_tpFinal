@@ -655,10 +655,12 @@ class AdministradorModel extends BaseModel
     }
 
 
-    private function inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
+    private function
+    inicializarFechaCantidadDeLosUltimosSieteDias($fechas): array
     {//[21-06]= 0
         $dataFechaCantidad = [];
 
+        // guarda fechas en formato dia-mes con valor 0
         for ($i = 0; $i <= 6; $i++) {
             $dataFechaCantidad[date('d-m', strtotime($fechas[$i]))] = 0;
         }
@@ -673,6 +675,8 @@ class AdministradorModel extends BaseModel
         return $dataSexoCantidad;
     }
 
+    /*toma un resultado de una consulta a la base de datos y un array de fechas con cantidades inicializadas,
+     y actualiza este array con los datos reales obtenidos de la consulta*/
     private function llenarConCantidadesALasFechas($result, $dataFechaCantidad): array
     {
         if ($result && $result->num_rows > 0) {
@@ -685,6 +689,8 @@ class AdministradorModel extends BaseModel
         return $dataFechaCantidad;
     }
 
+    /*toma un array de datos con fechas como claves y cantidades como valores,
+     y lo transforma en un array de arrays asociativos, donde cada sub-array tiene dos claves: fecha y cantidad*/
     private function retornarArrayParaQueSeSeVeanLosDatosPorDia($data): array
     {
         $final_array = [];
