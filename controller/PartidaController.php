@@ -171,17 +171,31 @@ class PartidaController extends BaseController
 
     private function manejoDeElProcesoDeRespuesta()
     {
+
         $user_id = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($user_id);
 
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
+        $idPregunta = $_POST['pregunta'];
+        $duracion = 10;
 
-        if (isset($_POST['time_expired']) && $_POST['time_expired'] == "1") {
-            $this->handleTimeExpired(); // checkeo si se acabo el timepo
-        } elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+        // Iniciar el temporizador si no está iniciado
+        if (!isset($_SESSION['question_start_time'][$idPregunta])) {
+            $_SESSION['question_start_time'][$idPregunta] = time();
+        }
 
+        // Verificar si el tiempo ha expirado
+        if (isset($_SESSION['question_start_time'][$idPregunta])) {
+            $tiempoDeInicio = $_SESSION['question_start_time'][$idPregunta];
+            $tiempoTranscurrido = time() - $tiempoDeInicio;
+            $tiempoRestante = $duracion - $tiempoTranscurrido;
+
+            if ($tiempoRestante <= 0 && (isset($_POST['time_expired']) && $_POST['time_expired'] == "1")) { //SI EL TIEMPO DEL BACK Y EL DEL FRONT SON 0 MANEJA EL ERROR
+                $this->handleTimeExpired(); // Manejar caso cuando el tiempo se acaba
+                return;
+            }
+        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
             $respuesta = $_POST['respuesta'];
-            $idPregunta = $_POST['pregunta'];
             $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
 
             if ($this->model->esRespuestaCorrecta($respuesta, $idPregunta)) {
@@ -197,3 +211,20 @@ class PartidaController extends BaseController
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
