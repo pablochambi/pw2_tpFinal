@@ -1,2 +1,5 @@
 # PHPSTORM
 .idea/
+
+# QRs
+public/qrs/
