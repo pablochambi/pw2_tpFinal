@@ -38,30 +38,25 @@ class RegistroModel
             $stmtRol = $this->database->prepare($consultaRol);
             $stmtRol->bind_param("ii", $idUsuario, $rolJugador);
 
-            if (!$stmtRol->execute()) {
-                echo "Error al asignar el rol al usuario: " . $stmtRol->error;
-            }
+            if (!$stmtRol->execute())
+               return null;
 
             return $token;
         } else {
-            echo "Error al registrar al usuario: " . $stmt->error;
             return null;
         }
     }
 
     public function verificarYSubirLaFotoDePerfil($foto)
     {
-        if ($foto['error'] !== UPLOAD_ERR_OK) {
-
+        if ($foto['error'] !== UPLOAD_ERR_OK)
             return null;
-        }
 
         $direccionOrigen = $foto['tmp_name'];
         $direccionDestino = 'public/imagenes/' . basename($foto['name']);
 
-        if (!$this->subirFotoAUnaDireccion($direccionOrigen, $direccionDestino)) {
+        if (!$this->subirFotoAUnaDireccion($direccionOrigen, $direccionDestino))
             return null;
-        }
 
         return $direccionDestino;
     }
@@ -71,33 +66,6 @@ class RegistroModel
         return move_uploaded_file($direccionOrigen, $direccionDestino);
     }
 
-    /*    public function enviarEmail($token, $email)
-        {
-            $asunto = 'Confirmá tu email para empezar a jugar';
-            $cuerpo = "Por favor, haz clic en el siguiente enlace para validar tu correo electrónico: ";
-            $cuerpo .= "http://localhost/registro/validar?token=$token";
-
-            $mail = new PHPMailer(true);
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'preguntadoswebii@gmail.com';
-                $mail->Password = 'Preguntados2024!';
-                $mail->SMTPSecure = 'ssl';
-                $mail->Port = 465;
-                $mail->CharSet = 'UTF-8';
-                $mail->setFrom('preguntadoswebii@gmail.com');
-                $mail->addAddress($email);
-                $mail->Subject = $asunto;
-                $mail->Body = $cuerpo;
-                $mail->send();
-            } catch (Exception $e) {
-                echo "No se pudo enviar el correo. Error de PHPMailer: {$mail->ErrorInfo}";
-            }
-        }
-     */
-
     public function validarCorreo($token)
     {
 
@@ -106,11 +74,8 @@ class RegistroModel
         if ($result->num_rows == 1) {
             $usuario = $result->fetch_assoc();
             $updateQuery = "UPDATE Usuarios SET habilitado = 1 WHERE token = '$token'";
-
         } else {
-            echo "El token de validación no es válido.";
+            return null;
         }
     }
-
-
 }

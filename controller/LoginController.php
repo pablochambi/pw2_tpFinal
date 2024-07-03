@@ -18,27 +18,28 @@ class LoginController extends BaseController
 
     public function procesarLogeo()
     {
-
         if (isset($_POST["email"]) && isset($_POST["password"])) {
 
             session_start();
             $email = $_POST["email"];
             $password = $_POST["password"];
 
-            // aca llamo a procesarInicioSesion del modelo y guardo el resultado (verdadero si el inicio de sesion fue exitoso)
             $inicioSesionExitoso = $this->model->procesarInicioSesion($email, $password);
 
             if ($inicioSesionExitoso) {
-
                 $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
-                $_SESSION['username'] = $user;
+                $_SESSION['username'] = $user['username'];
                 header("Location: /homeUsuario");
-
-            } else
-                header("Location: /login");
-
-        } else
-            header("Location: /login");
-
+                exit();
+            } else {
+                $errorMsg = "Correo electrónico o contraseña incorrectos.";
+                $this->presenter->render("view/login.mustache", ['error' => $errorMsg]);
+                exit();
+            }
+        } else {
+            $errorMsg = "Por favor, complete todos los campos.";
+            $this->presenter->render("view/login.mustache", ['error' => $errorMsg]);
+            exit();
+        }
     }
 }

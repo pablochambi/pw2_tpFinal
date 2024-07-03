@@ -335,7 +335,7 @@ class PartidaModel extends BaseModel
             $primerResultado = $resultado[0]; // primer resultado
             $totalPreguntasDisponibles = $primerResultado["total"];
         } else {
-            die ("No se conto la cantidad de preguntas que faltan verse");
+            return null;
         }
         return $totalPreguntasDisponibles;
     }
@@ -538,7 +538,7 @@ class PartidaModel extends BaseModel
             $primerResultado = $resultado[0];
             $totalPreguntasEntregadas = $primerResultado["preguntas_entregadas"];
         } else {
-            die ("No se conto la cantidad de preguntas entregadas a un usuario");
+           return null;
         }
         return $totalPreguntasEntregadas;
     }

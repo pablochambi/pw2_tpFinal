@@ -24,9 +24,7 @@ class LoginModel extends BaseModel
                 $seInicioSesion = true;
 
         } elseif ($resultado->num_rows == 0) {
-            die("No se encuentra el mail ingresado en la base de datos");
-        } else {
-            die("Hay mails repetidos en la base de datos");
+            return null;
         }
 
         return $seInicioSesion;
@@ -109,6 +107,4 @@ class LoginModel extends BaseModel
 
         return true;
     }
-
-
 }

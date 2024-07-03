@@ -1,24 +1,31 @@
 <div class="registration-form ">
-        <div class="form-log">
-            <h2 class="log">Iniciar Sesion</h2>
-            <form id="logForm" action="login/procesarLogeo" method="post" enctype="multipart/form-data">
-                <div class="form_parte">
-                    <div class="form-group">
-                        <label for="email">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Contraseña</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+    <div class="form-log">
+        <h2 class="log">Iniciar Sesión</h2>
+        <form id="logForm" action="login/procesarLogeo" method="post" enctype="multipart/form-data">
+            <div class="form_parte">
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
                 </div>
-            </form>
-        </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                </div>
+                {{#error}}
+                    <p class="error-msg">{{error}}</p>
+                {{/error}}
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </div>
+        </form>
+    </div>
 </div>
 <style>
-    .form_parte{
+    .form_parte {
         margin: auto;
+    }
+    .error-msg {
+        margin: auto;
+        color: red;
     }
 </style>
