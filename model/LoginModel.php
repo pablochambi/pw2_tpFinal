@@ -9,7 +9,6 @@ class LoginModel extends BaseModel
 
     public function procesarInicioSesion($email, $password)
     {
-
         $seInicioSesion = false;
         $resultado = $this->database->conn->prepare("SELECT * FROM Usuarios WHERE email = ?");
         $resultado->bind_param("s", $email);
@@ -20,9 +19,9 @@ class LoginModel extends BaseModel
         if ($resultado->num_rows == 1) {
             $fila = $resultado->fetch_assoc();
 
-            if (password_verify($password, $fila['password'])) {
+            if ($password == $fila["password"])
+                // (password_verify($password, $fila['password']))
                 $seInicioSesion = true;
-            }
 
         } elseif ($resultado->num_rows == 0) {
             die("No se encuentra el mail ingresado en la base de datos");
