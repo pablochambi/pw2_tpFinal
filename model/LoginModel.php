@@ -24,7 +24,7 @@ class LoginModel extends BaseModel
                 $seInicioSesion = true;
 
         } elseif ($resultado->num_rows == 0) {
-            return null;
+            return false;
         }
 
         return $seInicioSesion;

@@ -12,6 +12,7 @@ class HomeUsuarioController extends BaseController
     {
         $this->checkSession(); //verifica si hay una sesion activa sino me manda al login
         $user = $_SESSION['username'];
+        //var_dump($user);exit();
         $rol = $this->verificarDeQueRolEsElUsuario($user['id']);
         $this->presenter->render("view/homeUsuario.mustache", ["usuario" => $user, "rol" => $rol['rol']]);
     }

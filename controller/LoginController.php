@@ -27,8 +27,7 @@ class LoginController extends BaseController
             $inicioSesionExitoso = $this->model->procesarInicioSesion($email, $password);
 
             if ($inicioSesionExitoso) {
-                $user = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
-                $_SESSION['username'] = $user['username'];
+                $_SESSION['username'] = $this->model->agarrarUsuarioDeLaBaseDeDatosPorEmail($email);
                 header("Location: /homeUsuario");
                 exit();
             } else {
