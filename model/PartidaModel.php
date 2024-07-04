@@ -255,16 +255,25 @@ class PartidaModel extends BaseModel
         return $stmt->affected_rows > 0;
     }
 
-    public function obtenerDosRespuestasAleatorias($idPregunta)
+    public function obtenerDosRespuestasAleatoriasIncorrectas($idPregunta)
     {
-        $query = "SELECT *
+        $query = "SELECT texto
                   FROM Respuesta 
-                  WHERE id_pregunta = $idPregunta and es_correcta = 0
+                  WHERE id_pregunta = ? and es_correcta = 0
                   ORDER BY RAND()
                   LIMIT 2";
-        $respuestas = $this->database->executeAndReturn($query);
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idPregunta);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        return $respuestas;
+        if ($result->num_rows > 0) {
+            $respuestas = $result->fetch_all(MYSQLI_ASSOC);
+            $respuestasTextos = array_column($respuestas, 'texto');
+            return $respuestasTextos;
+        } else {
+            return 0;
+        }
     }
 
     private function verificarCantidadPuntos($resultadoDePuntaje): string

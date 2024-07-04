@@ -31,14 +31,12 @@ class LoginController extends BaseController
                 header("Location: /homeUsuario");
                 exit();
             } else {
-                $errorMsg = "Correo electrónico o contraseña incorrectos.";
-                $this->presenter->render("view/login.mustache", ['error' => $errorMsg]);
+                    header("Location: /login");
+
                 exit();
             }
         } else {
-            $errorMsg = "Por favor, complete todos los campos.";
-            $this->presenter->render("view/login.mustache", ['error' => $errorMsg]);
-            exit();
+            header("Location: /login");
         }
     }
 }

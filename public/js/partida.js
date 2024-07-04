@@ -64,36 +64,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const usarTrampaBoton = document.getElementById('usarTrampa');
-
-    usarTrampaBoton.addEventListener('click', function () {
-        fetch('/partida/usarTrampa', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({})
+document.getElementById('usarTrampa').addEventListener('click', function(event) {
+    event.preventDefault();
+    fetch('/partida/usarTrampa', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ trampita: true })
+    })
+        .then(response => response.text())
+        .then(text => {
+            return JSON.parse(text);
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log('Trampa utilizada correctamente');
-
+        .then(data => {
+            if (data.success) {
+                if (Array.isArray(data.respuestasIncorrectas) && data.respuestasIncorrectas.length > 0) {
                     data.respuestasIncorrectas.forEach(respuesta => {
-                        const respuestaIncorrectaElement = document.querySelector(`button[data-respuesta="${respuesta}"]`);
-                        if (respuestaIncorrectaElement) {
-                            respuestaIncorrectaElement.style.display = 'none'; // Oculta la respuesta incorrecta
-                        }
+                        document.querySelector(`button[value="${respuesta}"]`).style.display = 'none';
                     });
-
-
-                } else {
-                    console.error('Error al usar la trampa:', data.message);
                 }
-            })
-            .catch(error => {
-                console.error('Error en la petición para usar la trampa:', error);
-            });
-    });
-})
+                document.getElementById('usarTrampa').textContent = `Usar Trampa (${data.trampitas}) disponible`;
+                document.getElementById('usarTrampa').disabled = true;
+            } else {
+                console.error('Error al usar la trampa:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud:', error);
+        });
+});

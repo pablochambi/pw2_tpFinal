@@ -5,7 +5,10 @@
         <div class="music-controls">
             <button id="play-music" class="w3-button w3-green"><i class="fas fa-play"></i></button>
             <button id="pause-music" class="w3-button w3-red"><i class="fas fa-pause"></i></button>
-            <button id="usarTrampa" class="w3-button w3-blue" disabled >Usar Trampa ({{trampitas}}) disponible</button>
+            <form action="/partida/usarTrampa" enctype="multipart/form-data" method="POST">
+
+            <button id="usarTrampa" class="w3-button w3-blue" >Usar Trampa ({{trampitas}}) disponible</button>
+            </form>
         </div>
 
         {{#categoria}}
@@ -17,6 +20,7 @@
 
         <form id="respPregunta" action="/partida/procesarRespuesta" method="post" enctype="multipart/form-data">
             <div class="question-container">
+                <input type="hidden" name="tiempo_inicial" value="{{tiempo}}">
                 {{#pregunta}}
                     <input type="hidden" name="pregunta" value="{{id}}">
                     <h3 class="question">{{texto}}</h3>
@@ -50,7 +54,7 @@
     <source src="/public/music/background.mp3" type="audio/mpeg">
 </audio>
 
-<!-- animaciones -->
+
 <script>
 document.addEventListener('keydown',
     function (event) {
@@ -61,6 +65,7 @@ document.addEventListener('keydown',
         }
     });
 </script>
+
 <script src="/public/js/partida.js"></script>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

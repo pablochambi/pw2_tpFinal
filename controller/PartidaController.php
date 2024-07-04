@@ -71,6 +71,8 @@ class PartidaController extends BaseController
     }
 
     public function usarTrampa() {
+        header('Content-Type: application/json');
+
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Método no permitido']);
             return;
@@ -78,16 +80,15 @@ class PartidaController extends BaseController
 
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $trampasDisponibles = $this->model->obtenerCantidadDeTrampas($idUsuario);
-
         if ($trampasDisponibles > 0 && isset($_SESSION['idPregunta'])) {
             $idPregunta = $_SESSION['idPregunta'];
-            $respuestasIncorrectas = $this->model->traerRespuestasIncorrectas($idPregunta);
+            $respuestasIncorrectas = $this->model->obtenerDosRespuestasAleatoriasIncorrectas($idPregunta);
             $this->model->restarUnaTrampaSiEsUsada($idUsuario);
 
             echo json_encode(['success' => true, 'respuestasIncorrectas' => $respuestasIncorrectas, 'trampitas' => $trampasDisponibles - 1]);
             return;
         }
-        echo json_encode(['success' => false, 'message' => 'No tienes trampas disponibles o no hay una pregunta activa.']);
+        echo json_encode(['success' => false, 'messege' => 'No tiene trampas']);
     }
 
     public function comprarTrampa() {
@@ -109,16 +110,17 @@ class PartidaController extends BaseController
         $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
         $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
         $trampitas = $this->model->obtenerCantidadDeTrampas($id_usuario);
+        $tiempo = time();
         //var_dump($trampitas);
         $this->presenter->render("view/partida.mustache", [
             'pregunta' => $pregunta,
             'categoria' => $categoria,
             'respuestas' => $respuestas,
             "rol" => $rol['rol'],
-            "trampitas" => $trampitas
+            "trampitas" => $trampitas,
+            "tiempo" => $tiempo
         ]);
 
-        unset($_SESSION['idPregunta']);
     }
 
     private function determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText)
@@ -167,6 +169,8 @@ class PartidaController extends BaseController
         $pregunta = $this->model->getPreguntaPorIdDePregunta($_POST['pregunta']);
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
+
+        var_dump($puntaje);
         $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
 
@@ -197,9 +201,22 @@ class PartidaController extends BaseController
 
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $idPregunta = $_POST['pregunta'];
-        $duracion = 10;
+        $tiempoDeInicio = $_POST['tiempo_inicial'];
+        $tiempoActual = time();
+        $tiempoTranscurrido = $tiempoActual- $tiempoDeInicio;
 
-        // Iniciar el temporizador si no está iniciado
+
+
+        if($tiempoTranscurrido > 10) {
+
+            $this->handleQuestionTimeout();
+            return;
+        }
+
+
+
+
+/*        // Iniciar el temporizador si no está iniciado
         if (!isset($_SESSION['question_start_time'][$idPregunta])) {
             $_SESSION['question_start_time'][$idPregunta] = time();
         }
@@ -214,7 +231,7 @@ class PartidaController extends BaseController
                 $this->handleQuestionTimeout(); // Manejar caso cuando el tiempo se acaba
                 return;
             }
-        }
+        }*/
         if (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
             $respuesta = $_POST['respuesta'];
             $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
