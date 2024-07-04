@@ -211,11 +211,13 @@ class PartidaController extends BaseController
             $tiempoTranscurrido = time() - $tiempoDeInicio;
             $tiempoRestante = $duracion - $tiempoTranscurrido;
 
-            if ($tiempoRestante <= 0 && (isset($_POST['time_expired']) && $_POST['time_expired'] == "1")) { //SI EL TIEMPO DEL BACK Y EL DEL FRONT SON 0 MANEJA EL ERROR
+            if ($tiempoRestante <= 0) { //SI EL TIEMPO DEL BACK Y EL DEL FRONT SON 0 MANEJA EL ERROR
                 $this->handleTimeExpired(); // Manejar caso cuando el tiempo se acaba
                 return;
             }
-        }elseif (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+        }
+        if (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
+            echo 'tetulias';
             $respuesta = $_POST['respuesta'];
             $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
 
