@@ -160,7 +160,7 @@ class PartidaController extends BaseController
         return $datos;
     }
 
-    private function handleTimeExpired()
+    private function handleQuestionTimeout() // metodo que motramos cuando el tiempo expira
     {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
@@ -192,7 +192,6 @@ class PartidaController extends BaseController
 
     private function manejoDeElProcesoDeRespuesta()
     {
-
         $user_id = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($user_id);
 
@@ -212,12 +211,11 @@ class PartidaController extends BaseController
             $tiempoRestante = $duracion - $tiempoTranscurrido;
 
             if ($tiempoRestante <= 0) { //SI EL TIEMPO DEL BACK Y EL DEL FRONT SON 0 MANEJA EL ERROR
-                $this->handleTimeExpired(); // Manejar caso cuando el tiempo se acaba
+                $this->handleQuestionTimeout(); // Manejar caso cuando el tiempo se acaba
                 return;
             }
         }
         if (isset($_POST['respuesta']) && isset($_POST['pregunta'])) {
-            echo 'tetulias';
             $respuesta = $_POST['respuesta'];
             $pregunta = $this->model->getPreguntaPorIdDePregunta($idPregunta);
 
@@ -229,8 +227,9 @@ class PartidaController extends BaseController
                 $puntaje = (string)$this->model->obtenerCantidadDePuntos($user_id);
                 $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
             }
-        } else {
-            echo "No se encontró la respuesta o la pregunta en el formulario.";
+        } else{
+            $error = "No se encontró la respuesta o la pregunta en el formulario.";
+            $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['error' => $error]);
         }
     }
 }

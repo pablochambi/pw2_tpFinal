@@ -1,8 +1,8 @@
 <style>
-    .textAlingCenter{
+    .textAlingCenter {
         text-align: center;
     }
-    .bgRojoClaro{
+    .bgRojoClaro {
         background: #db5d5d;
     }
     .btn_estilo_link {
@@ -22,13 +22,15 @@
 
 <div class="w3-container">
     <div class="textAlingCenter w3-card">
-        <h1 class="bgRojoClaro">Upss! Perdiste</h1>
-        <h2 class="points">Obtuviste {{{puntaje}}} puntos</h2>
+        <h1 class="bgRojoClaro">{{#error}}Error: {{error}}{{/error}}{{^error}}Upss! Perdiste{{/error}}</h1>
+        {{#puntaje}}
+            <h2 class="points">Obtuviste {{{puntaje}}} puntos</h2>
+        {{/puntaje}}
     </div>
     <div class="w3-card w3-margin">
         {{#categoria}}
             <div class="conteinerTituloCategoria" style="background-color: {{{color}}}">
-                <h2 id="tituloCategoria" >{{{nombre}}}</h2>
+                <h2 id="tituloCategoria">{{{nombre}}}</h2>
             </div>
         {{/categoria}}
         {{#pregunta}}
@@ -45,6 +47,10 @@
                 <a href="../homeUsuario" class="w3-button w3-blue button">Volver al Home</a>
             </div>
         {{/pregunta}}
-
+        {{#error}}
+            <div class="textAlingCenter">
+                <a href="../homeUsuario" class="w3-button w3-blue button">Volver al Home</a>
+            </div>
+        {{/error}}
     </div>
 </div>
