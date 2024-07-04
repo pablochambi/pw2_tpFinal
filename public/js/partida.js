@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
- /* document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     const usarTrampaBoton = document.getElementById('usarTrampa');
 
     usarTrampaBoton.addEventListener('click', function () {
@@ -96,6 +96,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.error('Error en la petición para usar la trampa:', error);
             });
     });
-
-    })  */
-
+})

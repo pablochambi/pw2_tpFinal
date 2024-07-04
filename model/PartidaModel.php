@@ -223,30 +223,36 @@ class PartidaModel extends BaseModel
 
     public function obtenerCantidadDeTrampas($idUsuario)
     {
-        $query = "select trampita from Usuarios where id = ?";
+        $query = "SELECT trampita FROM Usuarios WHERE id = ?";
         $stmt = $this->database->prepare($query);
         $stmt->bind_param('i', $idUsuario);
         $stmt->execute();
-
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $result = $result->fetch_assoc();
-            if ($result['trampita'] > 0) {
-                return $result['trampita'];
-            }else{
-                return 0; }
-        } else
+            return $result['trampita'];
+        } else {
             return 0;
+        }
     }
 
     public function restarUnaTrampaSiEsUsada($idUsuario)
     {
-        $query = "UPDATE Usuarios
-                 set trampita = trampita - 1
-                  where id = $idUsuario ";
-        $result = $this->database->executeAndReturn($query);
-        return $result;
+        $query = "UPDATE Usuarios SET trampita = trampita - 1 WHERE id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
+    }
+
+    public function agregarUnaTrampa($idUsuario)
+    {
+        $query = "UPDATE Usuarios SET trampita = trampita + 1 WHERE id = ?";
+        $stmt = $this->database->prepare($query);
+        $stmt->bind_param('i', $idUsuario);
+        $stmt->execute();
+        return $stmt->affected_rows > 0;
     }
 
     public function obtenerDosRespuestasAleatorias($idPregunta)
@@ -538,7 +544,7 @@ class PartidaModel extends BaseModel
             $primerResultado = $resultado[0];
             $totalPreguntasEntregadas = $primerResultado["preguntas_entregadas"];
         } else {
-           return null;
+            return null;
         }
         return $totalPreguntasEntregadas;
     }

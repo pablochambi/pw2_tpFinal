@@ -70,32 +70,56 @@ class PartidaController extends BaseController
         }
     }
 
-  /*  public function usarTrampa()
-    {
-
+    public function usarTrampa() {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             echo json_encode(['success' => false, 'message' => 'Método no permitido']);
             return;
         }
 
         $idUsuario = $this->checkSessionYTraerIdUsuario();
-            echo $idUsuario;
         $trampasDisponibles = $this->model->obtenerCantidadDeTrampas($idUsuario);
-        var_dump($trampasDisponibles);
-        $result = $_SESSION['idPregunta'];
-        var_dump($result);
 
         if ($trampasDisponibles > 0 && isset($_SESSION['idPregunta'])) {
             $idPregunta = $_SESSION['idPregunta'];
             $respuestasIncorrectas = $this->model->traerRespuestasIncorrectas($idPregunta);
+            $this->model->restarUnaTrampaSiEsUsada($idUsuario);
 
-            echo json_encode(['success' => true, 'respuestasIncorrectas' => $respuestasIncorrectas]);
+            echo json_encode(['success' => true, 'respuestasIncorrectas' => $respuestasIncorrectas, 'trampitas' => $trampasDisponibles - 1]);
             return;
         }
         echo json_encode(['success' => false, 'message' => 'No tienes trampas disponibles o no hay una pregunta activa.']);
     }
- */
 
+    public function comprarTrampa() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
+            return;
+        }
+
+        $idUsuario = $this->checkSessionYTraerIdUsuario();
+        $this->model->agregarUnaTrampa($idUsuario);
+        echo json_encode(['success' => true, 'message' => 'Trampa comprada exitosamente']);
+    }
+
+    private function mostrarPreguntaYRespuestasPosibles($pregunta) {
+        $id_usuario = $this->checkSessionYTraerIdUsuario();
+        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
+        $idPregunta = $pregunta[0]['id'];
+        $_SESSION['idPregunta'] = $idPregunta;
+        $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
+        $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
+        $trampitas = $this->model->obtenerCantidadDeTrampas($id_usuario);
+        //var_dump($trampitas);
+        $this->presenter->render("view/partida.mustache", [
+            'pregunta' => $pregunta,
+            'categoria' => $categoria,
+            'respuestas' => $respuestas,
+            "rol" => $rol['rol'],
+            "trampitas" => $trampitas
+        ]);
+
+        unset($_SESSION['idPregunta']);
+    }
 
     private function determinarLaRazonFinalDelReporte($razonReporteRadio, $otraRazonReporteText)
     {
@@ -155,22 +179,6 @@ class PartidaController extends BaseController
         return $pregunta;
     }
 
-    private function mostrarPreguntaYRespuestasPosibles($pregunta)
-    {
-        $id_usuario = $this->checkSessionYTraerIdUsuario();
-        $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
-        $idPregunta = $pregunta[0]['id'];
-        $_SESSION['idPregunta'] = $idPregunta;
-        $categoria = $this->model->getCategoriaPorIdDePregunta($pregunta[0]['id']);
-        $respuestas = $this->model->traerRespuestasDesordenadas($pregunta[0]['id']);
-        $trampitas = $this->model->obtenerCantidadDeTrampas($id_usuario);
-        //var_dump($trampitas);
-        $this->presenter->render("view/partida.mustache", ['pregunta' => $pregunta, 'categoria' => $categoria, 'respuestas' => $respuestas, "rol" => $rol['rol'], "trampitas" => $trampitas]);
-
-        unset($_SESSION['idPregunta']);
-    }
-
-
     private function respuestaCorrectaPath($id_pregunta)
     {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
@@ -224,20 +232,3 @@ class PartidaController extends BaseController
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
