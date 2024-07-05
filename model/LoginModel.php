@@ -30,6 +30,19 @@ class LoginModel extends BaseModel
         return $seInicioSesion;
     }
 
+    public function actualizarTrampitas($id, $nuevasTrampitas, $nuevoDinero)
+    {
+        $query = "UPDATE Usuarios SET trampita = ?, dinero = ? WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('iii', $nuevasTrampitas, $nuevoDinero, $id);
+        $stmt->execute();
+
+        if ($stmt->error)
+            die('Error en la ejecución de la consulta: ' . $stmt->error);
+
+        return $stmt->affected_rows > 0;
+    }
+
     public function obtenerDatosUsuario($userId)
     {
         $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE id = ?");

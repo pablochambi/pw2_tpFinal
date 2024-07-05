@@ -23,7 +23,8 @@ CREATE TABLE Usuarios (
                     longitud FLOAT,
                     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
                     qr VARCHAR(255),
-                    trampita INT
+                    trampita INT,
+                    dinero INT
 );
 
 CREATE TABLE Partida (

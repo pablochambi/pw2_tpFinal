@@ -88,7 +88,7 @@ class Configuration
 
     public static function getPerfilController()
     {
-        return new PerfilController(self::getLoginModel(), self::getPresenter());
+        return new PerfilController(self::getLoginModel(), self::getPresenter(), self::getMercadoPagoHandler());
     }
 
     public static function getLoginController()
@@ -189,6 +189,8 @@ class Configuration
     {
         return new EmailHelper();
     }
-
-
+    public static function getMercadoPagoHandler(): MercadoPagoHandler
+    {
+        return new MercadoPagoHandler();
+    }
 }
