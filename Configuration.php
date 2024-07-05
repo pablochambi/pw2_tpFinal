@@ -42,6 +42,8 @@ require 'third-party/PHPMailer/src/PHPMailer.php';
 require 'third-party/PHPMailer/src/SMTP.php';
 require 'helper/EmailHelper.php';
 
+require_once "third-party/vendor/autoload.php";
+
 class Configuration
 {
     // CONTROLLERS
