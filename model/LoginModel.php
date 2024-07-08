@@ -104,20 +104,4 @@ class LoginModel extends BaseModel
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
-
-    public function actualizarQRUsuario($username, $qrPath)
-    {
-        $query = "UPDATE Usuarios SET qr = ? WHERE username = ?";
-        $stmt = $this->database->prepare($query);
-
-        if ($stmt === false)
-            throw new Exception("error u.u: " . $this->database->error);
-
-        $stmt->bind_param("ss", $qrPath, $username);
-
-        if (!$stmt->execute())
-            throw new Exception("errorx2: " . $stmt->error);
-
-        return true;
-    }
 }

@@ -24,35 +24,4 @@
         </div>
     </div>
 </div>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAT9cX6gfdXf0u_Ynzpdoj3pc7lsgMLozE&callback=initMap&libraries=marker"></script>
-<script>
-    var map, AdvancedMarkerElement;
-
-    function initMap() {
-        var lat = -34.66 ;
-        var lng = -36.44;
-
-        var myLatLng = { lat: lat, lng: lng };
-
-        map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
-            center: myLatLng,
-            disableDefaultUI: true,
-            zoomControl: true,
-            gestureHandling: 'cooperative'
-        });
-
-        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-        new AdvancedMarkerElement({
-            map: map,
-            position: myLatLng,
-            title: 'Marcador'
-        });
-    }
-
-    window.onload = function() {
-        initMap();
-    };
-</script>
 

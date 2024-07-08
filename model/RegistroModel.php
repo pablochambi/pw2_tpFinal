@@ -19,19 +19,18 @@ class RegistroModel
         $puntaje_acumulado = 0;
         $partidas_realizadas = 0;
         $nivel = 0.0;
-        $qr = NULL;
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $trampitasIniciales = 5;
 
         $consulta = "
-        INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, latitud, longitud, qr)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ";
+    INSERT INTO Usuarios (nombre_completo, anio_nacimiento, sexo, ciudad, pais, email, password, username, token, foto, habilitado, puntaje_acumulado, partidas_realizadas, nivel, latitud, longitud, trampita)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    ";
 
         $stmt = $this->database->prepare($consulta);
-        $stmt->bind_param("sissssssssiididds", $nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $passwordHash, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $latitud, $longitud, $qr);
+        $stmt->bind_param("sissssssssiididdi", $nombre, $anio_nacimiento, $sexo, $ciudad, $pais, $email, $passwordHash, $username, $token, $foto, $habilitado, $puntaje_acumulado, $partidas_realizadas, $nivel, $latitud, $longitud, $trampitasIniciales);
 
         if ($stmt->execute()) {
-
             $idUsuario = $stmt->insert_id;
             $rolJugador = 3;
             $consultaRol = "INSERT INTO Usuario_Rol (id_usuario, id_rol) VALUES (?, ?)";
@@ -39,7 +38,7 @@ class RegistroModel
             $stmtRol->bind_param("ii", $idUsuario, $rolJugador);
 
             if (!$stmtRol->execute())
-               return null;
+                return null;
 
             return $token;
         } else {
@@ -68,14 +67,19 @@ class RegistroModel
 
     public function validarCorreo($token)
     {
+        $stmt = $this->database->prepare("SELECT * FROM Usuarios WHERE token = ? AND habilitado = 0");
+        $stmt->bind_param("s", $token);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        $query = "SELECT * FROM Usuarios WHERE token = '$token' AND habilitado = 0";
-        $result = $this->database->executeAndReturn($query);
         if ($result->num_rows == 1) {
-            $usuario = $result->fetch_assoc();
-            $updateQuery = "UPDATE Usuarios SET habilitado = 1 WHERE token = '$token'";
+            $stmt_update = $this->database->prepare("UPDATE Usuarios SET habilitado = 1 WHERE token = ?");
+            $stmt_update->bind_param("s", $token);
+            $stmt_update->execute();
+            return true;
         } else {
             return null;
         }
     }
+
 }

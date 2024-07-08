@@ -45,36 +45,9 @@ class PerfilController extends BaseController
         // genero el QR si no existe o si la URL cambio
         QRcode::png($urlPerfil, $qrPath);
 
-        // actualizo la ruta del QR en la bdd
-        $this->model->actualizarQRUsuario($username, $qrPath);
         $usuario['qr'] = $qrPath;
 
         $this->presenter->render("view/perfiles.mustache", ['usuario' => $usuario, 'rol' => $rol['rol']]);
-    }
-
-    public function comprarTrampitas($usuarioId) {
-        $this->checkSession();
-
-        $userId = $_SESSION["username"];
-        $usuario = $this->model->obtenerUsuarioConNombre($userId['id']);
-
-        try {
-            $costoTrampita = 1;
-
-            if ($usuario['dinero'] >= $costoTrampita) {
-                $nuevasTrampitas = $usuario['trampita'] + 1;
-                $nuevoDinero = $usuario['dinero'] - $costoTrampita;
-
-                $this->model->actualizarTrampitas($usuarioId, $nuevasTrampitas, $nuevoDinero);
-                echo "Compra realizada con éxito. Trampitas disponibles: " . $nuevasTrampitas;
-            } else {
-                echo "Dinero insuficiente.";
-            }
-        } catch (Exception $e) {
-            echo "Error al realizar la compra: " . $e->getMessage();
-        }
-
-        $this->presenter->render("view/comprar.mustache", ['usuario' => $usuario]);
     }
 }
 

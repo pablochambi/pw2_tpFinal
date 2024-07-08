@@ -91,17 +91,6 @@ class PartidaController extends BaseController
         echo json_encode(['success' => false, 'messege' => 'No tiene trampas']);
     }
 
-    public function comprarTrampa() {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            echo json_encode(['success' => false, 'message' => 'Método no permitido']);
-            return;
-        }
-
-        $idUsuario = $this->checkSessionYTraerIdUsuario();
-        $this->model->agregarUnaTrampa($idUsuario);
-        echo json_encode(['success' => true, 'message' => 'Trampa comprada exitosamente']);
-    }
-
     private function mostrarPreguntaYRespuestasPosibles($pregunta) {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
