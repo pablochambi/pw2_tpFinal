@@ -251,6 +251,7 @@ class AdministradorModel extends BaseModel
         $dataFechaCantidad = $this->inicializarFechaCantidadDeLosUltimosSieteDias($fechas);
         $dataFechaCantidad = $this->llenarConCantidadesALasFechas($resultConsulta, $dataFechaCantidad);
         return $this->retornarArrayParaQueSeSeVeanLosDatosPorDia($dataFechaCantidad);
+
     }
 
     public function obtenerLasCantidadesDePartidasPorDia($fechas): array
@@ -683,10 +684,11 @@ class AdministradorModel extends BaseModel
             while ($row = $result->fetch_assoc()) {
                 $dataFechaCantidad[date('d-m', strtotime($row['fecha']))] = $row['cantidad'];
             }
-        } else {
-            die("No hay fecha y cantidad para hacer el grafico");
+        } elseif($result && $result->num_rows == 0) {
+            return $dataFechaCantidad;
         }
         return $dataFechaCantidad;
+
     }
 
     /*toma un array de datos con fechas como claves y cantidades como valores,

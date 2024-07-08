@@ -21,7 +21,7 @@ class GraficoCreator
         $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
-        $grafico->Stroke('public/imagenes/graficos/preguntasCreadasPorDia.png');
+
     }
 
     public function usuariosNuevosPorDia($data)
@@ -30,13 +30,24 @@ class GraficoCreator
         $fechas = array();
 
         foreach ($data as $item) {
-            $cantidades[] = $item['cantidad'];
-            $fechas[] = $item['fecha'];
+            if (isset($item['cantidad']) && isset($item['fecha'])) {
+                $cantidades[] = $item['cantidad'];
+                $fechas[] = $item['fecha'];
+            } else {
+                echo "Error: Datos incompletos en el array de entrada.";
+                return;
+            }
         }
+
+        if (empty($fechas) || empty($cantidades)) {
+            echo "Error: Las listas de fechas o cantidades están vacías.";
+            return;
+        }
+
         $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
-        $grafico->Stroke('public/imagenes/graficos/usuariosNuevosPorDia.png');
+
     }
 
     public function partidasPorDia($data)
@@ -51,7 +62,7 @@ class GraficoCreator
         $grafico = $this->crearGrafico($fechas, $cantidades);
 
         $grafico->Stroke();
-        $grafico->Stroke('public/imagenes/graficos/partidasPorDia.png');
+
     }
 
 
@@ -65,9 +76,9 @@ class GraficoCreator
             $sexos[] = $item['sexo'];
         }
         $graph = $this->crearGrafico($sexos, $cantidades);
-        //$graph->title->Set("Cantidad de preguntas creadas");
+
         $graph->Stroke();
-        $graph->Stroke('public/imagenes/graficos/usuariosPorSexo.png');
+
     }
 
     public function usuariosPorGrupo($data)
@@ -80,10 +91,8 @@ class GraficoCreator
             $grupoEdad[] = $item['grupo_edad'];
         }
         $graph = $this->crearGrafico($grupoEdad, $cantidades);
-
-        //$graph->title->Set("Cantidad de preguntas creadas");
         $graph->Stroke();
-        $graph->Stroke('public/imagenes/graficos/usuariosPorGrupoEdad.png');
+
     }
 
     public function usuariosPorPais($dato)
@@ -132,7 +141,7 @@ class GraficoCreator
 
 // Display the graph
         $graph->Stroke();
-        $graph->Stroke('public/imagenes/graficos/usuariosPorPais.png');
+
     }
 
     public function porcentajeUsuarioCorrectas($dato)
@@ -180,13 +189,17 @@ class GraficoCreator
 
 // Display the graph
         $graph->Stroke();
-        $graph->Stroke('public/imagenes/graficos/porcentajeUsuariosCorrectas.png');
+
     }
 
     public function crearGrafico($datosEjeX, $datosEjeY): Graph
     {
         //$datosEjeX = fechas, grupoEdad, sexos
         //$datosEjeY = cantidades
+        if (count($datosEjeX) !== count($datosEjeY)) {
+            echo "Error: Las listas de fechas y cantidades no tienen el mismo tamaño.";
+            exit();
+        }
 
 // Create the graph. These two calls are always required
         $graph = new Graph(500, 300, 'auto');
@@ -195,7 +208,7 @@ class GraficoCreator
         $theme_class = new UniversalTheme;
         $graph->SetTheme($theme_class);
 
-        $graph->yaxis->SetTickPositions(array(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22));//, array(5,15,25,35,45)
+        //$graph->yaxis->SetTickPositions(array(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22));//, array(5,15,25,35,45)
         $graph->SetBox(false);
 
         $graph->ygrid->SetFill(false);

@@ -197,7 +197,6 @@ class PartidaController extends BaseController
         $tiempoTranscurrido = $tiempoActual- $tiempoDeInicio;
 
 
-
         if($tiempoTranscurrido > 10) {
 
             $this->handleQuestionTimeout();

@@ -26,6 +26,7 @@ class AdministradorController extends BaseController
         $idUsuario = $this->checkSessionYTraerIdUsuario();
         $datos = $this->datosAEnviarALaVistaAdministrador($idUsuario);
         $this->presenter->render('view/vistaAdministrador/administrador.mustache', $datos);
+
     }
 
     public function grafico()
