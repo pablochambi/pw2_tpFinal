@@ -3,13 +3,10 @@
 class PerfilController extends BaseController
 {
 
-    protected $mercadoPagoHandler;
-
-    public function __construct($model, $presenter, $mercadoPagoHandler)
+    public function __construct($model, $presenter)
     {
         session_start();
         parent::__construct($model, $presenter);
-        $this->mercadoPagoHandler = $mercadoPagoHandler;
     }
 
     public function get()
@@ -62,7 +59,6 @@ class PerfilController extends BaseController
         $usuario = $this->model->obtenerUsuarioConNombre($userId['id']);
 
         try {
-            $this->mercadoPagoHandler->comprar();
             $costoTrampita = 1;
 
             if ($usuario['dinero'] >= $costoTrampita) {

@@ -42,8 +42,6 @@ require 'third-party/PHPMailer/src/PHPMailer.php';
 require 'third-party/PHPMailer/src/SMTP.php';
 require 'helper/EmailHelper.php';
 
-require_once "third-party/vendor/autoload.php";
-
 class Configuration
 {
     // CONTROLLERS
@@ -88,7 +86,7 @@ class Configuration
 
     public static function getPerfilController()
     {
-        return new PerfilController(self::getLoginModel(), self::getPresenter(), self::getMercadoPagoHandler());
+        return new PerfilController(self::getLoginModel(), self::getPresenter());
     }
 
     public static function getLoginController()
@@ -188,9 +186,5 @@ class Configuration
     public static function getEmailHelper ()
     {
         return new EmailHelper();
-    }
-    public static function getMercadoPagoHandler(): MercadoPagoHandler
-    {
-        return new MercadoPagoHandler();
     }
 }
