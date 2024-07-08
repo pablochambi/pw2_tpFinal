@@ -162,7 +162,7 @@ class PartidaController extends BaseController
         return $datos;
     }
 
-    private function handleQuestionTimeout() // metodo que motramos cuando el tiempo expira
+    private function handleQuestionTimeout()
     {
         $id_usuario = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($id_usuario);
@@ -170,7 +170,6 @@ class PartidaController extends BaseController
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $puntaje = $this->model->obtenerCantidadDePuntos($id_usuario);
 
-        var_dump($puntaje);
         $this->presenter->render("view/vistasPostAccion/mostrarPuntajeDespuesPerder.mustache", ['puntaje' => $puntaje, 'pregunta' => $pregunta, 'categoria' => $categoria, "rol" => $rol['rol']]);
     }
 
@@ -199,6 +198,9 @@ class PartidaController extends BaseController
         $user_id = $this->checkSessionYTraerIdUsuario();
         $rol = $this->verificarDeQueRolEsElUsuario($user_id);
 
+        if($_POST['pregunta'] == null) {
+            header("Location: /homeUsuario");
+        }
         $categoria = $this->model->getCategoriaPorIdDePregunta($_POST['pregunta']);
         $idPregunta = $_POST['pregunta'];
         $tiempoDeInicio = $_POST['tiempo_inicial'];
