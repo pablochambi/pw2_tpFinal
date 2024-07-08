@@ -19,8 +19,8 @@ class LoginModel extends BaseModel
         if ($resultado->num_rows == 1) {
             $fila = $resultado->fetch_assoc();
 
-            if ($password == $fila["password"])
-                // (password_verify($password, $fila['password']))
+            // if ($password == $fila["password"])
+            if (password_verify($password, $fila['password']))
                 $seInicioSesion = true;
 
         } elseif ($resultado->num_rows == 0) {
